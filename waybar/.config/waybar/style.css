@@ -1,0 +1,128 @@
+/* Universal Styling */
+* {
+    border: none;
+    border-radius: 0;
+    /* Make sure you have a Nerd Font installed and replace the name below with the correct one */
+    font-family: "JetBrainsMono Nerd Font", sans-serif;
+    font-size: 16px;
+    min-height: 0;
+}
+
+/* The entire bar */
+window#waybar {
+    background: rgba(40, 44, 52, 0.4); /* A semi-transparent dark background */
+    color: #afafaf; /* A light grey for text */
+}
+
+/* Each module */
+#workspaces{
+    padding: 0 10px; /* Adds horizontal padding to each module */
+}
+
+#clock,
+#tray,
+#network,
+#battery,
+#pulseaudio{
+    padding: 0 7px; /* Adds horizontal padding to each module */
+    margin: 0 3px;   /* Adds a small margin between modules */
+
+}
+
+#cpu,
+#memory,
+#temperature {
+    padding: 0 5px; /* Adds horizontal padding to each module */
+    margin: 0 3px;   /* Adds a small margin between modules */
+}
+
+/* --- Group Styling ("Islands") --- */
+#group-system-status,
+#group-device-state {
+    margin: 4px 5px;          /* Adds some vertical and horizontal margin to the group */
+    padding: 2px 5px;         /* Padding inside the group */
+}
+
+/* --- Module-Specific Styling --- */
+
+/* Workspaces */
+#workspaces button {
+    padding: 0px 10px;
+    color: #afafaf; 
+    background-color: transparent;
+}
+
+#workspaces button.active {
+    color: #61afef; 
+    background-color: #3a3f4b;
+    border-radius: 8px;
+}
+
+#workspaces button:hover {
+    background-color: #282c34;
+    border-radius: 8px;
+}
+
+/* Clock */
+#clock {
+    color: #afafaf; /* A green color for the clock */
+}
+
+/* Battery */
+#battery.charging, #battery.plugged {
+    color: #98c379; /* Green when charging */
+}
+
+#battery.warning:not(.charging) {
+    color: #e5c07b; /* Yellow for warning */
+}
+
+#battery.critical:not(.charging) {
+    color: #e06c75; /* Red for critical */
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes blink {
+    to {
+        background-color: #e06c75;
+        color: #282c34;
+    }
+}
+
+/* Network */
+#network.disconnected {
+    color: #e06c75; /* Red when disconnected */
+}
+
+/* Audio */
+#pulseaudio {
+    color: #afafaf; /* Purple for audio */
+}
+
+#pulseaudio.muted {
+    color: #afafaf; /* Grey when muted */
+}
+
+/* CPU and Memory */
+#cpu {
+    color: #afafaf; /* Blue for CPU */
+}
+
+#memory {
+    color: #afafaf; /* Yellow for Memory */
+}
+
+/* Temperatures */
+#temperature {
+    color: #afafaf; /* Red for temperature */
+}
+
+#temperature.critical {
+    background-color: #e06c75;
+    color: #282c34;
+    border-radius: 5px;
+}
