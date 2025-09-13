@@ -45,7 +45,7 @@ install_packages() {
 }
 
 stow_dotfiles() {
-	STOW_FOLDERS=(zsh nvim tmux git ghostty bin hypr waybar)
+	STOW_FOLDERS=(zsh nvim tmux git ghostty bin hypr waybar pulse)
 	cd ~/.dotfiles
 	for folder in "${STOW_FOLDERS[@]}"; do
 		if [ -d "$folder" ]; then
