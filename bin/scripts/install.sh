@@ -29,6 +29,8 @@ install_packages() {
 		zsh-completions
 		ghostty
 		waybar
+        pipewire
+        pipewire-pulse
 	)
 
 	for package in "${PACKAGES[@]}"; do
@@ -45,7 +47,7 @@ install_packages() {
 }
 
 stow_dotfiles() {
-	STOW_FOLDERS=(zsh nvim tmux git ghostty bin hypr waybar pulse)
+	STOW_FOLDERS=(zsh nvim tmux git ghostty bin hypr waybar pipewire)
 	cd ~/.dotfiles
 	for folder in "${STOW_FOLDERS[@]}"; do
 		if [ -d "$folder" ]; then
