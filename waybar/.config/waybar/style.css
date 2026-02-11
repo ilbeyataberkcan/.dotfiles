@@ -1,128 +1,267 @@
-/* Universal Styling */
+@define-color fg #d7dee7;
+@define-color muted #95a2b3;
+@define-color panel rgba(11, 16, 22, 0.93);
+@define-color chip rgba(34, 43, 56, 0.95);
+@define-color chip_hover rgba(48, 61, 78, 0.99);
+@define-color accent_a #33ccff;
+@define-color accent_b #00ff99;
+@define-color good #7ddb9f;
+@define-color warn #efcf7b;
+@define-color accent_purple #b48ead;
+
 * {
     border: none;
     border-radius: 0;
-    /* Make sure you have a Nerd Font installed and replace the name below with the correct one */
-    font-family: "JetBrainsMono Nerd Font", sans-serif;
-    font-size: 16px;
     min-height: 0;
+    font-family: "JetBrainsMono Nerd Font", sans-serif;
+    font-size: 14px;
 }
 
-/* The entire bar */
 window#waybar {
-    background: rgba(40, 44, 52, 0.4); /* A semi-transparent dark background */
-    color: #afafaf; /* A light grey for text */
+    color: @fg;
+    background: transparent;
 }
 
-/* Each module */
-#workspaces{
-    padding: 0 10px; /* Adds horizontal padding to each module */
+window#waybar.workspace-popup,
+window#waybar.system-resources,
+window#waybar.tray-actions,
+window#waybar.datetime-quick {
+    transition: margin-top 40ms linear, opacity 40ms linear;
+    margin-top: 10px;
+    opacity: 1;
 }
 
-#clock,
-#tray,
-#network,
-#battery,
-#pulseaudio{
-    padding: 0 7px; /* Adds horizontal padding to each module */
-    margin: 0 3px;   /* Adds a small margin between modules */
-
+window#waybar.workspace-popup.hidden,
+window#waybar.system-resources.hidden,
+window#waybar.tray-actions.hidden,
+window#waybar.datetime-quick.hidden {
+    margin-top: -10px;
+    opacity: 0;
 }
 
+window#waybar.workspace-popup #workspaces {
+    margin: 4px 0;
+    padding: 11px 18px;
+    border-radius: 18px;
+    background: @panel;
+}
+
+window#waybar.workspace-popup #workspaces button {
+    padding: 4px 16px;
+    border-radius: 12px;
+    font-size: 16px;
+    color: @muted;
+    background: transparent;
+    transition: all 90ms linear;
+}
+
+window#waybar.workspace-popup #workspaces button.active {
+    color: @accent_a;
+    background: rgba(51, 204, 255, 0.18);
+}
+
+window#waybar.workspace-popup #workspaces button.visible {
+    color: @accent_b;
+}
+
+#group-resource-card,
+#group-tray-card,
+#group-datetime-card {
+    margin: 4px 0;
+    padding: 10px;
+    border-radius: 18px;
+    background: @panel;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+#group-resource-row-1,
+#group-resource-row-2,
+#group-tray-row-1,
+#group-tray-row-2,
+#group-tray-row-3 {
+    margin: 4px 0;
+}
+
+window#waybar.system-resources #group-resource-card {
+    min-width: 1080px;
+}
+
+window#waybar.tray-actions #group-tray-card {
+    min-width: 960px;
+}
+
+window#waybar.datetime-quick #group-datetime-card {
+    min-width: 360px;
+}
+
+#custom-cpu-graph,
+#custom-temp-graph,
+#custom-memory-graph,
+#custom-battery-graph,
 #cpu,
 #memory,
-#temperature {
-    padding: 0 5px; /* Adds horizontal padding to each module */
-    margin: 0 3px;   /* Adds a small margin between modules */
+#temperature,
+#battery,
+#disk,
+#network,
+#pulseaudio,
+#clock,
+#tray,
+#custom-pia-status,
+#custom-git-context,
+#custom-bitwarden-open,
+#custom-bitwarden-lock,
+#custom-pia-connect,
+#custom-pia-region,
+#custom-pia-disconnect,
+#custom-power-menu {
+    margin: 4px;
+    padding: 8px 11px;
+    border-radius: 14px;
+    background: @chip;
+    border: 1px solid rgba(120, 140, 168, 0.14);
+    transition: background-color 90ms linear, color 90ms linear;
 }
 
-/* --- Group Styling ("Islands") --- */
-#group-system-status,
-#group-device-state {
-    margin: 4px 5px;          /* Adds some vertical and horizontal margin to the group */
-    padding: 2px 5px;         /* Padding inside the group */
+#custom-cpu-graph,
+#custom-temp-graph,
+#custom-memory-graph,
+#custom-battery-graph {
+    min-width: 180px;
+    min-height: 62px;
+    font-size: 13px;
 }
 
-/* --- Module-Specific Styling --- */
-
-/* Workspaces */
-#workspaces button {
-    padding: 0px 10px;
-    color: #afafaf; 
-    background-color: transparent;
+#custom-cpu-graph {
+    color: @accent_a;
+    border-left: 3px solid @accent_a;
 }
 
-#workspaces button.active {
-    color: #61afef; 
-    background-color: #3a3f4b;
-    border-radius: 8px;
+#custom-memory-graph {
+    color: @accent_purple;
+    border-left: 3px solid @accent_purple;
 }
 
+#custom-temp-graph {
+    color: @warn;
+    border-left: 3px solid @warn;
+}
+
+#custom-battery-graph {
+    color: @accent_b;
+    border-left: 3px solid @accent_b;
+}
+
+#custom-bitwarden-open,
+#custom-bitwarden-lock,
+#custom-pia-connect,
+#custom-pia-region,
+#custom-pia-disconnect,
+#custom-power-menu {
+    min-width: 132px;
+    min-height: 44px;
+    font-size: 14px;
+    color: @fg;
+}
+
+#custom-pia-status,
+#custom-git-context {
+    min-width: 220px;
+    min-height: 34px;
+}
+
+#custom-git-context {
+    color: @accent_a;
+}
+
+#custom-pia-status {
+    color: @accent_b;
+}
+
+#tray {
+    min-width: 200px;
+    min-height: 34px;
+}
+
+#disk,
+#network,
+#pulseaudio,
+window#waybar.system-resources #clock {
+    min-width: 170px;
+    min-height: 40px;
+}
+
+#custom-bitwarden-open:hover,
+#custom-bitwarden-lock:hover,
+#custom-pia-connect:hover,
+#custom-pia-region:hover,
+#custom-pia-disconnect:hover,
+#custom-power-menu:hover {
+    background: rgba(58, 73, 94, 0.99);
+}
+
+#cpu:hover,
+#memory:hover,
+#temperature:hover,
+#battery:hover,
+#network:hover,
+#pulseaudio:hover,
+#clock:hover,
+#tray:hover,
 #workspaces button:hover {
-    background-color: #282c34;
-    border-radius: 8px;
+    background: @chip_hover;
 }
 
-/* Clock */
-#clock {
-    color: #afafaf; /* A green color for the clock */
+#custom-bitwarden-open,
+#custom-bitwarden-lock,
+#custom-pia-connect,
+#custom-pia-region,
+#custom-pia-disconnect,
+#custom-power-menu,
+#custom-cpu-graph,
+#custom-temp-graph,
+#custom-memory-graph,
+#custom-battery-graph {
+    font-weight: 600;
 }
 
-/* Battery */
-#battery.charging, #battery.plugged {
-    color: #98c379; /* Green when charging */
-}
-
-#battery.warning:not(.charging) {
-    color: #e5c07b; /* Yellow for warning */
-}
-
-#battery.critical:not(.charging) {
-    color: #e06c75; /* Red for critical */
-    animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-}
-
-@keyframes blink {
-    to {
-        background-color: #e06c75;
-        color: #282c34;
-    }
-}
-
-/* Network */
 #network.disconnected {
-    color: #e06c75; /* Red when disconnected */
-}
-
-/* Audio */
-#pulseaudio {
-    color: #afafaf; /* Purple for audio */
+    color: @warn;
 }
 
 #pulseaudio.muted {
-    color: #afafaf; /* Grey when muted */
+    color: @muted;
 }
 
-/* CPU and Memory */
-#cpu {
-    color: #afafaf; /* Blue for CPU */
+window#waybar.datetime-quick #clock {
+    font-size: 16px;
+    font-weight: 600;
+    color: @accent_a;
+    padding-left: 18px;
+    padding-right: 18px;
 }
 
-#memory {
-    color: #afafaf; /* Yellow for Memory */
+/* Main bar — active workspace indicator */
+#workspaces button.active {
+    color: @accent_a;
 }
 
-/* Temperatures */
-#temperature {
-    color: #afafaf; /* Red for temperature */
+/* Main bar — center clock visual anchor */
+#clock {
+    font-weight: 500;
+    letter-spacing: 0.5px;
 }
 
-#temperature.critical {
-    background-color: #e06c75;
-    color: #282c34;
-    border-radius: 5px;
+/* Main bar — module group inner glow */
+#group-system-status,
+#group-device-state {
+    box-shadow: inset 0 0 0 1px rgba(120, 140, 168, 0.08);
+    border-radius: 14px;
+}
+
+/* Main bar — icon module breathing room */
+#network,
+#battery,
+#pulseaudio {
+    padding: 8px 14px;
 }

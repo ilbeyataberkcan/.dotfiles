@@ -1,0 +1,6 @@
+@import "style.css";
+
+window#waybar.workspace-popup {
+    margin-top: 0;
+    margin-bottom: 10px;
+}

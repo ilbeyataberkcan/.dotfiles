@@ -1,0 +1,24 @@
+{
+    "name": "workspace-popup",
+    "layer": "top",
+    "position": "bottom",
+    "mode": "overlay",
+    "exclusive": false,
+    "passthrough": true,
+    "start_hidden": true,
+    "on-sigusr1": "show",
+    "on-sigusr2": "hide",
+    "height": 58,
+    "spacing": 8,
+    "modules-center": ["hyprland/workspaces"],
+    "hyprland/workspaces": {
+        "format": "{id} {icon}",
+        "sort-by": "number",
+        "all-outputs": false,
+        "format-icons": {
+            "active": "",
+            "visible": "",
+            "default": ""
+        }
+    }
+}

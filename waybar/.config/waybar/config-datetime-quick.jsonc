@@ -1,0 +1,21 @@
+{
+    "name": "datetime-quick",
+    "layer": "overlay",
+    "position": "top",
+    "exclusive": false,
+    "passthrough": false,
+    "start_hidden": true,
+    "on-sigusr1": "show",
+    "on-sigusr2": "hide",
+    "spacing": 8,
+    "modules-center": ["group/datetime-card"],
+    "group/datetime-card": {
+        "orientation": "horizontal",
+        "modules": ["clock#quick"]
+    },
+    "clock#quick": {
+        "format": "󰥔 {:%a %d %b  %H:%M}",
+        "format-alt": "{:%Y-%m-%d %H:%M:%S}",
+        "tooltip-format": "{calendar}"
+    }
+}

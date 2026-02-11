@@ -1,0 +1,97 @@
+{
+    "name": "tray-actions",
+    "layer": "overlay",
+    "position": "top",
+    "exclusive": false,
+    "passthrough": false,
+    "start_hidden": true,
+    "on-sigusr1": "show",
+    "on-sigusr2": "hide",
+    "spacing": 10,
+    "modules-center": ["group/tray-card"],
+    "group/tray-card": {
+        "orientation": "vertical",
+        "modules": [
+            "group/tray-row-1",
+            "group/tray-row-2",
+            "group/tray-row-3"
+        ]
+    },
+    "group/tray-row-1": {
+        "orientation": "horizontal",
+        "modules": [
+            "custom/pia-status",
+            "custom/git-context",
+            "tray"
+        ]
+    },
+    "group/tray-row-2": {
+        "orientation": "horizontal",
+        "modules": [
+            "custom/bitwarden-open",
+            "custom/bitwarden-lock",
+            "custom/pia-connect"
+        ]
+    },
+    "group/tray-row-3": {
+        "orientation": "horizontal",
+        "modules": [
+            "custom/pia-region",
+            "custom/pia-disconnect",
+            "custom/power-menu"
+        ]
+    },
+    "tray": {
+        "spacing": 8
+    },
+    "custom/pia-status": {
+        "format": "{}",
+        "exec": "$HOME/scripts/waybar/pia-status.sh",
+        "interval": 2,
+        "escape": false,
+        "tooltip": true
+    },
+    "custom/git-context": {
+        "format": "{}",
+        "exec": "$HOME/scripts/waybar/git-context.sh",
+        "interval": 2,
+        "escape": false,
+        "tooltip": true
+    },
+    "custom/bitwarden-open": {
+        "format": "󰞀  Bitwarden",
+        "tooltip": true,
+        "tooltip-format": "Open Bitwarden app",
+        "on-click": "$HOME/scripts/waybar/bitwarden-open.sh"
+    },
+    "custom/bitwarden-lock": {
+        "format": "  Lock Vault",
+        "tooltip": true,
+        "tooltip-format": "Lock Bitwarden vault",
+        "on-click": "$HOME/scripts/waybar/bitwarden-lock.sh"
+    },
+    "custom/pia-connect": {
+        "format": "󰖂  Connect",
+        "tooltip": true,
+        "tooltip-format": "PIA connect",
+        "on-click": "$HOME/scripts/waybar/pia-connect.sh"
+    },
+    "custom/pia-region": {
+        "format": "󰍹  Region",
+        "tooltip": true,
+        "tooltip-format": "PIA choose region",
+        "on-click": "$HOME/scripts/waybar/pia-region-menu.sh"
+    },
+    "custom/pia-disconnect": {
+        "format": "󰅛  Disconnect",
+        "tooltip": true,
+        "tooltip-format": "PIA disconnect",
+        "on-click": "$HOME/scripts/waybar/pia-disconnect.sh"
+    },
+    "custom/power-menu": {
+        "format": "⏻  Power",
+        "tooltip": true,
+        "tooltip-format": "Power menu",
+        "on-click": "$HOME/scripts/waybar/power-menu.sh"
+    }
+}

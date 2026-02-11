@@ -1,7 +1,6 @@
 require("v0.set")
 require("v0.remap")
 
-
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('UserLspConfig', {}),
     callback = function (ev)
@@ -15,7 +14,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('n', "<leader>vca", function() vim.lsp.buf.code_action() end)
         vim.keymap.set('n', "<leader>vrr", function() vim.lsp.buf.references() end)
         vim.keymap.set('n', "<leader>vrn", function() vim.lsp.buf.rename() end)
-        vim.keymap.set('n', "<C-h>", function() vim.lsp.buf.signature_help() end)
+        vim.keymap.set('n', "<leader>sh", function() vim.lsp.buf.signature_help() end)
     end
 
 })
+

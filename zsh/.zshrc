@@ -87,6 +87,8 @@ source $ZSH/oh-my-zsh.sh
 # else
 #   export EDITOR='nvim'
 # fi
+export EDITOR="nvim"
+export VISUAL="nvim"
 
 # Compilation flags
 # export ARCHFLAGS="-arch $(uname -m)"
@@ -102,5 +104,10 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 alias zshconfig="nvim ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias vim="nvim"
 
 alias esp-init-env="export PATH='$PATH:$HOME/esp/xtensa-esp323-elf/bin'"
+export PATH="$HOME/.local/bin:$PATH"
+
+# opencode
+export PATH=/home/ilbey/.opencode/bin:$PATH

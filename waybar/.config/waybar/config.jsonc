@@ -10,7 +10,8 @@
     "clock": {
         "format": "{:%H:%M}",
         "format-alt":"{:%d %b %y}",
-        "tooltip-format": "{calendar}"
+        "tooltip-format": "{calendar}",
+        "on-click-right": "$HOME/scripts/waybar/control.sh datetime-quick toggle"
     },
 
 
@@ -39,7 +40,8 @@
         "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
         "tooltip-format-ethernet": "{ifname} ",
         "tooltip-format-disconnected": "Disconnected",
-        "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"]
+        "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+        "on-click": "$HOME/scripts/waybar/network-menu.sh"
     },
 
     "battery": {
@@ -52,13 +54,15 @@
         "format-plugged": "󰂄",
         "format-alt": "{time} {icon}",
         "tooltip-format": "{capacity}%",
-        "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+        "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+        "on-click-right": "$HOME/scripts/waybar/battery-info.sh"
     },
 
     "pulseaudio": {
         "format": "{icon}",
         "format-muted": "󰝟",
         "on-click": "pavucontrol",
+        "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
         "scroll-step": 5,
         "format-icons": {
             "default": ["", "", ""]
@@ -77,18 +81,21 @@
     "cpu": {
         "format": " {usage}%",
         "tooltip": true,
-        "interval": 2
+        "interval": 2,
+        "on-click": "$HOME/scripts/waybar/control.sh system-resources toggle"
     },
 
     "memory": {
         "format": " {percentage}%",
-        "interval": 2
+        "interval": 2,
+        "on-click": "$HOME/scripts/waybar/control.sh system-resources toggle"
     },
 
     "temperature#cpu": {
         "hwmon-path": "/sys/class/thermal/thermal_zone0/temp",
         "critical-threshold": 80,
         "format": " {temperatureC}°C",
-        "tooltip": true
+        "tooltip": true,
+        "on-click": "$HOME/scripts/waybar/control.sh system-resources toggle"
     },
 }

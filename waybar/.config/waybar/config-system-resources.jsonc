@@ -1,0 +1,102 @@
+{
+    "name": "system-resources",
+    "layer": "overlay",
+    "position": "top",
+    "exclusive": false,
+    "passthrough": false,
+    "start_hidden": true,
+    "on-sigusr1": "show",
+    "on-sigusr2": "hide",
+    "spacing": 10,
+    "modules-center": ["group/resource-card"],
+    "group/resource-card": {
+        "orientation": "vertical",
+        "modules": [
+            "group/resource-row-1",
+            "group/resource-row-2"
+        ]
+    },
+    "group/resource-row-1": {
+        "orientation": "horizontal",
+        "modules": [
+            "custom/cpu-graph",
+            "custom/temp-graph",
+            "custom/memory-graph",
+            "custom/battery-graph"
+        ]
+    },
+    "group/resource-row-2": {
+        "orientation": "horizontal",
+        "modules": [
+            "disk#root",
+            "network",
+            "pulseaudio",
+            "clock#compact"
+        ]
+    },
+    "custom/cpu-graph": {
+        "format": "{}",
+        "return-type": "json",
+        "exec": "$HOME/scripts/waybar/metric-graph.sh cpu",
+        "interval": 2,
+        "tooltip": true,
+        "on-click": "ghostty -e htop"
+    },
+    "custom/temp-graph": {
+        "format": "{}",
+        "return-type": "json",
+        "exec": "$HOME/scripts/waybar/metric-graph.sh temp",
+        "interval": 2,
+        "tooltip": true,
+        "on-click": "ghostty -e htop"
+    },
+    "custom/memory-graph": {
+        "format": "{}",
+        "return-type": "json",
+        "exec": "$HOME/scripts/waybar/metric-graph.sh memory",
+        "interval": 2,
+        "tooltip": true,
+        "on-click": "ghostty -e htop"
+    },
+    "custom/battery-graph": {
+        "format": "{}",
+        "return-type": "json",
+        "exec": "$HOME/scripts/waybar/metric-graph.sh battery",
+        "interval": 3,
+        "tooltip": true,
+        "on-click": "$HOME/scripts/waybar/battery-info.sh"
+    },
+    "disk#root": {
+        "path": "/",
+        "format": "󰋊 Disk {percentage_used}%",
+        "interval": 20,
+        "tooltip": true,
+        "on-click": "xdg-open $HOME"
+    },
+    "network": {
+        "format-wifi": " Net {essid} {signalStrength}%",
+        "format-ethernet": "󰈀 Net {ifname}",
+        "format-linked": "󰈀 Net {ifname}",
+        "format-disconnected": "󰌙 Net offline",
+        "tooltip-format": "{ifname} {ipaddr}/{cidr} gw {gwaddr}",
+        "tooltip-format-wifi": "{essid} {signalStrength}% {ipaddr}/{cidr}",
+        "tooltip-format-ethernet": "{ifname} {ipaddr}/{cidr}",
+        "tooltip-format-disconnected": "Disconnected",
+        "on-click": "$HOME/scripts/waybar/network-menu.sh"
+    },
+    "pulseaudio": {
+        "format": "{icon} Audio {volume}%",
+        "format-muted": "󰝟 Audio muted",
+        "on-click": "pavucontrol",
+        "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "scroll-step": 5,
+        "format-icons": {
+            "default": ["", "", ""]
+        }
+    },
+    "clock#compact": {
+        "format": "󰃰 {:%a %d %b  %H:%M}",
+        "format-alt": "󰃰 {:%A %d %B %Y  %H:%M:%S}",
+        "tooltip-format": "{calendar}"
+    }
+}
