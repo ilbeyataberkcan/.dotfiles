@@ -1,0 +1,71 @@
+{
+  // Normalized evidence produced by secure intake.
+  "version": 1,
+  "sources": [
+    {
+      "id": "src-1",
+      "type": "local-file",
+      "location": "./docs/brand-guidelines.pdf",
+      "authority": "canonical", // canonical | inspiration | wip
+      "accepted": true,
+      "reason": "Readable brand policy document"
+    },
+    {
+      "id": "src-2",
+      "type": "url",
+      "location": "https://example.com/brand",
+      "authority": "inspiration", // canonical | inspiration | wip
+      "accepted": true,
+      "reason": "Public brand landing page"
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim-1",
+      "topic": "personality",
+      "value": ["calm", "precise", "trustworthy"],
+      "sourceId": "src-1",
+      "confidence": "high"
+    },
+    {
+      "id": "claim-2",
+      "topic": "primary-color-hue-family",
+      "value": [220],
+      "sourceId": "src-2",
+      "confidence": "medium"
+    }
+  ],
+  "conflicts": [
+    {
+      "topic": "tone",
+      "details": "Source language alternates between playful and strict compliance tone",
+      "severity": "medium",
+      "requiresInterview": true,
+      "resolutionStatus": "unresolved"
+    }
+  ],
+  "gaps": [
+    "No explicit shape language policy",
+    "No clear motion policy",
+    "No declared forbidden visual patterns"
+  ],
+  "searchConsent": {
+    "requiredForExternalSearch": true,
+    "granted": false,
+    "scope": "request",
+    "recordedAt": null
+  },
+  "decisionImpact": [
+    {
+      "topic": "voice",
+      "usesCanonicalOnly": true,
+      "notes": "Do not lock voice from inspiration sources."
+    }
+  ],
+  "userValidatedClaims": [
+    {
+      "claimId": "claim-1",
+      "validated": false
+    }
+  ]
+}

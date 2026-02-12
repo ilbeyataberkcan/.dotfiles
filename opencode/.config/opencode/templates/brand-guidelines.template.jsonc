@@ -11,6 +11,11 @@
     "readingLevel": "plain-language",
     "claimsPolicy": "no overpromising"
   },
+  "sourceAuthorityPolicy": {
+    "canonicalDefinesConstraints": true,
+    "inspirationSuggestsOnly": true,
+    "wipCannotOverrideApprovedAnswers": true
+  },
   "color": {
     "model": "oklch",
     "baseHueFamilies": [220, 30],

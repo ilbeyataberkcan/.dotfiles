@@ -23,12 +23,21 @@
     "brandCompliance": {
       "required": true,
       "allowPartialWithRiskAcceptance": true
+    },
+    "runtime": {
+      "nextRootSanity": true,
+      "tailwindResolve": true,
+      "lint": true,
+      "build": true,
+      "devSmoke": true,
+      "blockOnResolverFailure": true
     }
   },
   "requiredOutputs": [
     "contrast-matrix",
     "shape-layout-audit",
     "brand-compliance-matrix",
+    "runtime-check-matrix",
     "go-no-go-status"
   ]
 }

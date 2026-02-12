@@ -1,0 +1,94 @@
+{
+  // Project bootstrap record produced during interview.
+  "version": 1,
+  "project": {
+    "name": "Example Project",
+    "projectKind": "existing", // existing | new
+    "oneLineDescription": "A clear one-sentence product description.",
+    "targetUsers": ["operations-team", "security-reviewers"],
+    "successCriteria": [
+      "Users can complete primary workflow in under 2 minutes",
+      "Accessibility checks pass before launch"
+    ]
+  },
+  "technicalBaseline": {
+    "framework": "nextjs",
+    "runtime": "node",
+    "packageManager": "bun",
+    "deploymentTarget": "vercel",
+    "repositoryVisibility": "private"
+  },
+  "naming": {
+    "repoOptions": [
+      {
+        "name": "example-project",
+        "rationale": "Direct, searchable, and matches product wording"
+      },
+      {
+        "name": "example-console",
+        "rationale": "Signals app-like operational interface"
+      }
+    ],
+    "packageOptions": [
+      {
+        "name": "@example/project-web",
+        "npmSafe": true,
+        "rationale": "Clear scope and package purpose"
+      }
+    ]
+  },
+  "scope": {
+    "requiredPages": ["landing", "dashboard", "settings"],
+    "requiredComponents": ["primary-nav", "data-table", "alert-system"],
+    "nonGoals": ["native-mobile-app", "third-party-marketplace"]
+  },
+  "assets": {
+    "localPaths": ["./brand", "./docs/brand-guidelines.pdf"],
+    "urls": ["https://example.com/brand"],
+    "sourceAuthority": [
+      {
+        "url": "https://example.com/brand",
+        "authority": "inspiration" // canonical | inspiration | wip
+      }
+    ],
+    "hasLogoFiles": false,
+    "logoStatus": "missing", // provided | missing | deferred
+    "hasTokenFiles": false,
+    "notes": "Replace with real paths/URLs"
+  },
+  "policies": {
+    "webSearch": {
+      "enabled": false,
+      "consentScope": "request",
+      "consentRecordedAt": null
+    },
+    "accessibilityTarget": "wcag-aa",
+    "apcaAdvisory": true
+  },
+  "openQuestions": [
+    "Is there an existing typography license constraint?",
+    "Do we need region-specific compliance messaging?"
+  ],
+  "businessDna": {
+    "mission": "",
+    "audience": [""],
+    "valueModel": "",
+    "businessConstraints": [""],
+    "proofStrategy": ""
+  },
+  "decisionLedger": [
+    {
+      "id": "decision-mission",
+      "topic": "mission",
+      "status": "needs_clarification", // approved_by_answer | approved_by_gate | needs_clarification
+      "impact": "high",
+      "source": "",
+      "notes": ""
+    }
+  ],
+  "approvals": {
+    "businessDnaApproved": false,
+    "designDirectionApproved": false,
+    "guidelineSynthesisApproved": false
+  }
+}

@@ -34,6 +34,7 @@ Natural routing:
 - If user intent is color-only, prioritize color preflight and include minimal shape notes.
 - If user intent is shape/layout-only, prioritize shape/layout preflight and include minimal color notes.
 - If user asks for general opinion on colors and shapes, produce a combined critique and one unified recommendation.
+- If no approved design contract exists yet, request a brief guided intake before final recommendations.
 
 Required output:
 - `Color preflight`: WCAG pass/fail + APCA warnings.
