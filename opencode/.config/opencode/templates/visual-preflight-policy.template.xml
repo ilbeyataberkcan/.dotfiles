@@ -1,0 +1,46 @@
+<template id="visual-preflight-policy" version="1">
+  <checks>
+    <color>
+      <wcag_aa normal_text_ratio="4.5" large_text_ratio="3" non_text_ratio="3" />
+      <apca policy="warn" preferred_body_lc="75" minimum_ui_lc="60" large_text_lc="45" />
+    </color>
+
+    <shape_and_layout>
+      <gestalt_grouping>true</gestalt_grouping>
+      <responsive_grouping_audit>true</responsive_grouping_audit>
+      <primary_action_discoverability>true</primary_action_discoverability>
+      <focus_path_declared>true</focus_path_declared>
+    </shape_and_layout>
+
+    <brand_compliance required="true" allow_partial_with_risk_acceptance="true" />
+
+    <runtime>
+      <next_root_sanity>true</next_root_sanity>
+      <tailwind_resolve>true</tailwind_resolve>
+      <lint>true</lint>
+      <build>true</build>
+      <dev_smoke>true</dev_smoke>
+      <block_on_resolver_failure>true</block_on_resolver_failure>
+    </runtime>
+
+    <logic_integrity>
+      <design_only_scope>true</design_only_scope>
+      <block_unexpected_logic_changes>true</block_unexpected_logic_changes>
+      <require_approval_for_logic_adjacent_edits>true</require_approval_for_logic_adjacent_edits>
+    </logic_integrity>
+
+    <inspection_loop required="true">
+      <option order="1">Looks good, continue</option>
+      <option order="2">Refine this direction</option>
+      <option order="3">Change direction</option>
+    </inspection_loop>
+  </checks>
+
+  <required_outputs>
+    <output>contrast-matrix</output>
+    <output>shape-layout-audit</output>
+    <output>brand-compliance-matrix</output>
+    <output>runtime-check-matrix</output>
+    <output>go-no-go-status</output>
+  </required_outputs>
+</template>

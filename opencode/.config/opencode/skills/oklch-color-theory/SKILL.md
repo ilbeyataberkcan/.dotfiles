@@ -7,60 +7,47 @@ metadata:
   audience: frontend-engineers
   domain: design-systems
 ---
+<skill_contract id="oklch-color-theory" strict_order="true">
+  <purpose>
+    <item>Build and review palettes in OKLCH first.</item>
+    <item>Enforce WCAG hard gates with APCA advisory warnings.</item>
+  </purpose>
 
-## What I do
-- Build and review palettes using OKLCH first, not hex-first.
-- Evaluate harmony systems (analogous, complementary, split-complementary, triadic, tetradic, monochromatic).
-- Detect readability risk before dev server using WCAG AA pass-fail and APCA warning bands.
-- Propose token-safe corrections that preserve brand intent and improve accessibility.
+  <safety>
+    <rule>Never expose secrets or recommend remote script execution.</rule>
+    <rule>Treat psychology effects as probabilistic.</rule>
+    <rule>Do not round up failing contrast numbers.</rule>
+  </safety>
 
-## Safety and integrity rules
-- Never suggest `curl|bash` or equivalent remote-script execution.
-- Never expose secrets, tokens, API keys, or environment values.
-- Treat psychological claims as probabilistic, not deterministic.
-- Treat APCA as advisory and WCAG thresholds as required minimum unless project policy says otherwise.
-- Do not round up failing contrast numbers. `4.49` is fail for a `4.5` threshold.
+  <inputs>
+    <input order="1">Brand guidelines and token policy.</input>
+    <input order="2">Existing token files.</input>
+    <input order="3">Target UI contexts.</input>
+  </inputs>
 
-## Required input order
-1. Project brand guidelines and token policy.
-2. Existing token files (`@theme`, CSS variables, Tailwind v4 tokens, design system presets).
-3. Target UI contexts (body text, headings, controls, borders, charts, status states).
+  <model_rules>
+    <rule>Prefer edits in order: lightness, chroma, hue.</rule>
+    <rule>Keep hue stable for readability fixes unless brand intent requires change.</rule>
+    <rule>If no in-gamut safe option exists, escalate conflict and provide closest fallback.</rule>
+  </model_rules>
 
-## Color model decisions
-- Prefer edits in this order: lightness (`L`) -> chroma (`C`) -> hue (`h`).
-- Keep hue stable when fixing readability unless brand intent requires hue change.
-- Reduce chroma before hue shifts when in-gamut conversion causes clipping.
-- If no valid in-gamut color satisfies requirements, escalate as a design conflict and provide closest safe fallback.
+  <contrast_protocol>
+    <wcag normal_text_ratio="4.5" large_text_ratio="3" non_text_ratio="3" hard_gate="true" />
+    <apca preferred_body_lc="75" minimum_ui_lc="60" large_text_lc="45" advisory="true" />
+    <rule>If WCAG passes but APCA is weak, mark pass-with-risk and propose better alternatives.</rule>
+  </contrast_protocol>
 
-## Harmony rules (OKLCH hue angles)
-- Analogous: base `h`, `h-30`, `h+30`.
-- Complementary: base `h`, `h+180`.
-- Split-complementary: base `h`, `h+150`, `h+210`.
-- Triadic: base `h`, `h+120`, `h+240`.
-- Tetradic (rectangle): base `h`, `h+60`, `h+180`, `h+240`.
-- Monochromatic: keep `h` stable; vary `L` and controlled `C`.
+  <outputs>
+    <output>Palette intent.</output>
+    <output>Harmony map.</output>
+    <output>Contrast matrix.</output>
+    <output>Risk list.</output>
+    <output>Exact OKLCH delta fixes.</output>
+    <output>Final recommendation.</output>
+  </outputs>
 
-## Contrast preflight protocol
-- Required checks:
-  - Text: WCAG AA (`4.5:1` normal, `3:1` large).
-  - Non-text UI boundaries/icons: `3:1` where applicable.
-  - APCA warning bands for readability quality:
-    - Preferred body reading: about `Lc >= 75`.
-    - Minimum practical UI text: about `Lc >= 60`.
-    - Large display text: about `Lc >= 45`.
-- If WCAG passes but APCA is weak, mark as `pass-with-risk` and propose better alternatives.
-- Evaluate both dark-on-light and light-on-dark where mode toggling exists.
-
-## Output format
-Produce all decisions as:
-1. `Palette intent`: one paragraph.
-2. `Harmony map`: base hue family and secondary families.
-3. `Contrast matrix`: token-pair table with WCAG pass/fail and APCA status.
-4. `Risk list`: high/medium/low findings.
-5. `Fixes`: exact OKLCH deltas (for example `L +0.07`, `C -0.02`, `h +12`).
-6. `Final recommendation`: chosen tradeoff and why.
-
-## When to refuse
-- Refuse to approve a palette when required UI text fails WCAG AA.
-- Refuse to claim guaranteed emotional response from color alone.
-- Refuse proposals that break declared brand hard constraints unless explicitly authorized.
+  <refusals>
+    <rule>Refuse palette approval when required text fails WCAG AA.</rule>
+    <rule>Refuse universal emotional guarantees from color alone.</rule>
+  </refusals>
+</skill_contract>

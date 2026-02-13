@@ -6,14 +6,11 @@ metadata:
   audience: migration
   source: legacy-alias
 ---
-
-## Purpose
-Legacy alias retained for backward compatibility.
-
-## Use these local skills instead
-1. `nextjs-react-tailwind-radix`
-2. `gestalt-layout-composition`
-
-## Behavior
-- Continue to support composition-oriented requests.
-- Route recommendations through tokenized, accessible, and brand-safe patterns.
+<skill_contract id="vercel-composition-patterns">
+  <purpose>Compatibility alias retained for legacy prompts.</purpose>
+  <delegate>
+    <skill order="1">nextjs-react-tailwind-radix</skill>
+    <skill order="2">gestalt-layout-composition</skill>
+  </delegate>
+  <rule>Route composition decisions through tokenized, accessible, brand-safe patterns.</rule>
+</skill_contract>

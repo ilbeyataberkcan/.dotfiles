@@ -9,25 +9,30 @@ Use this when starting a new project from scratch or when brand inputs are incom
 
 The system routes this work through `@bootstrap-design-lead` automatically.
 
+For implementation-heavy design iterations, switch to the primary `design` agent using Tab.
+
 ## Interaction defaults
 - Guided interview mode is the default.
 - Fast mode is optional and only used when explicitly requested (`/bootstrap-fast`).
 - High-impact gates use interactive question prompts.
 - Core brand truth is never inferred in guided mode before user answers.
+- Single-sweep execution is preferred: branch decisions, apply, inspect, continue.
 
 ## Quick local template setup
 Run from the target project root:
 
 ```bash
 mkdir -p .opencode && cp \
-  ~/.config/opencode/templates/project-bootstrap.template.jsonc \
-  ~/.config/opencode/templates/brand-evidence-bundle.template.jsonc \
-  ~/.config/opencode/templates/brand-dna.template.jsonc \
-  ~/.config/opencode/templates/brand-guidelines.template.jsonc \
-  ~/.config/opencode/templates/design-token-contract.template.jsonc \
-  ~/.config/opencode/templates/visual-preflight-policy.template.jsonc \
+  ~/.config/opencode/templates/project-bootstrap.template.xml \
+  ~/.config/opencode/templates/brand-evidence-bundle.template.xml \
+  ~/.config/opencode/templates/brand-dna.template.xml \
+  ~/.config/opencode/templates/brand-guidelines.template.xml \
+  ~/.config/opencode/templates/design-token-contract.template.xml \
+  ~/.config/opencode/templates/visual-preflight-policy.template.xml \
   .opencode/
 ```
+
+Templates are XML contracts. Keep required tags and attributes intact when editing.
 
 ## Orchestration flow
 1. Business DNA interview first (mission, audience, value model, constraints).
@@ -38,7 +43,8 @@ mkdir -p .opencode && cp \
 6. Secure evidence intake and normalization.
 7. Explicit web-search consent gate (search is OFF unless user opts in).
 8. Decision consolidation and guideline synthesis.
-9. Visual and runtime preflight before handoff.
+9. Dynamic decision-tree sweep (propose -> approve -> apply -> inspect).
+10. Visual and runtime preflight before handoff.
 
 ## Explicit web-search consent behavior
 - No external search is performed by default.
@@ -57,28 +63,38 @@ mkdir -p .opencode && cp \
 - If logo assets are missing, assistant can produce a logo direction brief and AI prompt pack.
 - If logo is deferred, assistant records explicit design risk in the final report.
 
+## Inspection checkpoint behavior
+- After each major applied design bundle, assistant asks exactly one questionnaire:
+  1. `Looks good, continue`
+  2. `Refine this direction`
+  3. `Change direction`
+
+## Live preview behavior
+- When design is defined collaboratively, assistant asks whether to run a background dev server.
+- If enabled, preview remains active during the sweep and restarts when needed.
+
 ## What to edit first
-1. `.opencode/project-bootstrap.template.jsonc`
+1. `.opencode/project-bootstrap.template.xml`
    - Confirm business DNA, setup intent, source authority, decision ledger, and policy defaults.
-2. `.opencode/brand-evidence-bundle.template.jsonc`
+2. `.opencode/brand-evidence-bundle.template.xml`
    - Fill accepted sources, authority class, claims, conflicts, and evidence gaps.
-3. `.opencode/brand-dna.template.jsonc`
+3. `.opencode/brand-dna.template.xml`
    - Capture positioning, audience, personality, tone, accessibility posture, and approval status.
-4. `.opencode/brand-guidelines.template.jsonc`
+4. `.opencode/brand-guidelines.template.xml`
    - Lock hard constraints and forbidden patterns.
-5. `.opencode/design-token-contract.template.jsonc`
+5. `.opencode/design-token-contract.template.xml`
    - Align with real token values.
-6. `.opencode/visual-preflight-policy.template.jsonc`
+6. `.opencode/visual-preflight-policy.template.xml`
    - Confirm WCAG/APCA and output requirements.
 
 ## Optional rename after editing
 ```bash
-mv .opencode/project-bootstrap.template.jsonc .opencode/project-bootstrap.jsonc
-mv .opencode/brand-evidence-bundle.template.jsonc .opencode/brand-evidence-bundle.jsonc
-mv .opencode/brand-dna.template.jsonc .opencode/brand-dna.jsonc
-mv .opencode/brand-guidelines.template.jsonc .opencode/brand-guidelines.jsonc
-mv .opencode/design-token-contract.template.jsonc .opencode/design-token-contract.jsonc
-mv .opencode/visual-preflight-policy.template.jsonc .opencode/visual-preflight-policy.jsonc
+mv .opencode/project-bootstrap.template.xml .opencode/project-bootstrap.xml
+mv .opencode/brand-evidence-bundle.template.xml .opencode/brand-evidence-bundle.xml
+mv .opencode/brand-dna.template.xml .opencode/brand-dna.xml
+mv .opencode/brand-guidelines.template.xml .opencode/brand-guidelines.xml
+mv .opencode/design-token-contract.template.xml .opencode/design-token-contract.xml
+mv .opencode/visual-preflight-policy.template.xml .opencode/visual-preflight-policy.xml
 ```
 
 ## Team workflow tip

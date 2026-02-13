@@ -7,37 +7,51 @@ metadata:
   audience: orchestration-agents
   domain: interaction-governance
 ---
+<skill_contract id="guided-interview-protocol">
+  <purpose>
+    <item>Enforce strict interview method with flexible answers.</item>
+    <item>Prevent autopilot synthesis before approved decisions exist.</item>
+  </purpose>
 
-## What I do
-- Enforce a strict interview method while preserving flexible user answers.
-- Keep conversations collaborative and stateful across stages.
-- Prevent autopilot synthesis before user-approved decisions exist.
+  <interaction required="true">
+    <rule>Ask one concise question at a time.</rule>
+    <rule>Use question tool prompts for high-impact gates.</rule>
+    <rule>Allow freeform responses for content decisions.</rule>
+    <rule>Tailor each next question to prior answers.</rule>
+    <rule>Skip already answered high-impact questions.</rule>
+  </interaction>
 
-## Required interaction rules
-- Ask one concise question at a time.
-- Use interactive `question`-tool prompts for high-impact stage gates.
-- Allow freeform input for all content decisions.
-- Tailor each next question based on prior answers.
-- Skip questions that are already explicitly answered.
-- Do not force coded reply formats unless user requests shorthand.
+  <decision_tree dynamic="true">
+    <rule>Expand sub-branches when answers create downstream decisions.</rule>
+    <rule>Resolve high-impact leaves before low-impact refinements.</rule>
+    <status_values>
+      <value>approved_by_answer</value>
+      <value>approved_by_gate</value>
+      <value>needs_clarification</value>
+      <value>deferred</value>
+    </status_values>
+  </decision_tree>
 
-## Decision tracking contract
-- Record each decision with:
-  - `id`
-  - `topic`
-  - `status` (`approved_by_answer`, `approved_by_gate`, `needs_clarification`)
-  - `source` (quote/answer reference)
-  - `impact` (`high`, `medium`, `low`)
-- If a high-impact decision is explicitly answered, mark `approved_by_answer` and do not re-gate it.
-- If interpretation is uncertain, ask one clarification before advancing.
+  <inspection_checkpoint>
+    <option order="1">Looks good, continue</option>
+    <option order="2">Refine this direction</option>
+    <option order="3">Change direction</option>
+  </inspection_checkpoint>
 
-## Inference policy
-- In guided mode, never infer core brand truth (mission, promise, voice, personality) without explicit user input.
-- Suggestions are allowed only when clearly labeled and traceable to user answers.
+  <approval_policy>
+    <rule>Do not apply branch decisions when status is needs_clarification.</rule>
+    <rule>approved_by_answer counts as approval and should not be re-gated.</rule>
+  </approval_policy>
 
-## Output format
-1. `Question asked`
-2. `Why this matters`
-3. `Captured answer`
-4. `Decision status update`
-5. `Next question`
+  <inference_policy>
+    <rule>In guided mode, never infer mission, promise, voice, or personality.</rule>
+    <rule>Suggestions are allowed only when traceable to user answers.</rule>
+  </inference_policy>
+
+  <outputs>
+    <output>Question asked and rationale.</output>
+    <output>Captured answer.</output>
+    <output>Decision status update.</output>
+    <output>Next unresolved branch question.</output>
+  </outputs>
+</skill_contract>

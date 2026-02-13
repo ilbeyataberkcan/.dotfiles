@@ -7,36 +7,41 @@ metadata:
   audience: multi-disciplinary-product-teams
   domain: governance
 ---
+<skill_contract id="brand-guideline-enforcer" strict_order="true">
+  <purpose>
+    <item>Enforce declared brand constraints and token contracts.</item>
+    <item>Reject design drift and provide compliant alternatives when conflicts exist.</item>
+  </purpose>
 
-## What I do
-- Enforce declared brand guidelines and token contracts.
-- Reject design drift and inconsistent visual language.
-- Propose compliant alternatives when requirements conflict.
+  <precedence>
+    <source order="1">Project-local brand and design docs.</source>
+    <source order="2">Project-local design system and token files.</source>
+    <source order="3">Organization defaults.</source>
+    <source order="4">Global fallback templates.</source>
+  </precedence>
 
-## Precedence order
-1. Project-local brand and design docs.
-2. Project-local design system and token files.
-3. Organization defaults.
-4. Global fallback templates.
+  <hard_rules>
+    <rule>Do not silently violate declared hard brand constraints.</rule>
+    <rule>When accessibility conflicts with brand, provide accessible alternatives that preserve identity.</rule>
+    <rule>Keep typography, spacing, radius, and motion aligned to standards.</rule>
+  </hard_rules>
 
-## Hard rules
-- If a project declares brand hard constraints, do not violate them silently.
-- If accessibility and brand conflict, provide options that keep brand as much as possible while meeting required accessibility.
-- Keep typography, radius, spacing, and motion aligned with declared standards.
+  <safety>
+    <rule>Block deceptive CTA styling and hidden tracking patterns.</rule>
+    <rule>Do not include secrets or internal-only identifiers in deliverables.</rule>
+  </safety>
 
-## Security and safety
-- Never accept hidden tracking, deceptive color cues, or misleading CTA styling.
-- Never include secrets or internal-only identifiers in generated deliverables.
-- Avoid vague guidance; output concrete pass/fail statements.
+  <compliance_flow>
+    <step order="1">Extract constraints from docs and tokens.</step>
+    <step order="2">Compare output against constraints.</step>
+    <step order="3">Mark each item compliant, partial, or non-compliant.</step>
+    <step order="4">Provide correction plan for partial and non-compliant items.</step>
+  </compliance_flow>
 
-## Compliance workflow
-1. Extract constraints from docs and tokens.
-2. Compare proposed output against constraints.
-3. Mark each item as `compliant`, `partial`, or `non-compliant`.
-4. Provide correction plan for partial/non-compliant items.
-
-## Output format
-1. `Constraint snapshot`
-2. `Compliance matrix`
-3. `Conflict report`
-4. `Approved alternatives`
+  <outputs>
+    <output>Constraint snapshot.</output>
+    <output>Compliance matrix.</output>
+    <output>Conflict report.</output>
+    <output>Approved alternatives.</output>
+  </outputs>
+</skill_contract>

@@ -1,0 +1,112 @@
+<template id="project-bootstrap" version="1">
+  <project>
+    <name>Example Project</name>
+    <kind>existing</kind>
+    <description>A clear one-sentence product description.</description>
+    <target_users>
+      <user>operations-team</user>
+      <user>security-reviewers</user>
+    </target_users>
+    <success_criteria>
+      <item>Users can complete primary workflow in under 2 minutes.</item>
+      <item>Accessibility checks pass before launch.</item>
+    </success_criteria>
+  </project>
+
+  <technical_baseline>
+    <framework>nextjs</framework>
+    <runtime>node</runtime>
+    <package_manager>bun</package_manager>
+    <deployment_target>vercel</deployment_target>
+    <repository_visibility>private</repository_visibility>
+  </technical_baseline>
+
+  <naming>
+    <repo_options>
+      <option name="example-project">Direct and searchable naming.</option>
+      <option name="example-console">Signals app-like operational interface.</option>
+    </repo_options>
+    <package_options>
+      <option name="@example/project-web" npm_safe="true">Clear scope and package purpose.</option>
+    </package_options>
+  </naming>
+
+  <assets>
+    <local_paths>
+      <path>./brand</path>
+      <path>./docs/brand-guidelines.pdf</path>
+    </local_paths>
+    <urls>
+      <url authority="inspiration">https://example.com/brand</url>
+    </urls>
+    <logo_status>missing</logo_status>
+    <has_token_files>false</has_token_files>
+  </assets>
+
+  <policies>
+    <web_search enabled="false" consent_scope="request" />
+    <accessibility_target>wcag-aa</accessibility_target>
+    <apca_advisory>true</apca_advisory>
+  </policies>
+
+  <business_dna>
+    <mission></mission>
+    <audience>
+      <segment></segment>
+    </audience>
+    <value_model></value_model>
+    <business_constraints>
+      <constraint></constraint>
+    </business_constraints>
+    <proof_strategy></proof_strategy>
+  </business_dna>
+
+  <decision_ledger>
+    <decision id="decision-mission" impact="high" status="needs_clarification">
+      <topic>mission</topic>
+      <source></source>
+      <notes></notes>
+    </decision>
+  </decision_ledger>
+
+  <design_decision_tree>
+    <node id="node-visual-direction" status="needs_clarification">
+      <title>Visual direction</title>
+      <children>
+        <child>node-color-system</child>
+        <child>node-spacing-rhythm</child>
+        <child>node-shape-language</child>
+      </children>
+    </node>
+    <unresolved_nodes>
+      <node_ref>node-color-system</node_ref>
+      <node_ref>node-spacing-rhythm</node_ref>
+      <node_ref>node-shape-language</node_ref>
+    </unresolved_nodes>
+  </design_decision_tree>
+
+  <inspection>
+    <options>
+      <option order="1">Looks good, continue</option>
+      <option order="2">Refine this direction</option>
+      <option order="3">Change direction</option>
+    </options>
+    <history>
+      <checkpoint branch_id="node-visual-direction" response="Looks good, continue" timestamp="" />
+    </history>
+  </inspection>
+
+  <live_preview>
+    <enabled>false</enabled>
+    <port>3000</port>
+    <status>stopped</status>
+    <restart_count>0</restart_count>
+    <last_restart_reason></last_restart_reason>
+  </live_preview>
+
+  <approvals>
+    <business_dna_approved>false</business_dna_approved>
+    <design_direction_approved>false</design_direction_approved>
+    <guideline_synthesis_approved>false</guideline_synthesis_approved>
+  </approvals>
+</template>

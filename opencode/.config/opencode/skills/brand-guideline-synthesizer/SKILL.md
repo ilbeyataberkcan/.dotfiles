@@ -7,38 +7,47 @@ metadata:
   audience: design-system-engineers
   domain: synthesis
 ---
+<skill_contract id="brand-guideline-synthesizer" strict_order="true">
+  <purpose>
+    <item>Synthesize approved decisions into enforceable brand and implementation guidance.</item>
+    <item>Keep every hard rule traceable to approved inputs.</item>
+  </purpose>
 
-## What I do
-- Synthesize brand evidence and Brand DNA into concrete design guidelines.
-- Produce token-aware decisions compatible with implementation workflows.
-- Enforce accessibility and brand compliance before approval.
-- Preserve traceability so every hard guideline maps to approved user inputs.
+  <inputs priority_order="true">
+    <input order="1">Approved decision ledger.</input>
+    <input order="2">Project-local brand docs and token files.</input>
+    <input order="3">Normalized evidence with source authority.</input>
+    <input order="4">Brand DNA output.</input>
+    <input order="5">Frontend implementation constraints.</input>
+  </inputs>
 
-## Inputs (priority order)
-1. Approved decision ledger (`approved_by_answer` or `approved_by_gate`).
-2. Project-local brand documents and token files.
-3. Normalized evidence bundle with source authority and confidence.
-4. Brand DNA interview output.
-5. Existing frontend constraints (Next.js/React/Tailwind/Radix and CVE contract if used).
+  <synthesis_flow>
+    <step order="1">Build hard and soft constraint snapshot.</step>
+    <step order="2">Build dynamic decision tree for unresolved categories.</step>
+    <step order="3">Propose and approve branch options before lock.</step>
+    <step order="4">Define color, type, shape, spacing, and motion intent.</step>
+    <step order="5">Generate enforceable do and do-not rules.</step>
+    <step order="6">Run WCAG hard gate and APCA advisory checks.</step>
+    <step order="7">Run layout and brand consistency checks.</step>
+    <step order="8">Verify non-canonical sources did not become hard constraints.</step>
+  </synthesis_flow>
 
-## Synthesis workflow
-1. Build constraint snapshot (hard vs soft constraints).
-2. Define visual system intent (color, type, shape, spacing, motion).
-3. Generate enforceable do/don't rules.
-4. Run color accessibility checks (WCAG hard gate, APCA advisory).
-5. Run layout and brand consistency checks.
-6. Verify non-canonical sources did not become hard constraints.
-7. Return final disposition and remediation steps.
+  <quality_gates>
+    <gate id="wcag" required="true" blocking="true" />
+    <gate id="branch-approvals" required="true" blocking="true" />
+    <gate id="source-authority" required="true" blocking="true" />
+  </quality_gates>
 
-## Required outputs
-1. `Guideline package`
-2. `Design token direction`
-3. `Compliance matrix`
-4. `Conflict report`
-5. `Go/no-go disposition`
+  <safety>
+    <rule>Do not create mission, promise, or voice facts not explicitly provided or approved.</rule>
+    <rule>If brand hard constraints conflict with accessibility, provide compliant alternatives.</rule>
+  </safety>
 
-## Safety and quality rules
-- If WCAG required gates fail, block approval.
-- If brand hard constraints conflict with safety or accessibility, provide compliant alternatives.
-- Keep decisions traceable to evidence sources or explicit interview statements.
-- In guided mode, never create mission/promise/voice facts that were not explicitly provided or approved.
+  <outputs>
+    <output>Guideline package.</output>
+    <output>Design token direction.</output>
+    <output>Compliance matrix.</output>
+    <output>Conflict report.</output>
+    <output>Go or no-go disposition.</output>
+  </outputs>
+</skill_contract>

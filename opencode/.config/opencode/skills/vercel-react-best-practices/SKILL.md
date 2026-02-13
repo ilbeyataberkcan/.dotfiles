@@ -6,13 +6,10 @@ metadata:
   audience: migration
   source: legacy-alias
 ---
-
-## Purpose
-Legacy alias retained for backward compatibility.
-
-## Use this local skill instead
-1. `nextjs-react-tailwind-radix`
-
-## Behavior
-- Apply modern React and Next.js conventions.
-- Keep accessibility, security, and token discipline as non-negotiable defaults.
+<skill_contract id="vercel-react-best-practices">
+  <purpose>Compatibility alias retained for legacy prompts.</purpose>
+  <delegate>
+    <skill>nextjs-react-tailwind-radix</skill>
+  </delegate>
+  <rule>Apply accessibility, security, and token discipline as non-negotiable defaults.</rule>
+</skill_contract>

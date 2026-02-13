@@ -1,0 +1,78 @@
+<template id="brand-guidelines" version="1">
+  <brand>
+    <name>Example Brand</name>
+    <tagline>Calm tools for high-stakes teams</tagline>
+    <personality>
+      <trait>trusted</trait>
+      <trait>precise</trait>
+      <trait>clear</trait>
+    </personality>
+    <forbidden_traits>
+      <trait>playful-chaos</trait>
+      <trait>alarmist</trait>
+      <trait>gimmicky</trait>
+    </forbidden_traits>
+  </brand>
+
+  <voice>
+    <tone>direct, calm, practical</tone>
+    <reading_level>plain-language</reading_level>
+    <claims_policy>no overpromising</claims_policy>
+  </voice>
+
+  <source_authority_policy>
+    <canonical_defines_constraints>true</canonical_defines_constraints>
+    <inspiration_suggests_only>true</inspiration_suggests_only>
+    <wip_cannot_override_approved_answers>true</wip_cannot_override_approved_answers>
+  </source_authority_policy>
+
+  <implementation_policy>
+    <approval_before_apply>true</approval_before_apply>
+    <protect_business_logic>true</protect_business_logic>
+    <inspection_options>
+      <option order="1">Looks good, continue</option>
+      <option order="2">Refine this direction</option>
+      <option order="3">Change direction</option>
+    </inspection_options>
+  </implementation_policy>
+
+  <color model="oklch">
+    <base_hue_family>220</base_hue_family>
+    <base_hue_family>30</base_hue_family>
+    <allow_high_chroma>true</allow_high_chroma>
+    <critical_intent>
+      <state id="success">clear-positive</state>
+      <state id="warning">caution-not-panic</state>
+      <state id="error">urgent-but-readable</state>
+    </critical_intent>
+    <forbidden_combinations>
+      <item>status-only-color-without-label</item>
+      <item>low-contrast-body-text</item>
+      <item>multiple-primary-cta-colors-on-one-view</item>
+    </forbidden_combinations>
+  </color>
+
+  <shape_language>
+    <dominant_family>rounded-rect</dominant_family>
+    <accent_family>directional-angle</accent_family>
+    <corner_radius_policy base="0.75rem" small="0.25rem" large="1rem" />
+    <forbidden_patterns>
+      <item>mixed-random-corner-radii</item>
+      <item>decorative-shapes-over-critical-content</item>
+      <item>directional-shapes-pointing-away-from-primary-action</item>
+    </forbidden_patterns>
+  </shape_language>
+
+  <typography>
+    <heading_role>confident</heading_role>
+    <body_role>high-readability</body_role>
+    <min_body_size_px>16</min_body_size_px>
+    <max_line_length_ch>75</max_line_length_ch>
+  </typography>
+
+  <accessibility>
+    <contrast_policy wcag="AA" apca="warn" />
+    <require_non_color_indicators>true</require_non_color_indicators>
+    <keyboard_focus_visible>true</keyboard_focus_visible>
+  </accessibility>
+</template>

@@ -1,44 +1,46 @@
 ---
 name: logo-intake-and-prompt-pack
-description: Resolve logo availability and generate AI-ready logo brief/prompt packs when logos are missing.
+description: Resolve logo availability and generate AI-ready logo brief or prompt packs when logos are missing.
 license: CC-BY-4.0
 compatibility: opencode
 metadata:
   audience: brand-and-frontend-teams
   domain: logo-workflow
 ---
+<skill_contract id="logo-intake-and-prompt-pack">
+  <purpose>
+    <item>Make logo handling mandatory before visual synthesis.</item>
+    <item>Collect provided logo constraints or generate a practical no-logo path.</item>
+  </purpose>
 
-## What I do
-- Make logo handling a mandatory bootstrap checkpoint.
-- Accept provided logo assets and record usage constraints.
-- If logos are missing, build a practical prompt pack for AI logo tools.
+  <gate id="logo-status" tool="question" required="true" blocking="true">
+    <option order="1">Logo provided</option>
+    <option order="2">Define logo direction now</option>
+    <option order="3">Defer logo for now</option>
+  </gate>
 
-## Required gate
-Ask one of these paths:
-1. `Logo provided`
-2. `Define logo direction now`
-3. `Defer logo for now`
+  <provided_logo_flow>
+    <step order="1">Collect file paths and formats.</step>
+    <step order="2">Capture lockup variants.</step>
+    <step order="3">Capture clear-space and minimum size constraints if known.</step>
+    <step order="4">Capture misuse restrictions.</step>
+  </provided_logo_flow>
 
-If deferred, log explicit design risk and blocked follow-up items.
+  <no_logo_flow>
+    <step order="1">Build logo brief from approved Business DNA.</step>
+    <step order="2">Generate symbol-first, wordmark-first, and monogram prompt packs.</step>
+    <step order="3">Provide negative prompts to avoid off-brand outputs.</step>
+    <step order="4">Provide evaluation rubric for selection.</step>
+  </no_logo_flow>
 
-## Provided-logo workflow
-1. Collect file paths and format types (svg/png/eps/pdf).
-2. Capture lockup variants (horizontal/mark-only/monochrome/inverse).
-3. Capture clear-space and minimum-size constraints if known.
-4. Capture misuse restrictions.
+  <defer_policy>
+    <rule>If deferred, record explicit design risk and blocked follow-up items.</rule>
+  </defer_policy>
 
-## No-logo workflow
-1. Build logo brief from approved Business DNA.
-2. Generate style-specific prompt packs:
-   - symbol-first
-   - wordmark-first
-   - monogram
-3. Provide negative prompts to avoid off-brand outputs.
-4. Provide selection rubric (legibility, distinctiveness, scalability, brand fit).
-
-## Output format
-1. `Logo status`
-2. `Collected assets and constraints`
-3. `Prompt pack` (if needed)
-4. `Selection rubric`
-5. `Risk note` (if deferred)
+  <outputs>
+    <output>Logo status and captured constraints.</output>
+    <output>Prompt pack when needed.</output>
+    <output>Selection rubric.</output>
+    <output>Risk note for deferred logo.</output>
+  </outputs>
+</skill_contract>

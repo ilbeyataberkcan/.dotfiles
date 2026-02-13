@@ -7,46 +7,54 @@ metadata:
   audience: product-and-frontend-teams
   domain: project-initialization
 ---
+<skill_contract id="project-bootstrap-interview" strict_order="true">
+  <purpose>
+    <item>Capture Business DNA first and continue through setup and design gates.</item>
+    <item>Keep bootstrap in one sweep from interview to validation.</item>
+  </purpose>
 
-## What I do
-- Run a structured but conversational bootstrap interview.
-- Capture Business DNA first, then ask conditional setup/design follow-ups.
-- Produce implementation-ready bootstrap records without requiring users to know internal workflows.
+  <mandatory_gates>
+    <gate id="business-dna" required="true" blocking="true" />
+    <gate id="references" required="true" blocking="true" />
+    <gate id="logo-status" required="true" blocking="true" />
+    <gate id="live-preview-choice" required="false" blocking="false" />
+  </mandatory_gates>
 
-## Security and integrity rules
-- Never request or store secrets unless they are strictly required for the user's explicit goal.
-- Redact sensitive values in examples and outputs.
-- Flag risky project choices (unsafe defaults, missing auth boundaries, weak deployment posture).
+  <interview_flow>
+    <step order="1">Mission, audience, value model, and constraints.</step>
+    <step order="2">Existing or new project context and goals.</step>
+    <step order="3">Design source path: provided system or define now.</step>
+    <step order="4">Assets: logo, brand docs, tokens, links, file paths.</step>
+    <step order="5">Technical baseline only when implementation requires it.</step>
+    <step order="6">Scope boundaries and compliance posture.</step>
+  </interview_flow>
 
-## Interview model (progressive disclosure)
-1. Core business DNA: mission, audience, value model, and constraints.
-2. Project context: existing vs new project, goals, and success criteria.
-3. Design source path: existing design inputs vs define design now.
-4. Asset status: logos, brand docs, tokens, references, URL/file inputs.
-5. Technical baseline: framework/runtime/package manager/deployment only when relevant.
-6. Scope controls and compliance posture.
+  <adaptive_rules>
+    <rule>One question at a time.</rule>
+    <rule>Skip already answered decisions.</rule>
+    <rule>Add sub-branches when new downstream decisions appear.</rule>
+    <rule>Use options as flow controls while keeping freeform answers enabled.</rule>
+    <rule>Mark explicit high-impact answers as approved_by_answer.</rule>
+  </adaptive_rules>
 
-## Adaptive interview rules
-- Ask one concise question at a time.
-- Tailor each question using prior answers when relevant.
-- Skip questions that are already explicitly answered.
-- Do not infer core brand truth before user-provided answers.
-- Use options only as flow controls; always allow freeform user input.
-- Mark explicit answers as `approved_by_answer` for high-impact decisions.
+  <naming>
+    <rule>Prefer concise kebab-case repo names.</rule>
+    <rule>Package names must be npm-safe.</rule>
+    <rule>Provide 2 to 3 ranked naming options with rationale.</rule>
+  </naming>
 
-## Naming rules
-- Prefer concise, kebab-case repo names.
-- For package names, require npm-safe patterns and collision-aware alternatives.
-- Always provide 2-3 ranked naming options with rationale.
+  <security>
+    <rule>Do not request or store secrets unless strictly required.</rule>
+    <rule>Redact sensitive values in outputs.</rule>
+    <rule>Flag risky architecture defaults.</rule>
+  </security>
 
-## Output format
-1. `Business DNA snapshot`
-2. `Bootstrap snapshot`
-3. `Decision ledger` (`approved_by_answer`, `approved_by_gate`, `needs_clarification`)
-4. `Stack and setup decisions`
-5. `Known constraints and assumptions`
-6. `Missing inputs`
-
-## Refusal and escalation
-- Refuse insecure setup suggestions that materially increase risk without warning.
-- Escalate ambiguous architectural choices by presenting safe defaults and tradeoffs.
+  <outputs>
+    <output>Business DNA snapshot.</output>
+    <output>Bootstrap snapshot.</output>
+    <output>Decision ledger.</output>
+    <output>Stack and setup decisions.</output>
+    <output>Known constraints and assumptions.</output>
+    <output>Missing inputs.</output>
+  </outputs>
+</skill_contract>

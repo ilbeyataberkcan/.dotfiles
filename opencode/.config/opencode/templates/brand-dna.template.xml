@@ -1,0 +1,97 @@
+<template id="brand-dna" version="1">
+  <brand_core>
+    <positioning>What the brand stands for in one sentence.</positioning>
+    <category>Operational tooling</category>
+    <primary_promise>Reliable clarity in high-stakes workflows</primary_promise>
+    <anti_promises>
+      <item>viral gimmicks</item>
+      <item>emotional manipulation</item>
+    </anti_promises>
+  </brand_core>
+
+  <approval_status>
+    <section id="brand-core">needs_clarification</section>
+    <section id="audience">needs_clarification</section>
+    <section id="personality">needs_clarification</section>
+    <section id="voice">needs_clarification</section>
+    <section id="visual-archetype">needs_clarification</section>
+    <section id="trust-and-accessibility">needs_clarification</section>
+  </approval_status>
+
+  <audience>
+    <primary>
+      <segment>operations managers</segment>
+      <segment>compliance leads</segment>
+    </primary>
+    <secondary>
+      <segment>executive reviewers</segment>
+    </secondary>
+    <risk_sensitivity>high</risk_sensitivity>
+  </audience>
+
+  <personality>
+    <anchors>
+      <item>calm</item>
+      <item>competent</item>
+      <item>precise</item>
+    </anchors>
+    <forbidden_traits>
+      <item>chaotic</item>
+      <item>alarmist</item>
+      <item>sarcastic</item>
+    </forbidden_traits>
+  </personality>
+
+  <voice>
+    <tone>direct and plain-language</tone>
+    <must_do>
+      <item>state limits clearly</item>
+      <item>explain tradeoffs</item>
+    </must_do>
+    <must_avoid>
+      <item>hype language</item>
+      <item>absolute guarantees</item>
+    </must_avoid>
+  </voice>
+
+  <visual_archetype>
+    <color_intent>high legibility with restrained accents</color_intent>
+    <shape_language dominant="rounded-rect" accent="soft-directional" />
+    <typography_mood>confident headings and neutral body text</typography_mood>
+    <motion_character>minimal, purposeful, and calm</motion_character>
+  </visual_archetype>
+
+  <trust_and_accessibility>
+    <required_signals>
+      <item>visible status labels</item>
+      <item>clear error recovery</item>
+    </required_signals>
+    <accessibility_target>wcag-aa</accessibility_target>
+    <apca_policy>warn</apca_policy>
+    <require_non_color_indicators>true</require_non_color_indicators>
+  </trust_and_accessibility>
+
+  <suggestion_trace>
+    <suggestion id="tagline-option-1" approved="false">
+      <text></text>
+      <based_on_answer>brand_core.positioning</based_on_answer>
+      <based_on_answer>voice.tone</based_on_answer>
+    </suggestion>
+  </suggestion_trace>
+
+  <traceability>
+    <entry section="brand_core.positioning" source="user-answer" evidence_ref="" />
+  </traceability>
+
+  <branch_history>
+    <branch id="voice" status="approved_by_answer">
+      <question></question>
+      <answer></answer>
+    </branch>
+  </branch_history>
+
+  <open_risks>
+    <risk>Need legal review for compliance terminology.</risk>
+    <risk>Need final logo usage boundaries.</risk>
+  </open_risks>
+</template>

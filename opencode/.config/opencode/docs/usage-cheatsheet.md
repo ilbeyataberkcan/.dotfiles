@@ -2,6 +2,8 @@
 
 Use these natural prompts. You do not need to name skills or agents explicitly.
 
+Tip: for design-heavy implementation, switch to the primary `design` agent with Tab.
+
 ## Project bootstrap and brand setup
 - "Bootstrap a new project for [idea], suggest repo names, and define setup."
 - "Use my brand files to initialize design constraints for this project."
@@ -15,7 +17,14 @@ What happens:
 - Runs logo gate (provided, define now, or defer with risk note).
 - Ingests local files/URLs with secure evidence normalization.
 - Asks explicit consent before any external web search (search defaults to off).
+- Runs a single-sweep decision tree with iterative apply/inspect checkpoints.
+- Reads and writes XML contracts under `.opencode/*.xml`.
 - Produces a cohesive bootstrap + guideline package.
+
+Inspection checkpoint options:
+1. `Looks good, continue`
+2. `Refine this direction`
+3. `Change direction`
 
 ## Fast mode
 - "Use /bootstrap-fast for this project."
@@ -24,6 +33,13 @@ What happens:
 - Uses fewer questions and faster defaults.
 - Still classifies each provided link (`canonical`, `inspiration`, `wip`) before use.
 - Still enforces security/accessibility/runtime checks.
+
+## Live preview prompt
+- "Run live preview while we iterate and restart if needed."
+
+What happens:
+- Starts background dev server for inspection.
+- Keeps preview alive through design sweep and restarts on failures/required reloads.
 
 ## Full frontend design
 - "Design a full landing page for [product] with our brand style."

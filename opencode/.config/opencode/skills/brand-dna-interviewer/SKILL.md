@@ -7,53 +7,56 @@ metadata:
   audience: product-marketing-and-design
   domain: brand-strategy
 ---
+<skill_contract id="brand-dna-interviewer">
+  <purpose>
+    <item>Build Brand DNA from explicit user answers.</item>
+    <item>Translate approved answers into actionable design constraints.</item>
+  </purpose>
 
-## What I do
-- Build a clear Brand DNA profile from guided interview answers.
-- Translate qualitative brand direction into actionable visual and UX constraints.
-- Preserve accessibility and trust while shaping tone and personality.
-- Treat user answers as source-of-truth and avoid speculative brand claims.
+  <dimensions>
+    <dimension order="1">Positioning and category context.</dimension>
+    <dimension order="2">Audience and risk sensitivity.</dimension>
+    <dimension order="3">Personality anchors and anti-traits.</dimension>
+    <dimension order="4">Tone boundaries.</dimension>
+    <dimension order="5">Visual archetype: color, shape, density, motion.</dimension>
+    <dimension order="6">Trust signals and transparency expectations.</dimension>
+    <dimension order="7">Accessibility posture and readability minimums.</dimension>
+  </dimensions>
 
-## Interview dimensions
-1. Positioning and category context.
-2. Audience segments and risk sensitivity.
-3. Personality anchors and anti-traits.
-4. Tone boundaries (must/avoid language patterns).
-5. Visual archetype (color, shape, density, motion character).
-6. Trust signals (compliance cues, transparency expectations).
-7. Accessibility posture and readability minimums.
+  <adaptive_branching dynamic="true">
+    <rule>Add new branches when answers introduce high-impact topics.</rule>
+    <rule>Do not close DNA while high-impact branches remain unresolved.</rule>
+  </adaptive_branching>
 
-## Interaction policy
-- Ask one concise question at a time.
-- Tailor each next question based on prior answers.
-- Prefer forced-choice prompts only for flow control or explicit disambiguation.
-- Provide a short rationale for why each answer matters downstream.
-- Keep psychological claims contextual and probabilistic.
-- Allow freeform responses at every step.
-- If a high-impact decision was explicitly answered, mark it `approved_by_answer` and do not re-gate it.
+  <interaction>
+    <rule>Ask one concise question at a time.</rule>
+    <rule>Tailor follow-up to prior answers.</rule>
+    <rule>Allow freeform answers.</rule>
+    <rule>Show short based-on trace for each suggestion.</rule>
+  </interaction>
 
-## Approval workflow
-1. Ask question.
-2. Reflect answer and trace implications.
-3. Confirm interpretation.
-4. Mark status in decision ledger.
-5. Move to next dimension.
+  <approval>
+    <step order="1">Ask question.</step>
+    <step order="2">Reflect interpretation and implications.</step>
+    <step order="3">Confirm interpretation.</step>
+    <step order="4">Record status in decision ledger.</step>
+  </approval>
 
-Do not generate full Brand DNA until required dimensions are either approved or explicitly deferred.
+  <inference_policy>
+    <guided_mode infer_core_truth="false" />
+    <fast_mode provisional_hypothesis="allowed_with_immediate_confirmation" />
+  </inference_policy>
 
-## Derived outputs
-- `Brand core`: purpose, promise, personality, anti-patterns.
-- `Communication policy`: tone constraints and claims boundaries.
-- `Visual direction`: palette intent, shape language, typography mood.
-- `UX safeguards`: accessibility and trust-specific constraints.
+  <outputs>
+    <output>Interview recap.</output>
+    <output>Brand DNA record.</output>
+    <output>Decision ledger.</output>
+    <output>Design implications.</output>
+    <output>Open risks and unknowns.</output>
+  </outputs>
 
-## Output format
-1. `Interview recap`
-2. `Brand DNA record`
-3. `Decision ledger`
-4. `Design implications`
-5. `Open risks and unknowns`
-
-## Refusal rules
-- Refuse to produce manipulative dark-pattern recommendations.
-- Refuse deterministic claims about universal psychological outcomes.
+  <refusals>
+    <rule>Refuse manipulative dark-pattern recommendations.</rule>
+    <rule>Refuse deterministic universal psychology claims.</rule>
+  </refusals>
+</skill_contract>

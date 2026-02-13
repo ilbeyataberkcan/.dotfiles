@@ -7,37 +7,39 @@ metadata:
   audience: product-designers
   domain: behavioral-design
 ---
+<skill_contract id="color-psychology-context">
+  <purpose>
+    <item>Map product goals to color hypotheses without pseudo certainty.</item>
+    <item>Keep claims contextual and ethically safe.</item>
+  </purpose>
 
-## What I do
-- Translate product goals into color strategy hypotheses without pseudo-scientific certainty.
-- Separate evidence-backed effects from weak or culturally variable assumptions.
-- Guard against manipulative or deceptive color usage.
+  <safety>
+    <rule>Never frame color psychology as universal fact.</rule>
+    <rule>Require non-color cues for critical states.</rule>
+    <rule>Avoid fear, urgency, or anxiety manipulation patterns.</rule>
+  </safety>
 
-## Safety and ethics rules
-- Never present color psychology as universal fact.
-- Mark confidence as `high`, `medium`, or `low` for each claim.
-- Require non-color cues for critical states (error, success, warning, selection).
-- Avoid exploitative dark patterns based on fear, urgency, or anxiety triggers.
+  <evidence_structure>
+    <field>claim</field>
+    <field>context</field>
+    <field>confidence</field>
+    <field>counterexample-risk</field>
+    <field>validation-method</field>
+  </evidence_structure>
 
-## Evidence handling
-- Use this structure for every claim:
-  - `Claim`
-  - `Context` (audience, domain, culture)
-  - `Confidence`
-  - `Counterexample risk`
-  - `Validation method`
-- Prefer wording like "often associated with" over "always means".
+  <workflow>
+    <step order="1">Define target outcome.</step>
+    <step order="2">Generate 2 to 3 candidate palettes.</step>
+    <step order="3">Run accessibility checks.</step>
+    <step order="4">Propose validation plan and metrics.</step>
+    <step order="5">Prepare fallback options for cultural variance.</step>
+  </workflow>
 
-## Practical model
-1. Define target outcome (`trust`, `calm`, `energy`, `clarity`, `urgency`, etc.).
-2. Generate 2-3 candidate palettes with different emotional profiles.
-3. Run accessibility and readability checks.
-4. Propose A/B validation plan and behavioral success metrics.
-5. Keep fallback options that preserve brand if cultural feedback differs.
-
-## Output format
-1. `Goal-to-color hypotheses`
-2. `Cultural and audience caveats`
-3. `Accessibility safeguards`
-4. `Validation plan`
-5. `Decision recommendation`
+  <outputs>
+    <output>Goal-to-color hypotheses.</output>
+    <output>Cultural and audience caveats.</output>
+    <output>Accessibility safeguards.</output>
+    <output>Validation plan.</output>
+    <output>Decision recommendation.</output>
+  </outputs>
+</skill_contract>

@@ -7,33 +7,29 @@ metadata:
   audience: frontend-implementation
   domain: runtime-validation
 ---
+<skill_contract id="nextjs-tailwind-runtime-preflight" strict_order="true">
+  <purpose>
+    <item>Catch runtime failures that lint or build alone can miss.</item>
+    <item>Block handoff when localhost is not healthy.</item>
+  </purpose>
 
-## What I do
-- Catch runtime issues that lint/build may miss.
-- Detect common Tailwind and root-resolution misconfigurations.
-- Prevent false "done" status when localhost fails.
+  <checks>
+    <check id="config-sanity">Flag risky next root overrides such as turbopack root from process cwd.</check>
+    <check id="tailwind-alignment">Verify tailwind dependency, imports, and postcss alignment.</check>
+    <check id="execution">Run lint, build, and dev smoke checks.</check>
+    <check id="environment">Detect port conflicts and verify project-root workdir.</check>
+    <check id="live-preview" when="enabled">Keep background server healthy and restart when required.</check>
+  </checks>
 
-## Checks
-1. `Config sanity`
-   - flag risky `next.config` root overrides (for example `turbopack.root: process.cwd()`).
-2. `Dependency and import alignment`
-   - verify `tailwindcss` dependency exists.
-   - verify stylesheet imports and postcss plugin configuration are consistent.
-3. `Execution checks`
-   - run lint.
-   - run build.
-   - run dev smoke test and verify page response.
-4. `Environment checks`
-   - detect port conflicts and report resolution.
-   - verify command workdir is project root.
+  <blocking_policy>
+    <rule>Block on resolver errors such as cannot resolve tailwindcss.</rule>
+    <rule>Block if dev server fails after passing build.</rule>
+    <rule>Downgrade workspace lockfile root warnings to warn when non-blocking.</rule>
+  </blocking_policy>
 
-## Blocking policy
-- Block handoff when resolver errors are found (for example "Can't resolve 'tailwindcss'").
-- Block handoff when dev server fails after passing build.
-- Downgrade to warning only for non-blocking workspace lockfile root warnings.
-
-## Output format
-1. `Check matrix` (`pass`, `warn`, `fail`)
-2. `Detected risks`
-3. `Fix guidance`
-4. `Final runtime disposition`
+  <outputs>
+    <output>Check matrix: pass, warn, fail.</output>
+    <output>Detected risks and fix guidance.</output>
+    <output>Final runtime disposition.</output>
+  </outputs>
+</skill_contract>

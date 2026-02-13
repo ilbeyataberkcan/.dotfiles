@@ -6,16 +6,13 @@ metadata:
   audience: migration
   source: legacy-alias
 ---
-
-## Purpose
-Legacy alias retained for backward compatibility.
-
-## Use these local skills instead
-1. `brand-guideline-enforcer`
-2. `oklch-color-theory`
-3. `shape-language-layout-psychology`
-4. `gestalt-layout-composition`
-
-## Behavior
-- Enforce brand and accessibility first.
-- Keep color and shape decisions explicit, testable, and documented.
+<skill_contract id="web-design-guidelines">
+  <purpose>Compatibility alias retained for legacy prompts.</purpose>
+  <delegate>
+    <skill order="1">brand-guideline-enforcer</skill>
+    <skill order="2">oklch-color-theory</skill>
+    <skill order="3">shape-language-layout-psychology</skill>
+    <skill order="4">gestalt-layout-composition</skill>
+  </delegate>
+  <rule>Enforce brand and accessibility before visual preference decisions.</rule>
+</skill_contract>

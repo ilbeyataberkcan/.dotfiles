@@ -7,40 +7,38 @@ metadata:
   audience: ui-ux-designers
   domain: spatial-design
 ---
+<skill_contract id="shape-language-layout-psychology">
+  <purpose>
+    <item>Design and audit shape language with usability-first constraints.</item>
+    <item>Evaluate placement and geometry effects on clarity and action discoverability.</item>
+  </purpose>
 
-## What I do
-- Analyze and design shape language for components and full-page layouts.
-- Connect geometry, placement, and rhythm to perceived clarity and intent.
-- Detect layout-psychology risks before implementation.
+  <safety>
+    <rule>Treat shape meaning as directional tendency, not deterministic truth.</rule>
+    <rule>Do not rely on shape alone for critical feedback.</rule>
+    <rule>Do not substitute symbolism for usability.</rule>
+  </safety>
 
-## Safety and validity rules
-- Treat shape meaning as directional tendency, not deterministic truth.
-- Validate shape choices with interaction and accessibility needs first.
-- Do not substitute symbolism for usability.
-- Do not rely on shape alone for critical feedback; pair with text and state cues.
+  <semantic_defaults>
+    <shape type="rounded">approachability and continuity</shape>
+    <shape type="rectangular">stability and reliability</shape>
+    <shape type="angled">direction and urgency</shape>
+    <rule>Use one dominant family with one accent family.</rule>
+  </semantic_defaults>
 
-## Shape semantics (default tendencies)
-- Circular/rounded: approachability, continuity, softness.
-- Rectangular/square: stability, structure, reliability.
-- Triangular/angled: direction, urgency, dynamism, tension.
-- Mixed systems: use one dominant family and one accent family to avoid visual noise.
+  <layout_protocol>
+    <step order="1">Define focus path: entry, action, confirmation.</step>
+    <step order="2">Assign visual weight with size and negative space.</step>
+    <step order="3">Tokenize spacing rhythm across breakpoints.</step>
+    <step order="4">Ensure directional shapes point toward intended actions.</step>
+    <step order="5">Audit corner radius consistency.</step>
+  </layout_protocol>
 
-## Geometric layout protocol
-1. Define primary focus path (entry -> action -> confirmation).
-2. Assign visual weight using size, density, and negative space.
-3. Ensure spacing rhythm is tokenized and consistent across breakpoints.
-4. Verify directional shapes point toward intended actions, not away.
-5. Audit edge/corner radius consistency across component families.
-
-## Placement psychology checks
-- Primary actions must appear in expected scan zones for platform conventions.
-- Related objects stay near each other; unrelated objects are separated intentionally.
-- Decorative shape layers must never compete with task-critical content.
-- Large geometric backgrounds must preserve text contrast and focus hierarchy.
-
-## Output format
-1. `Shape language map` (dominant + accent families)
-2. `Geometry audit` (radius, alignment, spacing rhythm)
-3. `Placement audit` (focus path and action discoverability)
-4. `Risk findings` (high/medium/low)
-5. `Fix plan` (specific geometry and layout adjustments)
+  <outputs>
+    <output>Shape language map.</output>
+    <output>Geometry audit.</output>
+    <output>Placement audit.</output>
+    <output>Risk findings by severity.</output>
+    <output>Fix plan.</output>
+  </outputs>
+</skill_contract>

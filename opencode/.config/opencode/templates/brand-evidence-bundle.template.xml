@@ -1,0 +1,60 @@
+<template id="brand-evidence-bundle" version="1">
+  <sources>
+    <source id="src-1" type="local-file" authority="canonical" accepted="true">
+      <location>./docs/brand-guidelines.pdf</location>
+      <reason>Readable brand policy document.</reason>
+    </source>
+    <source id="src-2" type="url" authority="inspiration" accepted="true">
+      <location>https://example.com/brand</location>
+      <reason>Public brand landing page.</reason>
+    </source>
+  </sources>
+
+  <claims>
+    <claim id="claim-1" source_id="src-1" confidence="high">
+      <topic>personality</topic>
+      <value>calm</value>
+      <value>precise</value>
+      <value>trustworthy</value>
+    </claim>
+    <claim id="claim-2" source_id="src-2" confidence="medium">
+      <topic>primary-color-hue-family</topic>
+      <value>220</value>
+    </claim>
+  </claims>
+
+  <conflicts>
+    <conflict severity="medium" requires_interview="true" resolution_status="unresolved">
+      <topic>tone</topic>
+      <details>Source language alternates between playful and strict compliance tone.</details>
+    </conflict>
+  </conflicts>
+
+  <gaps>
+    <gap>No explicit shape language policy.</gap>
+    <gap>No clear motion policy.</gap>
+    <gap>No declared forbidden visual patterns.</gap>
+  </gaps>
+
+  <authority_policy>
+    <default_link_authority>inspiration</default_link_authority>
+    <require_explicit_canonical_approval>true</require_explicit_canonical_approval>
+  </authority_policy>
+
+  <search_consent required_for_external_search="true" granted="false" scope="request" />
+
+  <logo_capture status="missing">
+    <files />
+    <constraints />
+  </logo_capture>
+
+  <decision_impact>
+    <impact topic="voice" uses_canonical_only="true">
+      <notes>Do not lock voice from inspiration sources.</notes>
+    </impact>
+  </decision_impact>
+
+  <user_validated_claims>
+    <claim_ref id="claim-1" validated="false" />
+  </user_validated_claims>
+</template>

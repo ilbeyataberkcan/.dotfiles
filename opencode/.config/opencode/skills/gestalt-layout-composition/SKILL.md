@@ -7,36 +7,41 @@ metadata:
   audience: frontend-and-product-design
   domain: perception
 ---
+<skill_contract id="gestalt-layout-composition">
+  <purpose>
+    <item>Audit grouping, scan flow, and hierarchy using Gestalt principles.</item>
+    <item>Convert findings into concrete layout fixes.</item>
+  </purpose>
 
-## What I do
-- Audit layout quality with Gestalt principles.
-- Convert perception principles into actionable UI fixes.
-- Prevent grouping errors that cause missed actions and scanning failure.
+  <principles>
+    <principle>proximity</principle>
+    <principle>similarity</principle>
+    <principle>common-region</principle>
+    <principle>continuity</principle>
+    <principle>figure-ground</principle>
+    <principle>closure</principle>
+    <principle>focal-point</principle>
+  </principles>
 
-## Core principles for implementation
-- Proximity: related items are closer than unrelated items.
-- Similarity: consistent style indicates relationship.
-- Common region: containers define explicit grouping.
-- Continuity: alignment guides scan flow.
-- Figure-ground: critical content stands out from background.
-- Closure: avoid forcing users to infer too much from broken structures.
-- Focal point: one dominant focal anchor per section.
+  <responsive_checks>
+    <rule>Re-evaluate grouping at each breakpoint.</rule>
+    <rule>Keep CTA near explanatory copy after stacking.</rule>
+    <rule>Keep heading-to-content spacing tighter than section-to-section spacing.</rule>
+    <rule>Prevent secondary modules from hijacking primary flow.</rule>
+  </responsive_checks>
 
-## Responsive safety checks
-- Re-evaluate grouping at each breakpoint; proximity shifts can break semantics.
-- Verify CTA remains near explanatory copy after stacking.
-- Keep heading-to-content spacing tighter than section-to-section spacing.
-- Ensure banners and side modules do not hijack primary flow.
+  <rubric>
+    <item>group-integrity</item>
+    <item>scan-path-continuity</item>
+    <item>action-discoverability</item>
+    <item>noise-level</item>
+    <item>accessibility-impact</item>
+  </rubric>
 
-## Audit rubric
-1. Group integrity (clear or ambiguous)
-2. Scan path continuity (strong or broken)
-3. Action discoverability (high or low)
-4. Noise level (controlled or cluttered)
-5. Accessibility impact (safe or risky)
-
-## Output format
-1. `Gestalt diagnosis`
-2. `Breakpoint-specific issues`
-3. `Hierarchy corrections`
-4. `Post-fix verification checklist`
+  <outputs>
+    <output>Gestalt diagnosis.</output>
+    <output>Breakpoint-specific issues.</output>
+    <output>Hierarchy corrections.</output>
+    <output>Post-fix verification checklist.</output>
+  </outputs>
+</skill_contract>
