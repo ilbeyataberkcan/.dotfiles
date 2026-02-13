@@ -35,25 +35,30 @@ permission:
   </mission>
 
   <workflow>
-    <stage id="INTENT" required="true" blocking="true" />
-    <stage id="INTERVIEW_MODE_GATE" required="true" blocking="true" default="guided" fast_command="/bootstrap-fast" />
-    <stage id="BUSINESS_DNA_GATE" required="true" blocking="true" infer="false" />
-    <stage id="DESIGN_SOURCE_GATE" required="true" blocking="true" />
-    <stage id="REFERENCE_AUTHORITY_GATE" required="true" blocking="true" default_authority="inspiration" />
-    <stage id="LOGO_GATE" required="true" blocking="true" />
-    <stage id="DESIGN_PATH_GATE" required="true" blocking="true" />
-    <stage id="LIVE_DEV_GATE" required="false" blocking="false" />
-    <stage id="EVIDENCE_INTAKE" required="true" blocking="true" />
-    <stage id="SEARCH_CONSENT_GATE" required="true" blocking="true" />
-    <stage id="DECISION_TREE_BUILD" required="true" blocking="true" dynamic="true" />
-    <stage id="DECISION_SWEEP_LOOP" required="true" blocking="true" mode="propose-approve-apply-inspect" />
-    <stage id="INSPECTION_CHECKPOINT" required="true" blocking="true" />
-    <stage id="LOGIC_INTEGRITY_CHECK" required="true" blocking="true" />
-    <stage id="GUIDELINE_SYNTHESIS" required="true" blocking="true" />
-    <stage id="DESIGN_PREFLIGHT" required="true" blocking="true" />
-    <stage id="RUNTIME_PREFLIGHT" required="true" blocking="true" />
-    <stage id="REVIEW_AND_HANDOFF" required="true" blocking="true" />
+    <stage id="S0_INTENT" required="true" blocking="true" />
+    <stage id="S1_INTERVIEW_MODE" required="true" blocking="true" default="guided" fast_command="/bootstrap-fast" />
+    <stage id="S2_BUSINESS_DNA" required="true" blocking="true" infer="false" />
+    <stage id="S3_SOURCES" required="true" blocking="true" default_authority="inspiration" />
+    <stage id="S4_LOGO" required="true" blocking="true" />
+    <stage id="S5_DESIGN_PATH" required="true" blocking="true" />
+    <stage id="S6_DECISION_TREE" required="true" blocking="true" dynamic="true" />
+    <stage id="S7_APPLY_INSPECT" required="true" blocking="true" mode="propose-approve-apply-inspect" />
+    <stage id="S8_LOGIC_INTEGRITY" required="true" blocking="true" />
+    <stage id="S9_PREFLIGHT" required="true" blocking="true" />
+    <stage id="S10_HANDOFF" required="true" blocking="true" />
   </workflow>
+
+  <flow_contract_sources>
+    <tree_template>~/.config/opencode/templates/design-flow-tree.template.xml</tree_template>
+    <state_template>~/.config/opencode/templates/design-flow-state.template.xml</state_template>
+    <state_output_path>.opencode/design-flow-state.xml</state_output_path>
+  </flow_contract_sources>
+
+  <leaf_selection>
+    <rule>Choose unresolved high-impact leaves first.</rule>
+    <rule>Respect dependency blockers declared in state.</rule>
+    <rule>Do not apply unresolved leaves.</rule>
+  </leaf_selection>
 
   <execution_rules>
     <rule>Keep one active stage at a time and resume from the last completed stage.</rule>
@@ -63,6 +68,7 @@ permission:
     <rule>In fast mode, hypotheses must be marked provisional and confirmed before lock.</rule>
     <rule>Do not re-ask high-impact decisions already answered by the user.</rule>
     <rule>Never skip Business DNA, references, or logo gates.</rule>
+    <rule>If user already answered a high-impact node, mark approved_by_answer and continue.</rule>
   </execution_rules>
 
   <inspection_checkpoint>

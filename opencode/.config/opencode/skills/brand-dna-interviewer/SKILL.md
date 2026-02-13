@@ -13,6 +13,26 @@ metadata:
     <item>Translate approved answers into actionable design constraints.</item>
   </purpose>
 
+  <skill_definition>
+    This skill builds the strategic brand core through a structured interview. It should never invent identity claims in guided mode; it converts explicit answers into reliable constraints the rest of the system can implement.
+    When using this skill, the agent should resolve required Business DNA leaves first, keep suggestion traces tied to user answers, and emit structured outputs that can directly feed guideline synthesis.
+  </skill_definition>
+
+  <resource_references>
+    <resource path="~/.config/opencode/templates/design-flow-tree.template.xml">Required Business DNA leaf definitions.</resource>
+    <resource path="~/.config/opencode/templates/design-flow-state.template.xml">Leaf status, answer traceability, and progress.</resource>
+    <resource path="~/.config/opencode/templates/brand-dna.template.xml">Brand DNA output contract.</resource>
+  </resource_references>
+
+  <planning_language>
+    <objective>Plan Brand DNA resolution dimension-by-dimension with traceable approvals.</objective>
+    <phase order="1">Prioritize unresolved high-impact DNA dimensions.</phase>
+    <phase order="2">Ask one focused question and capture explicit interpretation.</phase>
+    <phase order="3">Confirm and lock dimension status with source trace.</phase>
+    <phase order="4">Emit downstream design implications tied to approved dimensions.</phase>
+    <completion_signal>All required DNA leaves are approved or explicitly deferred.</completion_signal>
+  </planning_language>
+
   <dimensions>
     <dimension order="1">Positioning and category context.</dimension>
     <dimension order="2">Audience and risk sensitivity.</dimension>
@@ -27,6 +47,17 @@ metadata:
     <rule>Add new branches when answers introduce high-impact topics.</rule>
     <rule>Do not close DNA while high-impact branches remain unresolved.</rule>
   </adaptive_branching>
+
+  <required_leaves>
+    <leaf>L_BDNA_MISSION_LOCKED</leaf>
+    <leaf>L_BDNA_AUDIENCE_LOCKED</leaf>
+    <leaf>L_BDNA_RISK_POSTURE_LOCKED</leaf>
+    <leaf>L_BDNA_VALUE_MODEL_LOCKED</leaf>
+    <leaf>L_BDNA_CONSTRAINTS_LOCKED</leaf>
+    <leaf>L_BDNA_PROOF_STRATEGY_LOCKED</leaf>
+    <leaf>L_BDNA_DIFFERENTIATION_LOCKED</leaf>
+    <leaf>L_BDNA_SUCCESS_CRITERIA_LOCKED</leaf>
+  </required_leaves>
 
   <interaction>
     <rule>Ask one concise question at a time.</rule>

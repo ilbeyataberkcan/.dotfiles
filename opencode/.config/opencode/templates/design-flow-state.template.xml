@@ -1,0 +1,101 @@
+<template id="design-flow-state" version="1" tree_ref="design-flow-tree@1">
+  <session>
+    <id></id>
+    <mode>guided</mode>
+    <project_scope>existing</project_scope>
+    <started_at></started_at>
+    <last_updated_at></last_updated_at>
+  </session>
+
+  <stage_progress current_stage="S0_INTENT">
+    <stage id="S0_INTENT" status="pending" />
+    <stage id="S1_INTERVIEW_MODE" status="pending" />
+    <stage id="S2_BUSINESS_DNA" status="pending" />
+    <stage id="S3_SOURCES" status="pending" />
+    <stage id="S4_LOGO" status="pending" />
+    <stage id="S5_DESIGN_PATH" status="pending" />
+    <stage id="S6_DECISION_TREE" status="pending" />
+    <stage id="S7_APPLY_INSPECT" status="pending" />
+    <stage id="S8_LOGIC_INTEGRITY" status="pending" />
+    <stage id="S9_PREFLIGHT" status="pending" />
+    <stage id="S10_HANDOFF" status="pending" />
+  </stage_progress>
+
+  <gate_status>
+    <gate id="BUSINESS_DNA_GATE" status="pending" required="true" />
+    <gate id="REFERENCE_AUTHORITY_GATE" status="pending" required="true" />
+    <gate id="LOGO_GATE" status="pending" required="true" />
+    <gate id="BRANCH_APPROVAL_GATE" status="pending" required="true" />
+    <gate id="LOGIC_INTEGRITY_GATE" status="pending" required="true" />
+    <gate id="RUNTIME_PREFLIGHT_GATE" status="pending" required="true" />
+  </gate_status>
+
+  <leaf_status_ledger>
+    <leaf_ref id="L_MODE_GUIDED" impact="high" status="needs_clarification" source="" />
+    <leaf_ref id="L_BDNA_MISSION_LOCKED" impact="high" status="needs_clarification" source="" />
+    <leaf_ref id="L_REF_INSPIRATION_CLASSIFIED" impact="medium" status="needs_clarification" source="" />
+    <leaf_ref id="L_LOGO_DEFERRED_RISK" impact="high" status="needs_clarification" source="" />
+    <leaf_ref id="L_COLOR_INTENT_LOCKED" impact="high" status="needs_clarification" source="" />
+    <leaf_ref id="L_TYPE_SCALE_LOCKED" impact="high" status="needs_clarification" source="" />
+    <leaf_ref id="L_SPACE_DENSITY_PROFILE_LOCKED" impact="high" status="needs_clarification" source="" />
+    <leaf_ref id="L_SHAPE_RADIUS_SCALE_LOCKED" impact="high" status="needs_clarification" source="" />
+    <leaf_ref id="L_MOTION_POSTURE_LOCKED" impact="high" status="needs_clarification" source="" />
+    <leaf_ref id="L_COMP_BLUEPRINT_LOCKED" impact="high" status="needs_clarification" source="" />
+    <leaf_ref id="L_TREE_HIGH_IMPACT_COMPLETE" impact="high" status="needs_clarification" source="" />
+    <leaf_ref id="L_LOGIC_INTEGRITY_PASS" impact="high" status="needs_clarification" source="" />
+    <leaf_ref id="L_WCAG_PASS" impact="high" status="needs_clarification" source="" />
+    <leaf_ref id="L_RUNTIME_LINT_BUILD_DEV_PASS" impact="high" status="needs_clarification" source="" />
+    <leaf_ref id="L_FINAL_APPROVE" impact="high" status="needs_clarification" source="" />
+  </leaf_status_ledger>
+
+  <queue>
+    <selection_policy>high-impact-unresolved-first</selection_policy>
+    <current_leaf></current_leaf>
+    <next_leaf></next_leaf>
+    <blocked_by>
+      <dependency leaf="L_COLOR_TOKEN_SET_LOCKED" blocked_by="L_COLOR_CONTRAST_POLICY_LOCKED" />
+      <dependency leaf="L_FINAL_APPROVE" blocked_by="L_TREE_HIGH_IMPACT_COMPLETE" />
+    </blocked_by>
+  </queue>
+
+  <checkpoint_history>
+    <entry stage="S7_APPLY_INSPECT" branch_id="" response="" notes="" timestamp="" />
+  </checkpoint_history>
+
+  <live_preview>
+    <enabled>false</enabled>
+    <port>3000</port>
+    <status>stopped</status>
+    <pid></pid>
+    <restart_count>0</restart_count>
+    <last_restart_reason></last_restart_reason>
+    <last_healthcheck_at></last_healthcheck_at>
+  </live_preview>
+
+  <logic_integrity>
+    <status>pending</status>
+    <unexpected_logic_files />
+    <approved_exceptions />
+  </logic_integrity>
+
+  <preflight>
+    <wcag status="pending" />
+    <apca status="pending" />
+    <brand status="pending" />
+    <runtime status="pending" />
+  </preflight>
+
+  <assumptions>
+    <assumption id="A1" status="pending"></assumption>
+  </assumptions>
+
+  <risks>
+    <risk id="R1" severity="medium" status="open"></risk>
+  </risks>
+
+  <handoff>
+    <disposition>pending</disposition>
+    <blocked_by />
+    <approved_conditions />
+  </handoff>
+</template>

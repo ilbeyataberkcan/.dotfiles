@@ -1,4 +1,10 @@
-<template id="project-bootstrap" version="1">
+<template id="project-bootstrap" version="2">
+  <flow_contract>
+    <tree_template_ref>~/.config/opencode/templates/design-flow-tree.template.xml</tree_template_ref>
+    <state_template_ref>~/.config/opencode/templates/design-flow-state.template.xml</state_template_ref>
+    <state_output_path>.opencode/design-flow-state.xml</state_output_path>
+  </flow_contract>
+
   <project>
     <name>Example Project</name>
     <kind>existing</kind>
@@ -68,41 +74,6 @@
       <notes></notes>
     </decision>
   </decision_ledger>
-
-  <design_decision_tree>
-    <node id="node-visual-direction" status="needs_clarification">
-      <title>Visual direction</title>
-      <children>
-        <child>node-color-system</child>
-        <child>node-spacing-rhythm</child>
-        <child>node-shape-language</child>
-      </children>
-    </node>
-    <unresolved_nodes>
-      <node_ref>node-color-system</node_ref>
-      <node_ref>node-spacing-rhythm</node_ref>
-      <node_ref>node-shape-language</node_ref>
-    </unresolved_nodes>
-  </design_decision_tree>
-
-  <inspection>
-    <options>
-      <option order="1">Looks good, continue</option>
-      <option order="2">Refine this direction</option>
-      <option order="3">Change direction</option>
-    </options>
-    <history>
-      <checkpoint branch_id="node-visual-direction" response="Looks good, continue" timestamp="" />
-    </history>
-  </inspection>
-
-  <live_preview>
-    <enabled>false</enabled>
-    <port>3000</port>
-    <status>stopped</status>
-    <restart_count>0</restart_count>
-    <last_restart_reason></last_restart_reason>
-  </live_preview>
 
   <approvals>
     <business_dna_approved>false</business_dna_approved>

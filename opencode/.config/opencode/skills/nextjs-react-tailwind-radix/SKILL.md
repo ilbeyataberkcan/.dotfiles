@@ -13,6 +13,26 @@ metadata:
     <item>Keep UI implementation secure, accessible, and token-driven.</item>
   </purpose>
 
+  <skill_definition>
+    This skill translates approved design decisions into practical frontend implementation for Next.js and React stacks. It emphasizes tokenized styling, semantic components, and predictable architecture boundaries.
+    When using this skill, the agent should use token and guideline contracts as implementation input and keep output compatible with runtime and accessibility checks used later in preflight.
+  </skill_definition>
+
+  <resource_references>
+    <resource path="~/.config/opencode/templates/design-token-contract.template.xml">Tokenized implementation target.</resource>
+    <resource path="~/.config/opencode/templates/brand-guidelines.template.xml">Brand behavior and visual constraints.</resource>
+    <resource path="~/.config/opencode/templates/visual-preflight-policy.template.xml">Accessibility and runtime acceptance checks.</resource>
+  </resource_references>
+
+  <planning_language>
+    <objective>Plan implementation decisions as token-first, accessibility-safe frontend architecture steps.</objective>
+    <phase order="1">Choose architecture boundaries and component responsibilities.</phase>
+    <phase order="2">Map design decisions into tokenized implementation primitives.</phase>
+    <phase order="3">Apply accessibility and interaction semantics at component boundaries.</phase>
+    <phase order="4">Return build-ready implementation sequence with known risks.</phase>
+    <completion_signal>Implementation steps are aligned with tokens, accessibility, and runtime constraints.</completion_signal>
+  </planning_language>
+
   <security>
     <rule>Validate untrusted input at boundaries.</rule>
     <rule>Avoid unsafe html injection patterns.</rule>

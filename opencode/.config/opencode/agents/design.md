@@ -28,6 +28,18 @@ permission:
     <skill order="7">nextjs-tailwind-runtime-preflight</skill>
   </preferred_skill_order>
 
+  <flow_contract_sources>
+    <tree_template>~/.config/opencode/templates/design-flow-tree.template.xml</tree_template>
+    <state_template>~/.config/opencode/templates/design-flow-state.template.xml</state_template>
+    <state_output_path>.opencode/design-flow-state.xml</state_output_path>
+  </flow_contract_sources>
+
+  <leaf_selection>
+    <rule>Select unresolved high-impact leaves first.</rule>
+    <rule>Respect blocked_by dependencies from state.</rule>
+    <rule>Move to low-impact leaves only after high-impact leaves are approved or deferred.</rule>
+  </leaf_selection>
+
   <decision_loop mode="single-sweep">
     <step order="1">Identify unresolved branches.</step>
     <step order="2">Propose options tied to prior answers.</step>

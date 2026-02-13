@@ -1,0 +1,204 @@
+<template id="design-flow-tree" version="1">
+  <metadata>
+    <mode default="guided" fast_command="/bootstrap-fast" />
+    <execution style="single-sweep" />
+    <decision_order>high-impact-unresolved-first</decision_order>
+  </metadata>
+
+  <stages strict_order="true">
+    <stage id="S0_INTENT" required="true" blocking="true" />
+    <stage id="S1_INTERVIEW_MODE" required="true" blocking="true" />
+    <stage id="S2_BUSINESS_DNA" required="true" blocking="true" infer="false" />
+    <stage id="S3_SOURCES" required="true" blocking="true" />
+    <stage id="S4_LOGO" required="true" blocking="true" />
+    <stage id="S5_DESIGN_PATH" required="true" blocking="true" />
+    <stage id="S6_DECISION_TREE" required="true" blocking="true" dynamic="true" />
+    <stage id="S7_APPLY_INSPECT" required="true" blocking="true" />
+    <stage id="S8_LOGIC_INTEGRITY" required="true" blocking="true" />
+    <stage id="S9_PREFLIGHT" required="true" blocking="true" />
+    <stage id="S10_HANDOFF" required="true" blocking="true" />
+  </stages>
+
+  <invariants>
+    <rule>No core brand truth inference in guided mode before explicit answers.</rule>
+    <rule>Approval-before-apply for all unresolved high-impact nodes.</rule>
+    <rule>References are inspiration by default until explicitly canonical.</rule>
+    <rule>Business DNA, references, and logo gates are mandatory.</rule>
+  </invariants>
+
+  <inspection_checkpoint>
+    <option order="1">Looks good, continue</option>
+    <option order="2">Refine this direction</option>
+    <option order="3">Change direction</option>
+  </inspection_checkpoint>
+
+  <leaf_groups>
+    <leaf_group id="governance-and-control">
+      <leaf id="L_MODE_GUIDED" impact="high">
+        <path>S0_INTENT-&gt;S1_INTERVIEW_MODE</path>
+        <reached_when>Guided mode is selected or defaulted.</reached_when>
+      </leaf>
+      <leaf id="L_MODE_FAST_CONFIRMED" impact="high">
+        <path>S0_INTENT-&gt;S1_INTERVIEW_MODE</path>
+        <reached_when>Fast mode is explicitly requested and confirmed.</reached_when>
+      </leaf>
+      <leaf id="L_SCOPE_EXISTING_PROJECT" impact="high">
+        <path>S0_INTENT-&gt;S2_BUSINESS_DNA</path>
+        <reached_when>User confirms project already exists.</reached_when>
+      </leaf>
+      <leaf id="L_SCOPE_NEW_PROJECT" impact="high">
+        <path>S0_INTENT-&gt;S2_BUSINESS_DNA</path>
+        <reached_when>User confirms new project bootstrap.</reached_when>
+      </leaf>
+      <leaf id="L_SEARCH_DENIED" impact="medium">
+        <path>S3_SOURCES</path>
+        <reached_when>External web search consent is denied.</reached_when>
+      </leaf>
+      <leaf id="L_SEARCH_GRANTED" impact="medium">
+        <path>S3_SOURCES</path>
+        <reached_when>External web search consent is granted for current request.</reached_when>
+      </leaf>
+      <leaf id="L_LIVE_PREVIEW_ENABLED" impact="medium">
+        <path>S5_DESIGN_PATH-&gt;S7_APPLY_INSPECT</path>
+        <reached_when>User enables background live preview.</reached_when>
+      </leaf>
+      <leaf id="L_LIVE_PREVIEW_DISABLED" impact="low">
+        <path>S5_DESIGN_PATH-&gt;S7_APPLY_INSPECT</path>
+        <reached_when>User disables background live preview.</reached_when>
+      </leaf>
+      <leaf id="L_DESIGN_ONLY_SCOPE" impact="high">
+        <path>S1_INTERVIEW_MODE/S5_DESIGN_PATH</path>
+        <reached_when>Work is explicitly restricted to visual-only scope.</reached_when>
+      </leaf>
+      <leaf id="L_LOGIC_EXCEPTION_ALLOWED" impact="high">
+        <path>S8_LOGIC_INTEGRITY</path>
+        <reached_when>Logic-adjacent edits are explicitly approved with rationale.</reached_when>
+      </leaf>
+    </leaf_group>
+
+    <leaf_group id="business-dna-references-logo">
+      <leaf id="L_BDNA_MISSION_LOCKED" impact="high"><path>S2_BUSINESS_DNA</path><reached_when>Mission statement is answered and confirmed.</reached_when></leaf>
+      <leaf id="L_BDNA_AUDIENCE_LOCKED" impact="high"><path>S2_BUSINESS_DNA</path><reached_when>Primary and secondary audience are confirmed.</reached_when></leaf>
+      <leaf id="L_BDNA_RISK_POSTURE_LOCKED" impact="high"><path>S2_BUSINESS_DNA</path><reached_when>Risk sensitivity and compliance posture are confirmed.</reached_when></leaf>
+      <leaf id="L_BDNA_VALUE_MODEL_LOCKED" impact="high"><path>S2_BUSINESS_DNA</path><reached_when>Value model and promise boundaries are confirmed.</reached_when></leaf>
+      <leaf id="L_BDNA_CONSTRAINTS_LOCKED" impact="high"><path>S2_BUSINESS_DNA</path><reached_when>Business constraints are captured and approved.</reached_when></leaf>
+      <leaf id="L_BDNA_PROOF_STRATEGY_LOCKED" impact="high"><path>S2_BUSINESS_DNA</path><reached_when>Proof and trust strategy is approved.</reached_when></leaf>
+      <leaf id="L_BDNA_DIFFERENTIATION_LOCKED" impact="high"><path>S2_BUSINESS_DNA</path><reached_when>Differentiation is defined and confirmed.</reached_when></leaf>
+      <leaf id="L_BDNA_SUCCESS_CRITERIA_LOCKED" impact="high"><path>S2_BUSINESS_DNA</path><reached_when>Success criteria are explicitly defined.</reached_when></leaf>
+
+      <leaf id="L_REF_NONE_DECLARED" impact="medium"><path>S3_SOURCES</path><reached_when>User states there are no references.</reached_when></leaf>
+      <leaf id="L_REF_CANONICAL_CLASSIFIED" impact="high"><path>S3_SOURCES</path><reached_when>A source is explicitly marked canonical.</reached_when></leaf>
+      <leaf id="L_REF_INSPIRATION_CLASSIFIED" impact="medium"><path>S3_SOURCES</path><reached_when>A source is marked inspiration.</reached_when></leaf>
+      <leaf id="L_REF_WIP_CLASSIFIED" impact="medium"><path>S3_SOURCES</path><reached_when>A source is marked work-in-progress.</reached_when></leaf>
+      <leaf id="L_REF_CONFLICT_RESOLVED" impact="high"><path>S3_SOURCES/S6_DECISION_TREE</path><reached_when>Reference conflict is resolved by user decision.</reached_when></leaf>
+      <leaf id="L_REF_CONFLICT_DEFERRED" impact="medium"><path>S3_SOURCES/S6_DECISION_TREE</path><reached_when>Reference conflict is deferred with risk note.</reached_when></leaf>
+
+      <leaf id="L_LOGO_PROVIDED_COMPLETE" impact="high"><path>S4_LOGO</path><reached_when>Logo files, variants, and constraints are captured.</reached_when></leaf>
+      <leaf id="L_LOGO_PROVIDED_PARTIAL" impact="medium"><path>S4_LOGO</path><reached_when>Some logo requirements are missing and documented as risk.</reached_when></leaf>
+      <leaf id="L_LOGO_DIRECTION_DEFINED" impact="high"><path>S4_LOGO</path><reached_when>Logo direction interview is completed and approved.</reached_when></leaf>
+      <leaf id="L_LOGO_PROMPT_PACK_READY" impact="medium"><path>S4_LOGO</path><reached_when>AI prompt pack and evaluation rubric are generated.</reached_when></leaf>
+      <leaf id="L_LOGO_DEFERRED_RISK" impact="high"><path>S4_LOGO</path><reached_when>Logo is deferred and blocking risk is recorded.</reached_when></leaf>
+    </leaf_group>
+
+    <leaf_group id="visual-color">
+      <leaf id="L_COLOR_INTENT_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Palette intent is approved.</reached_when></leaf>
+      <leaf id="L_COLOR_HUE_FAMILY_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Primary hue family is approved.</reached_when></leaf>
+      <leaf id="L_COLOR_NEUTRAL_RAMP_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Neutral ramp is approved.</reached_when></leaf>
+      <leaf id="L_COLOR_ACCENT_ROLE_LOCKED" impact="medium"><path>S6_DECISION_TREE</path><reached_when>Accent role and limit are approved.</reached_when></leaf>
+      <leaf id="L_COLOR_SEMANTIC_STATES_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Semantic state colors are approved.</reached_when></leaf>
+      <leaf id="L_COLOR_CONTRAST_POLICY_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Contrast targets are approved.</reached_when></leaf>
+      <leaf id="L_COLOR_MODE_STRATEGY_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Mode strategy is approved.</reached_when></leaf>
+      <leaf id="L_COLOR_TOKEN_SET_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Color token set is finalized.</reached_when></leaf>
+    </leaf_group>
+
+    <leaf_group id="visual-typography">
+      <leaf id="L_TYPE_FAMILY_HEADING_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Heading family is approved.</reached_when></leaf>
+      <leaf id="L_TYPE_FAMILY_BODY_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Body family is approved.</reached_when></leaf>
+      <leaf id="L_TYPE_LICENSE_POLICY_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Font licensing and availability are approved.</reached_when></leaf>
+      <leaf id="L_TYPE_SCALE_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Type scale is approved.</reached_when></leaf>
+      <leaf id="L_TYPE_WEIGHT_MAP_LOCKED" impact="medium"><path>S6_DECISION_TREE</path><reached_when>Weight map is approved.</reached_when></leaf>
+      <leaf id="L_TYPE_LINE_HEIGHT_LOCKED" impact="medium"><path>S6_DECISION_TREE</path><reached_when>Line-height policy is approved.</reached_when></leaf>
+      <leaf id="L_TYPE_MEASURE_POLICY_LOCKED" impact="medium"><path>S6_DECISION_TREE</path><reached_when>Text measure rules are approved.</reached_when></leaf>
+      <leaf id="L_TYPE_TOKEN_SET_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Typography token set is finalized.</reached_when></leaf>
+    </leaf_group>
+
+    <leaf_group id="visual-spacing">
+      <leaf id="L_SPACE_GRID_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Grid system is approved.</reached_when></leaf>
+      <leaf id="L_SPACE_CONTAINER_WIDTHS_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Container widths are approved.</reached_when></leaf>
+      <leaf id="L_SPACE_SECTION_GAPS_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Section spacing rhythm is approved.</reached_when></leaf>
+      <leaf id="L_SPACE_COMPONENT_GAPS_LOCKED" impact="medium"><path>S6_DECISION_TREE</path><reached_when>Component spacing rhythm is approved.</reached_when></leaf>
+      <leaf id="L_SPACE_BREAKPOINT_RULES_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Breakpoint spacing behavior is approved.</reached_when></leaf>
+      <leaf id="L_SPACE_DENSITY_PROFILE_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Density profile is approved.</reached_when></leaf>
+      <leaf id="L_SPACE_TOKEN_SET_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Spacing token set is finalized.</reached_when></leaf>
+    </leaf_group>
+
+    <leaf_group id="visual-shape">
+      <leaf id="L_SHAPE_RADIUS_SCALE_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Radius scale is approved.</reached_when></leaf>
+      <leaf id="L_SHAPE_BORDER_STYLE_LOCKED" impact="medium"><path>S6_DECISION_TREE</path><reached_when>Border policy is approved.</reached_when></leaf>
+      <leaf id="L_SHAPE_ELEVATION_STYLE_LOCKED" impact="medium"><path>S6_DECISION_TREE</path><reached_when>Elevation style is approved.</reached_when></leaf>
+      <leaf id="L_SHAPE_ICON_STYLE_LOCKED" impact="medium"><path>S6_DECISION_TREE</path><reached_when>Icon style is approved.</reached_when></leaf>
+      <leaf id="L_SHAPE_COMPONENT_CHROME_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Surface and chrome policy is approved.</reached_when></leaf>
+      <leaf id="L_SHAPE_DIVIDER_POLICY_LOCKED" impact="low"><path>S6_DECISION_TREE</path><reached_when>Divider style policy is approved.</reached_when></leaf>
+      <leaf id="L_SHAPE_TOKEN_SET_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Shape token set is finalized.</reached_when></leaf>
+    </leaf_group>
+
+    <leaf_group id="visual-motion">
+      <leaf id="L_MOTION_POSTURE_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Motion posture is approved.</reached_when></leaf>
+      <leaf id="L_MOTION_DURATION_SCALE_LOCKED" impact="medium"><path>S6_DECISION_TREE</path><reached_when>Duration scale is approved.</reached_when></leaf>
+      <leaf id="L_MOTION_EASING_LOCKED" impact="medium"><path>S6_DECISION_TREE</path><reached_when>Easing family is approved.</reached_when></leaf>
+      <leaf id="L_MOTION_TRIGGER_MAP_LOCKED" impact="medium"><path>S6_DECISION_TREE</path><reached_when>Trigger map is approved.</reached_when></leaf>
+      <leaf id="L_MOTION_REDUCED_MODE_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Reduced-motion behavior is approved.</reached_when></leaf>
+      <leaf id="L_MOTION_TOKEN_SET_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Motion token set is finalized.</reached_when></leaf>
+    </leaf_group>
+
+    <leaf_group id="visual-composition">
+      <leaf id="L_COMP_NARRATIVE_ORDER_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Narrative section order is approved.</reached_when></leaf>
+      <leaf id="L_COMP_HERO_STRUCTURE_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Hero structure is approved.</reached_when></leaf>
+      <leaf id="L_COMP_CTA_DISTRIBUTION_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>CTA distribution rules are approved.</reached_when></leaf>
+      <leaf id="L_COMP_TRUST_BLOCK_PATTERN_LOCKED" impact="medium"><path>S6_DECISION_TREE</path><reached_when>Trust block pattern is approved.</reached_when></leaf>
+      <leaf id="L_COMP_SECTION_LIBRARY_LOCKED" impact="medium"><path>S6_DECISION_TREE</path><reached_when>Section library is approved.</reached_when></leaf>
+      <leaf id="L_COMP_NAV_PATTERN_LOCKED" impact="medium"><path>S6_DECISION_TREE</path><reached_when>Navigation pattern is approved.</reached_when></leaf>
+      <leaf id="L_COMP_CONTENT_DENSITY_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Content density profile is approved.</reached_when></leaf>
+      <leaf id="L_COMP_BLUEPRINT_LOCKED" impact="high"><path>S6_DECISION_TREE</path><reached_when>Composition blueprint is finalized.</reached_when></leaf>
+    </leaf_group>
+
+    <leaf_group id="apply-loop">
+      <leaf id="L_BRANCH_BUNDLE_APPLIED" impact="high"><path>S7_APPLY_INSPECT</path><reached_when>Approved branch bundle is applied.</reached_when></leaf>
+      <leaf id="L_INSPECT_CONTINUE" impact="medium"><path>S7_APPLY_INSPECT</path><reached_when>User selects Looks good, continue.</reached_when></leaf>
+      <leaf id="L_INSPECT_REFINE_RESOLVED" impact="high"><path>S7_APPLY_INSPECT</path><reached_when>User selects refine and branch is resolved.</reached_when></leaf>
+      <leaf id="L_INSPECT_CHANGE_RESOLVED" impact="high"><path>S7_APPLY_INSPECT</path><reached_when>User selects change and new direction is resolved.</reached_when></leaf>
+      <leaf id="L_BRANCH_DEFERRED" impact="medium"><path>S7_APPLY_INSPECT</path><reached_when>Branch is explicitly deferred with rationale.</reached_when></leaf>
+      <leaf id="L_TREE_HIGH_IMPACT_COMPLETE" impact="high"><path>S7_APPLY_INSPECT</path><reached_when>All high-impact leaves are approved or deferred.</reached_when></leaf>
+    </leaf_group>
+
+    <leaf_group id="integrity-preflight-handoff">
+      <leaf id="L_LOGIC_INTEGRITY_PASS" impact="high"><path>S8_LOGIC_INTEGRITY</path><reached_when>No unexpected logic-sensitive changes are detected.</reached_when></leaf>
+      <leaf id="L_LOGIC_EXCEPTION_APPROVED" impact="high"><path>S8_LOGIC_INTEGRITY</path><reached_when>Logic-sensitive changes are explicitly approved.</reached_when></leaf>
+      <leaf id="L_WCAG_PASS" impact="high"><path>S9_PREFLIGHT</path><reached_when>Required WCAG checks pass.</reached_when></leaf>
+      <leaf id="L_APCA_OK_OR_ACCEPTED" impact="medium"><path>S9_PREFLIGHT</path><reached_when>APCA risk is acceptable or explicitly accepted.</reached_when></leaf>
+      <leaf id="L_BRAND_COMPLIANCE_PASS" impact="high"><path>S9_PREFLIGHT</path><reached_when>Brand hard constraints pass.</reached_when></leaf>
+      <leaf id="L_RUNTIME_ROOT_SANITY_PASS" impact="high"><path>S9_PREFLIGHT</path><reached_when>Next root sanity check passes.</reached_when></leaf>
+      <leaf id="L_RUNTIME_TAILWIND_RESOLVE_PASS" impact="high"><path>S9_PREFLIGHT</path><reached_when>Tailwind resolution checks pass.</reached_when></leaf>
+      <leaf id="L_RUNTIME_LINT_BUILD_DEV_PASS" impact="high"><path>S9_PREFLIGHT</path><reached_when>Lint, build, and dev smoke checks pass.</reached_when></leaf>
+      <leaf id="L_RUNTIME_RESTART_RECOVERED" impact="medium"><path>S9_PREFLIGHT</path><reached_when>Live preview restart recovery succeeds.</reached_when></leaf>
+      <leaf id="L_FINAL_APPROVE" impact="high"><path>S10_HANDOFF</path><reached_when>All blocking gates pass and no blockers remain.</reached_when></leaf>
+      <leaf id="L_FINAL_APPROVE_WITH_CONDITIONS" impact="medium"><path>S10_HANDOFF</path><reached_when>Only accepted non-blocking risks remain.</reached_when></leaf>
+      <leaf id="L_FINAL_BLOCK" impact="high"><path>S10_HANDOFF</path><reached_when>Any blocking gate fails and remediation is required.</reached_when></leaf>
+    </leaf_group>
+  </leaf_groups>
+
+  <dynamic_leaf_contract>
+    <rule>When a new high-impact topic appears, create dynamic leaves for intent, ruleset, and implementation.</rule>
+    <name_pattern>L_DYNAMIC_TOPIC_INTENT_LOCKED, L_DYNAMIC_TOPIC_RULESET_LOCKED, L_DYNAMIC_TOPIC_IMPLEMENTATION_LOCKED</name_pattern>
+    <path_pattern>S6_DECISION_TREE-&gt;S7_APPLY_INSPECT</path_pattern>
+  </dynamic_leaf_contract>
+
+  <transitions>
+    <transition from="S7_APPLY_INSPECT" on="Looks good, continue" to="NEXT_UNRESOLVED_LEAF" />
+    <transition from="S7_APPLY_INSPECT" on="Refine this direction" to="CURRENT_BRANCH_REFINEMENT" />
+    <transition from="S7_APPLY_INSPECT" on="Change direction" to="CURRENT_BRANCH_REPROPOSAL" />
+    <transition from="S7_APPLY_INSPECT" when="L_TREE_HIGH_IMPACT_COMPLETE" to="S8_LOGIC_INTEGRITY" />
+    <transition from="S8_LOGIC_INTEGRITY" when="L_LOGIC_INTEGRITY_PASS or L_LOGIC_EXCEPTION_APPROVED" to="S9_PREFLIGHT" />
+    <transition from="S9_PREFLIGHT" when="L_WCAG_PASS and L_BRAND_COMPLIANCE_PASS and L_RUNTIME_LINT_BUILD_DEV_PASS" to="S10_HANDOFF" />
+  </transitions>
+</template>

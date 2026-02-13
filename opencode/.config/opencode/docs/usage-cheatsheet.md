@@ -18,7 +18,8 @@ What happens:
 - Ingests local files/URLs with secure evidence normalization.
 - Asks explicit consent before any external web search (search defaults to off).
 - Runs a single-sweep decision tree with iterative apply/inspect checkpoints.
-- Reads and writes XML contracts under `.opencode/*.xml`.
+- Reads structure from `design-flow-tree.xml` and state from `design-flow-state.xml`.
+- Writes and resumes XML contracts under `.opencode/*.xml`.
 - Produces a cohesive bootstrap + guideline package.
 
 Inspection checkpoint options:

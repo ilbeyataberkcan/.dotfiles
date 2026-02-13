@@ -13,6 +13,25 @@ metadata:
     <item>Evaluate placement and geometry effects on clarity and action discoverability.</item>
   </purpose>
 
+  <skill_definition>
+    This skill guides shape and geometry decisions so interface structure communicates clearly without compromising usability. It treats symbolic meaning as directional and keeps interaction clarity as the primary goal.
+    When using this skill, the agent should refer to brand constraints for allowed geometry style and use preflight policy to ensure shape choices do not reduce accessibility or action discoverability.
+  </skill_definition>
+
+  <resource_references>
+    <resource path="~/.config/opencode/templates/brand-guidelines.template.xml">Shape-family and forbidden-pattern constraints.</resource>
+    <resource path="~/.config/opencode/templates/visual-preflight-policy.template.xml">Layout, grouping, and discoverability checks.</resource>
+  </resource_references>
+
+  <planning_language>
+    <objective>Plan shape and geometry decisions as usability-led constraints before aesthetic refinement.</objective>
+    <phase order="1">Define dominant and accent shape families from approved brand context.</phase>
+    <phase order="2">Audit geometry consistency and directional affordances.</phase>
+    <phase order="3">Evaluate placement effects on focus path and action visibility.</phase>
+    <phase order="4">Return fix plan with severity and implementation hints.</phase>
+    <completion_signal>Shape language and placement decisions are coherent, accessible, and actionable.</completion_signal>
+  </planning_language>
+
   <safety>
     <rule>Treat shape meaning as directional tendency, not deterministic truth.</rule>
     <rule>Do not rely on shape alone for critical feedback.</rule>

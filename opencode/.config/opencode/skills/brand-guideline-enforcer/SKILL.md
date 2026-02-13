@@ -13,6 +13,26 @@ metadata:
     <item>Reject design drift and provide compliant alternatives when conflicts exist.</item>
   </purpose>
 
+  <skill_definition>
+    This skill is the governance layer that decides whether proposed design output is actually on-brand. It compares output against declared constraints and forces explicit handling of conflicts instead of silent drift.
+    When using this skill, the agent should read project-local brand and token sources first, apply precedence rules, and emit a compliance matrix that can be audited by the rest of the pipeline.
+  </skill_definition>
+
+  <resource_references>
+    <resource path="~/.config/opencode/templates/brand-guidelines.template.xml">Primary brand constraints and implementation policy.</resource>
+    <resource path="~/.config/opencode/templates/design-token-contract.template.xml">Token contract alignment checks.</resource>
+    <resource path="~/.config/opencode/templates/visual-preflight-policy.template.xml">Acceptance gates for final compliance disposition.</resource>
+  </resource_references>
+
+  <planning_language>
+    <objective>Plan governance as deterministic compliance evaluation against ordered constraint sources.</objective>
+    <phase order="1">Resolve active constraint source precedence.</phase>
+    <phase order="2">Evaluate proposal against hard and soft constraints.</phase>
+    <phase order="3">Classify compliance outcomes and generate correction paths.</phase>
+    <phase order="4">Publish compliance matrix with explicit approval boundaries.</phase>
+    <completion_signal>All evaluated items are classified with corrective action for non-compliant outcomes.</completion_signal>
+  </planning_language>
+
   <precedence>
     <source order="1">Project-local brand and design docs.</source>
     <source order="2">Project-local design system and token files.</source>

@@ -17,6 +17,7 @@ Use the primary `design` agent for design implications and visual implementation
    - `Change direction`
 5. Runs logic integrity checks and runtime preflight before handoff.
 6. Uses XML contracts in `.opencode/*.xml` as source-of-truth.
+7. Uses `design-flow-tree.xml` (structure) and `design-flow-state.xml` (runtime state) to resume exactly where it left off.
 
 ## Logic safety behavior
 - Defaults to visual scope only.

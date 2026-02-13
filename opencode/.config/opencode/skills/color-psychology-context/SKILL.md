@@ -13,6 +13,25 @@ metadata:
     <item>Keep claims contextual and ethically safe.</item>
   </purpose>
 
+  <skill_definition>
+    This skill helps agents reason about color psychology without overclaiming certainty. It frames emotional intent as testable hypotheses with explicit caveats and avoids manipulative patterns.
+    When using this skill, the agent should ground recommendations in approved brand context, pair claims with confidence and validation guidance, and keep accessibility safeguards visible in the final recommendation.
+  </skill_definition>
+
+  <resource_references>
+    <resource path="~/.config/opencode/templates/brand-guidelines.template.xml">Brand personality and voice boundaries that influence psychological interpretation.</resource>
+    <resource path="~/.config/opencode/templates/visual-preflight-policy.template.xml">Accessibility and ethical guardrails for color usage.</resource>
+  </resource_references>
+
+  <planning_language>
+    <objective>Plan psychology guidance as hypothesis-driven support, not deterministic doctrine.</objective>
+    <phase order="1">Define intent and audience context for psychological hypotheses.</phase>
+    <phase order="2">Generate bounded candidate directions with confidence labels.</phase>
+    <phase order="3">Attach caveats, counterexample risks, and validation approach.</phase>
+    <phase order="4">Recommend a decision path with ethical and accessibility safeguards.</phase>
+    <completion_signal>Recommendation includes confidence, caveats, and validation method.</completion_signal>
+  </planning_language>
+
   <safety>
     <rule>Never frame color psychology as universal fact.</rule>
     <rule>Require non-color cues for critical states.</rule>

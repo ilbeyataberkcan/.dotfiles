@@ -18,6 +18,8 @@
   <bootstrap_workflow strict_order="true">
     <route required="true">Route project initialization and brand setup to bootstrap-design-lead.</route>
     <mode default="guided" fast_mode_command="/bootstrap-fast" />
+    <tree_template required="true">~/.config/opencode/templates/design-flow-tree.template.xml</tree_template>
+    <state_template required="true">~/.config/opencode/templates/design-flow-state.template.xml</state_template>
     <stage id="business-dna" required="true" infer="false" />
     <stage id="references-and-authority" required="true" />
     <stage id="logo-gate" required="true" />

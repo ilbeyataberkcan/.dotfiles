@@ -23,6 +23,8 @@ Run from the target project root:
 
 ```bash
 mkdir -p .opencode && cp \
+  ~/.config/opencode/templates/design-flow-tree.template.xml \
+  ~/.config/opencode/templates/design-flow-state.template.xml \
   ~/.config/opencode/templates/project-bootstrap.template.xml \
   ~/.config/opencode/templates/brand-evidence-bundle.template.xml \
   ~/.config/opencode/templates/brand-dna.template.xml \
@@ -33,6 +35,10 @@ mkdir -p .opencode && cp \
 ```
 
 Templates are XML contracts. Keep required tags and attributes intact when editing.
+
+Flow templates:
+- `design-flow-tree.template.xml`: immutable stage and leaf structure.
+- `design-flow-state.template.xml`: mutable runtime state and checkpoint history.
 
 ## Orchestration flow
 1. Business DNA interview first (mission, audience, value model, constraints).
@@ -74,21 +80,27 @@ Templates are XML contracts. Keep required tags and attributes intact when editi
 - If enabled, preview remains active during the sweep and restarts when needed.
 
 ## What to edit first
-1. `.opencode/project-bootstrap.template.xml`
-   - Confirm business DNA, setup intent, source authority, decision ledger, and policy defaults.
-2. `.opencode/brand-evidence-bundle.template.xml`
+1. `.opencode/design-flow-tree.template.xml`
+   - Review stage ordering, mandatory gates, and leaf definitions.
+2. `.opencode/design-flow-state.template.xml`
+   - Confirm runtime state fields for approvals, checkpoints, and live preview lifecycle.
+3. `.opencode/project-bootstrap.template.xml`
+   - Confirm business DNA, setup intent, source authority, and policy defaults.
+4. `.opencode/brand-evidence-bundle.template.xml`
    - Fill accepted sources, authority class, claims, conflicts, and evidence gaps.
-3. `.opencode/brand-dna.template.xml`
+5. `.opencode/brand-dna.template.xml`
    - Capture positioning, audience, personality, tone, accessibility posture, and approval status.
-4. `.opencode/brand-guidelines.template.xml`
+6. `.opencode/brand-guidelines.template.xml`
    - Lock hard constraints and forbidden patterns.
-5. `.opencode/design-token-contract.template.xml`
+7. `.opencode/design-token-contract.template.xml`
    - Align with real token values.
-6. `.opencode/visual-preflight-policy.template.xml`
+8. `.opencode/visual-preflight-policy.template.xml`
    - Confirm WCAG/APCA and output requirements.
 
 ## Optional rename after editing
 ```bash
+mv .opencode/design-flow-tree.template.xml .opencode/design-flow-tree.xml
+mv .opencode/design-flow-state.template.xml .opencode/design-flow-state.xml
 mv .opencode/project-bootstrap.template.xml .opencode/project-bootstrap.xml
 mv .opencode/brand-evidence-bundle.template.xml .opencode/brand-evidence-bundle.xml
 mv .opencode/brand-dna.template.xml .opencode/brand-dna.xml

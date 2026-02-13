@@ -13,6 +13,25 @@ metadata:
     <item>Convert findings into concrete layout fixes.</item>
   </purpose>
 
+  <skill_definition>
+    This skill evaluates whether layout structure matches how people visually parse pages. It helps agents diagnose grouping, scan flow, and hierarchy issues and convert them into explicit composition corrections.
+    When using this skill, the agent should use preflight policy as acceptance criteria and align corrections with brand and spacing constraints rather than treating layout as purely subjective styling.
+  </skill_definition>
+
+  <resource_references>
+    <resource path="~/.config/opencode/templates/visual-preflight-policy.template.xml">Gestalt and responsive grouping requirements.</resource>
+    <resource path="~/.config/opencode/templates/brand-guidelines.template.xml">Composition and density limits defined by brand contract.</resource>
+  </resource_references>
+
+  <planning_language>
+    <objective>Plan layout audits as perception-first diagnostics with breakpoint-specific corrections.</objective>
+    <phase order="1">Evaluate grouping and hierarchy using Gestalt principles.</phase>
+    <phase order="2">Audit responsive behavior and CTA discoverability across breakpoints.</phase>
+    <phase order="3">Prioritize defects by impact on comprehension and action flow.</phase>
+    <phase order="4">Emit correction checklist and verification sequence.</phase>
+    <completion_signal>Hierarchy corrections are defined with verification criteria per breakpoint.</completion_signal>
+  </planning_language>
+
   <principles>
     <principle>proximity</principle>
     <principle>similarity</principle>

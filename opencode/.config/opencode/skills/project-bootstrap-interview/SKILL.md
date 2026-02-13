@@ -13,12 +13,42 @@ metadata:
     <item>Keep bootstrap in one sweep from interview to validation.</item>
   </purpose>
 
+  <skill_definition>
+    This skill handles the opening interview for bootstrap work. It captures business intent, source-of-truth context, and setup constraints in the right order so downstream design decisions are based on explicit user input.
+    When using this skill, the agent should complete mandatory bootstrap gates before design synthesis. It should reference the flow tree for required leaves, write state progress continuously, and prepare a clean handoff payload for decision-tree execution.
+  </skill_definition>
+
+  <resource_references>
+    <resource path="~/.config/opencode/templates/design-flow-tree.template.xml">Bootstrap stage order and mandatory leaves.</resource>
+    <resource path="~/.config/opencode/templates/design-flow-state.template.xml">Session progress and unresolved-node tracking.</resource>
+    <resource path="~/.config/opencode/templates/project-bootstrap.template.xml">Project bootstrap payload structure.</resource>
+  </resource_references>
+
+  <planning_language>
+    <objective>Plan bootstrap as a staged interview that locks mandatory gates before synthesis.</objective>
+    <phase order="1">Capture business DNA and project context with minimal assumptions.</phase>
+    <phase order="2">Resolve references, authority, logo status, and live preview choice.</phase>
+    <phase order="3">Record approvals and unresolved decisions into ledger/state.</phase>
+    <phase order="4">Emit handoff context for decision-tree execution and preflight.</phase>
+    <completion_signal>Bootstrap mandatory gates are resolved and handoff context is complete.</completion_signal>
+  </planning_language>
+
   <mandatory_gates>
     <gate id="business-dna" required="true" blocking="true" />
     <gate id="references" required="true" blocking="true" />
     <gate id="logo-status" required="true" blocking="true" />
     <gate id="live-preview-choice" required="false" blocking="false" />
   </mandatory_gates>
+
+  <flow_contract_sources>
+    <tree_template>~/.config/opencode/templates/design-flow-tree.template.xml</tree_template>
+    <state_template>~/.config/opencode/templates/design-flow-state.template.xml</state_template>
+  </flow_contract_sources>
+
+  <required_leaf_groups>
+    <group>governance-and-control</group>
+    <group>business-dna-references-logo</group>
+  </required_leaf_groups>
 
   <interview_flow>
     <step order="1">Mission, audience, value model, and constraints.</step>

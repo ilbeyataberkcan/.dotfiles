@@ -13,6 +13,25 @@ metadata:
     <item>Prevent autopilot synthesis before approved decisions exist.</item>
   </purpose>
 
+  <skill_definition>
+    This skill is the interaction backbone for guided sessions. It ensures the agent asks one focused question at a time, keeps the user in control, and avoids silent assumption jumps while decisions are still unresolved.
+    When using this skill, the agent should treat the flow tree as the source of required decision nodes and the flow state as the source of progress. It should always update decision status and source trace after each answer before moving to the next node.
+  </skill_definition>
+
+  <resource_references>
+    <resource path="~/.config/opencode/templates/design-flow-tree.template.xml">Required stage and leaf structure.</resource>
+    <resource path="~/.config/opencode/templates/design-flow-state.template.xml">Mutable runtime status, checkpoints, and approvals.</resource>
+  </resource_references>
+
+  <planning_language>
+    <objective>Run interviews as a deterministic planning loop with explicit state transitions.</objective>
+    <phase order="1">Identify missing high-impact facts and mark explicit answers as approved_by_answer.</phase>
+    <phase order="2">Select the highest-impact unresolved leaf and form one focused question.</phase>
+    <phase order="3">Confirm interpretation, update status, and persist source trace.</phase>
+    <phase order="4">Hand off the next unresolved branch to orchestration.</phase>
+    <completion_signal>Required interview leaves are approved or deferred with rationale.</completion_signal>
+  </planning_language>
+
   <interaction required="true">
     <rule>Ask one concise question at a time.</rule>
     <rule>Use question tool prompts for high-impact gates.</rule>
@@ -20,6 +39,11 @@ metadata:
     <rule>Tailor each next question to prior answers.</rule>
     <rule>Skip already answered high-impact questions.</rule>
   </interaction>
+
+  <flow_contract_sources>
+    <tree_template>~/.config/opencode/templates/design-flow-tree.template.xml</tree_template>
+    <state_template>~/.config/opencode/templates/design-flow-state.template.xml</state_template>
+  </flow_contract_sources>
 
   <decision_tree dynamic="true">
     <rule>Expand sub-branches when answers create downstream decisions.</rule>
@@ -32,6 +56,12 @@ metadata:
     </status_values>
   </decision_tree>
 
+  <leaf_selection>
+    <rule>Select unresolved high-impact leaves first.</rule>
+    <rule>If blocked_by dependencies exist, resolve blockers first.</rule>
+    <rule>When a new high-impact topic appears, generate dynamic leaves and continue.</rule>
+  </leaf_selection>
+
   <inspection_checkpoint>
     <option order="1">Looks good, continue</option>
     <option order="2">Refine this direction</option>
@@ -41,6 +71,7 @@ metadata:
   <approval_policy>
     <rule>Do not apply branch decisions when status is needs_clarification.</rule>
     <rule>approved_by_answer counts as approval and should not be re-gated.</rule>
+    <rule>Record source trace for every approved leaf.</rule>
   </approval_policy>
 
   <inference_policy>

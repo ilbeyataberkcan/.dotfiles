@@ -13,6 +13,26 @@ metadata:
     <item>Normalize evidence with source authority and confidence.</item>
   </purpose>
 
+  <skill_definition>
+    This skill is the trust boundary for brand inputs. It decides what evidence is acceptable, how authoritative each source is, and what gaps remain before design decisions can be treated as safe and reliable.
+    When using this skill, the agent should enforce source authority rules strictly, default unknown links to inspiration, and output evidence in a normalized structure for downstream interview and synthesis steps.
+  </skill_definition>
+
+  <resource_references>
+    <resource path="~/.config/opencode/templates/brand-evidence-bundle.template.xml">Evidence normalization contract.</resource>
+    <resource path="~/.config/opencode/templates/design-flow-tree.template.xml">Reference and authority leaf requirements.</resource>
+    <resource path="~/.config/opencode/templates/design-flow-state.template.xml">Runtime authority decisions and unresolved conflicts.</resource>
+  </resource_references>
+
+  <planning_language>
+    <objective>Plan evidence intake as a security-first normalization pipeline.</objective>
+    <phase order="1">Validate input boundaries and consent constraints.</phase>
+    <phase order="2">Classify source authority and extract evidence units.</phase>
+    <phase order="3">Resolve conflicts or mark unresolved gaps with severity.</phase>
+    <phase order="4">Return normalized evidence and required follow-up topics.</phase>
+    <completion_signal>Evidence ledger, authority ledger, and gap report are complete.</completion_signal>
+  </planning_language>
+
   <consent_policy>
     <web_search enabled_default="false" consent_required="true" scope="request" revocable="true" />
   </consent_policy>
@@ -39,6 +59,15 @@ metadata:
     <rule authority="wip">May inform discussion but cannot override approved decisions.</rule>
     <rule>Never promote non-canonical sources to hard truth without approval.</rule>
   </authority_rules>
+
+  <required_leaves>
+    <leaf>L_REF_CANONICAL_CLASSIFIED</leaf>
+    <leaf>L_REF_INSPIRATION_CLASSIFIED</leaf>
+    <leaf>L_REF_WIP_CLASSIFIED</leaf>
+    <leaf>L_LOGO_PROVIDED_COMPLETE</leaf>
+    <leaf>L_LOGO_DIRECTION_DEFINED</leaf>
+    <leaf>L_LOGO_DEFERRED_RISK</leaf>
+  </required_leaves>
 
   <outputs>
     <output>Accepted inputs and blocked inputs with reasons.</output>
