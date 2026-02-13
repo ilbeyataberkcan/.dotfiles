@@ -5,6 +5,7 @@ Use these natural prompts. You do not need to name skills or agents explicitly.
 Tip: for design-heavy implementation, switch to the primary `design` agent with Tab.
 
 ## Project bootstrap and brand setup
+- "Bootstrap this project's web design."
 - "Bootstrap a new project for [idea], suggest repo names, and define setup."
 - "Use my brand files to initialize design constraints for this project."
 - "I have partial docs, fill gaps with a Brand DNA interview."

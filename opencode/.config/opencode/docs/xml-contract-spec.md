@@ -91,6 +91,8 @@ The goal is to make agent execution intent explicit and predictable for orchestr
 2. Respect dependency order (`blocked_by` leaves).
 3. If multiple leaves are eligible, use earliest stage path.
 4. Apply only after leaf is approved (`approved_by_answer` or `approved_by_gate`).
+5. Agent recommendations are allowed, but autonomous leaf locking is not allowed.
+6. A leaf cannot become `approved_by_gate` without explicit confirmation evidence (question tool or structured fallback).
 
 ## Mandatory bootstrap gates
 1. Business DNA
@@ -104,6 +106,11 @@ After every major applied bundle, use exactly:
 1. `Looks good, continue`
 2. `Refine this direction`
 3. `Change direction`
+
+Execution requirement:
+- Use the question tool for mandatory gates and checkpoints when available.
+- If the question tool is unavailable, use a structured prompt fallback and require explicit confirmation.
+- Plain text option prompts without explicit confirmation are not valid gate completion evidence.
 
 ## Inference policy
 - Guided mode: core brand truth is never inferred before explicit user input.

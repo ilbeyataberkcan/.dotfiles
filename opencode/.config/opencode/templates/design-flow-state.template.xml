@@ -22,12 +22,12 @@
   </stage_progress>
 
   <gate_status>
-    <gate id="BUSINESS_DNA_GATE" status="pending" required="true" />
-    <gate id="REFERENCE_AUTHORITY_GATE" status="pending" required="true" />
-    <gate id="LOGO_GATE" status="pending" required="true" />
-    <gate id="BRANCH_APPROVAL_GATE" status="pending" required="true" />
-    <gate id="LOGIC_INTEGRITY_GATE" status="pending" required="true" />
-    <gate id="RUNTIME_PREFLIGHT_GATE" status="pending" required="true" />
+    <gate id="BUSINESS_DNA_GATE" status="pending" required="true" answer_source="question-tool-or-structured-confirmation" />
+    <gate id="REFERENCE_AUTHORITY_GATE" status="pending" required="true" answer_source="question-tool-or-structured-confirmation" />
+    <gate id="LOGO_GATE" status="pending" required="true" answer_source="question-tool-or-structured-confirmation" />
+    <gate id="BRANCH_APPROVAL_GATE" status="pending" required="true" answer_source="question-tool-or-structured-confirmation" />
+    <gate id="LOGIC_INTEGRITY_GATE" status="pending" required="true" answer_source="system-check" />
+    <gate id="RUNTIME_PREFLIGHT_GATE" status="pending" required="true" answer_source="system-check" />
   </gate_status>
 
   <leaf_status_ledger>
@@ -59,7 +59,7 @@
   </queue>
 
   <checkpoint_history>
-    <entry stage="S7_APPLY_INSPECT" branch_id="" response="" notes="" timestamp="" />
+    <entry stage="S7_APPLY_INSPECT" branch_id="" response="" notes="" timestamp="" source="question-tool-or-structured-confirmation" />
   </checkpoint_history>
 
   <live_preview>

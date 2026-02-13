@@ -27,6 +27,10 @@
     <stage id="synthesis-and-preflight" required="true" />
     <policy id="link-authority" required="true">Classify each link as canonical, inspiration, or wip before use.</policy>
     <policy id="search-consent" required="true">Never run external search without explicit request-scoped consent.</policy>
+    <policy id="no-implementation-before-intake" required="true">Before Business DNA, references, and logo gates are answered, do not modify project files.</policy>
+    <policy id="linear-user-flow" required="true">Present bootstrap as linear steps with explicit progression, not branch-code questionnaires.</policy>
+    <policy id="density-default" required="true">Default content density to max-w-[1200px] with moderate side padding unless user approves otherwise.</policy>
+    <policy id="tailwind-first" required="true">Prefer Tailwind utilities and token variables over bespoke global CSS blocks.</policy>
   </bootstrap_workflow>
 
   <routing>
@@ -38,15 +42,28 @@
     <intent type="bootstrap-brand-guidelines">bootstrap-design-lead</intent>
   </routing>
 
+  <bootstrap_triggers>
+    <trigger>bootstrap this project's web design</trigger>
+    <trigger>bootstrap web design</trigger>
+    <trigger>start web design bootstrap</trigger>
+    <trigger>bootstrap this design</trigger>
+    <rule>Any variation containing both "bootstrap" and "design" must route to bootstrap-design-lead.</rule>
+    <rule>On trigger match, first response must be an intake gate and not implementation.</rule>
+  </bootstrap_triggers>
+
   <interaction_policy>
     <rule id="natural-conversation">Keep responses natural and do not require internal names.</rule>
     <rule id="single-question">Ask one concise question at a time, tailored to previous answers.</rule>
     <rule id="no-coded-replies">Do not require coded replies such as 1A 2B 3C.</rule>
     <rule id="no-guided-core-inference">Do not infer mission, promise, voice, or personality in guided mode before user input.</rule>
+    <rule id="question-first-for-bootstrap">For bootstrap-design intent, ask mandatory intake questions before any implementation step.</rule>
+    <rule id="question-tool-preferred">Use question tool for gates/checkpoints when available; if unavailable, use structured prompt fallback and require explicit confirmation.</rule>
+    <rule id="bootstrap-trigger-question-first">For bootstrap triggers, the first assistant action must be an intake questionnaire gate.</rule>
     <checkpoint id="inspection" required="true">
       <option order="1">Looks good, continue</option>
       <option order="2">Refine this direction</option>
       <option order="3">Change direction</option>
+      <execution>question-tool-preferred-with-structured-prompt-fallback</execution>
     </checkpoint>
   </interaction_policy>
 

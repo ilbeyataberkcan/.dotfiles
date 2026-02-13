@@ -39,6 +39,19 @@ metadata:
     <step order="4">Require rationale for approved logic-adjacent edits.</step>
   </guard_protocol>
 
+  <allowed_ui_binding>
+    <item>Link and route hookups for anchors, nav items, and CTA buttons.</item>
+    <item>Client-side UI state for menus, dialogs, tabs, accordions, and disclosures.</item>
+    <item>Event wiring to existing handlers or existing action endpoints.</item>
+    <item>Accessibility interaction wiring (keyboard handlers, focus management, aria state sync).</item>
+  </allowed_ui_binding>
+
+  <disallowed_without_approval>
+    <item>New business rules or pricing/permission decision logic.</item>
+    <item>New data-access behavior, API contracts, or backend side effects.</item>
+    <item>Auth, billing, or policy changes beyond existing flow bindings.</item>
+  </disallowed_without_approval>
+
   <drift_checks>
     <check>Event handler behavior changes.</check>
     <check>Data flow and API contract changes.</check>

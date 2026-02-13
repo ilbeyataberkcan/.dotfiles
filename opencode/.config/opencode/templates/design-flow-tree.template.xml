@@ -24,6 +24,8 @@
     <rule>Approval-before-apply for all unresolved high-impact nodes.</rule>
     <rule>References are inspiration by default until explicitly canonical.</rule>
     <rule>Business DNA, references, and logo gates are mandatory.</rule>
+    <rule>Recommendations are permitted; autonomous decision locking is prohibited.</rule>
+    <rule>Gate and checkpoint approvals must come from question-tool responses when available, or explicit structured fallback confirmations when unavailable.</rule>
   </invariants>
 
   <inspection_checkpoint>

@@ -32,12 +32,19 @@ metadata:
     <completion_signal>Required interview leaves are approved or deferred with rationale.</completion_signal>
   </planning_language>
 
+  <linear_presentation>
+    <rule>Present progress as Step N of M in plain language.</rule>
+    <rule>Avoid branch-code prompts unless user requests compact code responses.</rule>
+  </linear_presentation>
+
   <interaction required="true">
     <rule>Ask one concise question at a time.</rule>
-    <rule>Use question tool prompts for high-impact gates.</rule>
+    <rule>Use question tool prompts for high-impact gates when available.</rule>
+    <rule>If question tool is unavailable, use structured prompt fallback and require explicit confirmation.</rule>
     <rule>Allow freeform responses for content decisions.</rule>
     <rule>Tailor each next question to prior answers.</rule>
     <rule>Skip already answered high-impact questions.</rule>
+    <rule>Do not treat ambiguous replies as approvals.</rule>
   </interaction>
 
   <flow_contract_sources>
@@ -66,12 +73,14 @@ metadata:
     <option order="1">Looks good, continue</option>
     <option order="2">Refine this direction</option>
     <option order="3">Change direction</option>
+    <execution>question-tool-preferred-with-structured-prompt-fallback</execution>
   </inspection_checkpoint>
 
   <approval_policy>
     <rule>Do not apply branch decisions when status is needs_clarification.</rule>
     <rule>approved_by_answer counts as approval and should not be re-gated.</rule>
     <rule>Record source trace for every approved leaf.</rule>
+    <rule>Never promote a recommendation to an approved decision without explicit user confirmation.</rule>
   </approval_policy>
 
   <inference_policy>

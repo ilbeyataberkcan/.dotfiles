@@ -44,6 +44,7 @@ metadata:
     <rule>Use predictable state flow and controlled component APIs.</rule>
     <rule>Use tokenized theme variables instead of ad hoc literals.</rule>
     <rule>Preserve semantic roles, keyboard behavior, and focus management.</rule>
+    <rule>When UI components are added or changed, ensure required interaction bindings are implemented so they work end-to-end in the existing flow.</rule>
   </defaults>
 
   <design_system_integration>

@@ -32,6 +32,11 @@ metadata:
     <completion_signal>All high-impact leaves are approved or explicitly deferred with rationale.</completion_signal>
   </planning_language>
 
+  <linear_presentation>
+    <rule>Expose flow as linear numbered steps to users.</rule>
+    <rule>Keep branch and leaf complexity internal to orchestration/state.</rule>
+  </linear_presentation>
+
   <tree_protocol>
     <step order="1">Create root nodes from approved context.</step>
     <step order="2">Expand dependent sub-branches.</step>
@@ -53,6 +58,7 @@ metadata:
     <rule>Initialize tree from structure template when state is absent.</rule>
     <rule>Persist every node update into state after each question or apply step.</rule>
     <rule>Keep queue sorted by impact and dependency readiness.</rule>
+    <rule>Never lock a node from agent judgment alone; lock only after explicit user approval or explicit user answer.</rule>
   </tree_execution>
 
   <apply_loop>
@@ -61,6 +67,18 @@ metadata:
     <step order="3">Apply approved branch bundle.</step>
     <step order="4">Run inspection checkpoint.</step>
   </apply_loop>
+
+  <questionnaire_execution>
+    <rule>Use question tool interactions when available.</rule>
+    <rule>If question tool is unavailable, use structured prompt fallback and require explicit confirmation.</rule>
+    <rule>If confirmation is unclear, keep node status as needs_clarification.</rule>
+  </questionnaire_execution>
+
+  <approval_policy>
+    <rule>Recommendations are allowed; autonomous decision locking is not allowed.</rule>
+    <rule>Node status may become approved_by_answer only when user directly answered that decision.</rule>
+    <rule>Node status may become approved_by_gate only when user explicitly approved a proposed option.</rule>
+  </approval_policy>
 
   <checkpoint_routing>
     <route response="Looks good, continue">Advance to next unresolved leaf.</route>
