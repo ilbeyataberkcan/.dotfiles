@@ -111,3 +111,18 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # opencode
 export PATH=/home/ilbey/.opencode/bin:$PATH
+
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+
+export SSH_AUTH_SOCK=/home/ilbey/.bitwarden-ssh-agent.sock
+
+# bun completions
+[ -s "/home/ilbey/.bun/_bun" ] && source "/home/ilbey/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+export XDG_DATA_DIRS="/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}"

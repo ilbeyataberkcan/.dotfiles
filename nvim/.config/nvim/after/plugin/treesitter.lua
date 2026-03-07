@@ -1,25 +1,50 @@
-require'nvim-treesitter.configs'.setup {
-  -- A list of parser names, or "all" (the listed parsers MUST always be installed)
-    ensure_installed = {"c", "cpp", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "c_sharp", "javascript", "typescript", "html", "bash" },
+vim.api.nvim_create_autocmd('User', {
+    pattern = 'TSUpdate',
+    callback = function ()
+        local parsers = require("nvim-treesitter.parsers")
 
-  -- Install parsers synchronously (only applied to `ensure_installed`)
-  sync_install = false,
+        parsers.cpp =  {
+                install_info = {
+                url = "https://github.com/taku25/tree-sitter-unreal-cpp",
+                branch = "master"
+            }
+        }
 
-  -- Automatically install missing parsers when entering buffer
-  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-  auto_install = true,
+        parsers.ushader = {
+            install_info = {
+                url = "https://github.com/taku25/tree-sitter-unreal-shader",
+                branch = "master"
+            }
+        }
+    end
+})
 
-
-  highlight = {
-    enable = true,
-
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = {"markdown"},
-  },
-    indent = {
-	  enable = true,
-  }
+local languages = {
+        "c",
+        "cpp",
+        "lua",
+        "vim",
+        "vimdoc",
+        "query",
+        "markdown",
+        "markdown_inline",
+        "c_sharp",
+        "javascript",
+        "typescript",
+        "html",
+        "bash",
+        "json",
+        "ushader"
 }
+require("nvim-treesitter").install(languages)
+
+local group = vim.api.nvim_create_augroup('Treesitter', { clear = true })
+vim.api.nvim_create_autocmd('FileType', {
+    group = group,
+    pattern = languages,
+    callback = function (args)
+        vim.treesitter.start(args.buf)
+        vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    end
+})
+

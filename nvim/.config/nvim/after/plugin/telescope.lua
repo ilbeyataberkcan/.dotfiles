@@ -30,4 +30,3 @@ end)
 
 vim.keymap.set('n', '<C-p>', builtin.git_files, {})
 
-require "v0.telescope.multigrep".setup()
