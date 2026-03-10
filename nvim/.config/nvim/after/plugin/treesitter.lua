@@ -6,15 +6,16 @@ vim.api.nvim_create_autocmd('User', {
         parsers.cpp =  {
                 install_info = {
                 url = "https://github.com/taku25/tree-sitter-unreal-cpp",
-                branch = "master"
-            }
+                branch = "master",
+            },
         }
 
         parsers.ushader = {
             install_info = {
                 url = "https://github.com/taku25/tree-sitter-unreal-shader",
                 branch = "master"
-            }
+            },
+            tier = 1
         }
     end
 })
@@ -38,13 +39,13 @@ local languages = {
 }
 require("nvim-treesitter").install(languages)
 
-local group = vim.api.nvim_create_augroup('Treesitter', { clear = true })
-vim.api.nvim_create_autocmd('FileType', {
-    group = group,
-    pattern = languages,
-    callback = function (args)
-        vim.treesitter.start(args.buf)
-        vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-    end
-})
+--   local group = vim.api.nvim_create_augroup('Treesitter', { clear = true })
+--   vim.api.nvim_create_autocmd('FileType', {
+--       group = group,
+--       pattern = languages,
+--       callback = function (args)
+--           vim.treesitter.start(args.buf)
+--           vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+--       end
+--   })
 

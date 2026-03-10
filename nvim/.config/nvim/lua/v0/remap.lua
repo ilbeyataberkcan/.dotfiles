@@ -1,5 +1,5 @@
 -- Open the netrw with no need to cmd
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+vim.keymap.set("n", "<leader>nr", vim.cmd.Ex)
 
 -- This is greate. Move the highlighted code block up and down
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -30,8 +30,8 @@ vim.keymap.set("n", "<leader>f", function() vim.lsp.buf.format() end)
 
 -- Quickfix navigation.
 -- Don't know what it is yet but will learn :D
-vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
-vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
+vim.keymap.set("n", "<C-n>", "<cmd>cnext<CR>zz")
+vim.keymap.set("n", "<C-p>", "<cmd>cprev<CR>zz")
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
