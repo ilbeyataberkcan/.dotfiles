@@ -54,6 +54,12 @@ return {
       },
       preset_target = "LinuxDevelopmentEditor",
       progress_file_name = "ubt-progress.log",
+      ui = {
+          progress = {
+              mode = "fidget"
+          }
+      }
+
     },
   },
 }
