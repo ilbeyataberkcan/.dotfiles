@@ -108,6 +108,7 @@ alias vim="nvim"
 
 alias esp-init-env="export PATH='$PATH:$HOME/esp/xtensa-esp323-elf/bin'"
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 
 # opencode
 export PATH=/home/ilbey/.opencode/bin:$PATH
