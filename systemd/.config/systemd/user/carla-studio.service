@@ -1,0 +1,14 @@
+[Unit]
+Description=Carla Headless Studio Routing
+After=pipewire.service
+BindsTo=pipewire.service
+
+[Service]
+Type=simple
+# %h is a systemd shortcut for your /home/username directory
+ExecStart=/usr/bin/carla --no-gui %h/.config/carla/MyFirst_ProAudio_Setup.carxp
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=default.target

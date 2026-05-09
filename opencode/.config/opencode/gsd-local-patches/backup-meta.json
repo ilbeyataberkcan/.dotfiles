@@ -1,0 +1,11 @@
+{
+  "backed_up_at": "2026-04-08T15:56:27.653Z",
+  "from_version": "1.30.0",
+  "from_manifest_timestamp": "2026-03-31T14:17:23.139Z",
+  "files": [
+    "get-shit-done/bin/lib/model-profiles.cjs"
+  ],
+  "pristine_hashes": {
+    "get-shit-done/bin/lib/model-profiles.cjs": "6090488619a3ca9c14ca7b6027db536b95eb8bd022b55e0a8e87ae05632e9b20"
+  }
+}
