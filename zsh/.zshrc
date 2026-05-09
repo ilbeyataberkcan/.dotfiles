@@ -106,7 +106,7 @@ alias zshconfig="nvim ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias vim="nvim"
 
-alias run-resona-dev = "SDL_VIDEODRIVER=x11 /Mergen/UnrealEngine/Engine/Binaries/Linux/UnrealEditor \"/home/ilbey/Projects/unreal/Project-Resona/ProjectResona.uproject\""
+alias run-resona-dev="SDL_VIDEODRIVER=x11 /Mergen/UnrealEngine/Engine/Binaries/Linux/UnrealEditor \"/home/ilbey/Projects/unreal/Project-Resona/ProjectResona.uproject\""
 
 alias esp-init-env="export PATH='$PATH:$HOME/esp/xtensa-esp323-elf/bin'"
 export PATH="$HOME/.local/bin:$PATH"
