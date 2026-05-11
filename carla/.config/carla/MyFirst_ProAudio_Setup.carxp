@@ -2313,11 +2313,27 @@
   </Connection>
   <Connection>
    <Source>Zen:output_FL</Source>
-   <Target>Multimedia Audio:playback_FL</Target>
+   <Target>Main Audio:playback_FL</Target>
   </Connection>
   <Connection>
    <Source>Zen:output_FR</Source>
-   <Target>Multimedia Audio:playback_FR</Target>
+   <Target>Main Audio:playback_FR</Target>
+  </Connection>
+  <Connection>
+   <Source>Zen:output_FL-2034</Source>
+   <Target>Main Audio:playback_FL</Target>
+  </Connection>
+  <Connection>
+   <Source>Zen:output_FR-2035</Source>
+   <Target>Main Audio:playback_FR</Target>
+  </Connection>
+  <Connection>
+   <Source>Zen:output_FL-2048</Source>
+   <Target>Main Audio:playback_FL</Target>
+  </Connection>
+  <Connection>
+   <Source>Zen:output_FR-2049</Source>
+   <Target>Main Audio:playback_FR</Target>
   </Connection>
   <Connection>
    <Source>Main Audio:monitor_FL</Source>
@@ -2344,31 +2360,34 @@
    <Target>LSP Send Stereo:Input R</Target>
   </Connection>
   <Positions>
-   <Position x1="144" y1="548" x2="1953" y2="701">
+   <Position x1="144" y1="548" x2="900" y2="996">
     <Name>USB Advanced Audio Device</Name>
    </Position>
-   <Position x1="2420" y1="1637" x2="2558" y2="1021">
+   <Position x1="162" y1="727">
+    <Name>Zen</Name>
+   </Position>
+   <Position x1="1004" y1="1351" x2="857" y2="750">
     <Name>Razer Kraken V3 HyperSense Analog Stereo</Name>
    </Position>
-   <Position x1="876" y1="1237" x2="2577" y2="1225">
+   <Position x1="876" y1="1237" x2="887" y2="1085">
     <Name>GA104 High Definition Audio Controller Digital Stereo (HDMI)</Name>
    </Position>
-   <Position x1="2095" y1="1008">
+   <Position x1="394" y1="737">
     <Name>Main Audio</Name>
    </Position>
    <Position x1="1423" y1="561">
     <Name>Microphone FX</Name>
    </Position>
-   <Position x1="2082" y1="1098">
+   <Position x1="449" y1="854">
     <Name>Multimedia Audio</Name>
    </Position>
-   <Position x1="2083" y1="1193">
+   <Position x1="408" y1="950">
     <Name>Voice Chat Audio</Name>
    </Position>
-   <Position x1="773" y1="2204" x2="1074" y2="2192">
+   <Position x1="959" y1="1468" x2="1260" y2="1456">
     <Name>Midi-Bridge</Name>
    </Position>
-   <Position x1="770" y1="2281" x2="1092" y2="2279">
+   <Position x1="956" y1="1545" x2="1278" y2="1543">
     <Name>BLE MIDI 1</Name>
    </Position>
    <Position x1="356" y1="548" pluginId="0">
@@ -2386,11 +2405,8 @@
    <Position x1="1244" y1="549" pluginId="4">
     <Name>LSP Limiter Mono</Name>
    </Position>
-   <Position x1="2332" y1="1018" pluginId="5">
+   <Position x1="633" y1="747" pluginId="5">
     <Name>LSP Send Stereo</Name>
-   </Position>
-   <Position x1="1921" y1="1091">
-    <Name>Zen</Name>
    </Position>
   </Positions>
  </ExternalPatchbay>
