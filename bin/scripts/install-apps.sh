@@ -139,17 +139,26 @@ install_pacman_packages() {
     local packages=(
         bitwarden
         carla
+        corectrl
         gamemode
         gamescope
         ghostty
+        goverlay
         hyprland
         hyprlauncher
         lib32-gamemode
         lib32-mangohud
+        lib32-pipewire
+        lsp-plugins
         mangohud
         neovim
+        pavucontrol
         pipewire
+        pipewire-alsa
+        pipewire-audio
+        pipewire-jack
         pipewire-pulse
+        pipewire-v4l2
         steam
         steam-devices
         tmux
@@ -167,6 +176,7 @@ install_pacman_packages() {
 install_aur_packages() {
     local package
     local packages=(
+        noise-suppression-for-voice-git
         piavpn-bin
         zen-browser-bin
     )
