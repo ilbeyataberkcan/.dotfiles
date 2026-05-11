@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+SKIP_PACKAGES=0
+
 info() {
     printf "\r [\033[00;34m..\033[0m] %s\n" "$1"
 }
@@ -35,6 +37,21 @@ prompt_yes_no() {
             return 1
             ;;
     esac
+}
+
+parse_args() {
+    local arg
+
+    for arg in "$@"; do
+        case "$arg" in
+            --skip-packages|--stow-only)
+                SKIP_PACKAGES=1
+                ;;
+            *)
+                fail "Unknown argument: $arg"
+                ;;
+        esac
+    done
 }
 
 ensure_paru() {
@@ -122,6 +139,14 @@ install_packages() {
     success "All essential packages are installed."
 }
 
+ensure_stow() {
+    if command -v stow >/dev/null 2>&1; then
+        return
+    fi
+
+    fail "stow is required to manage dotfile symlinks. Install it first or run install.sh without --skip-packages."
+}
+
 prepare_managed_path() {
     local package=$1
     local relative_target=$2
@@ -170,6 +195,7 @@ stow_dotfiles() {
 
     prepare_managed_path "gsd" ".gsd"
     prepare_managed_path "gsd-workspaces" "gsd-workspaces"
+    ensure_stow
 
     cd "$REPO_ROOT"
     for folder in "${stow_folders[@]}"; do
@@ -206,11 +232,18 @@ post_installation_tasks() {
 }
 
 main() {
+    parse_args "$@"
+
     REPO_ROOT=$(cd "$(dirname "$0")/../.." && pwd)
     cd "$REPO_ROOT"
     info "Operating from repository root: ${REPO_ROOT}"
 
-    install_packages
+    if (( ! SKIP_PACKAGES )); then
+        install_packages
+    else
+        info "Skipping package installation."
+    fi
+
     stow_dotfiles
     post_installation_tasks
 
