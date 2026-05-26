@@ -3,6 +3,7 @@
 set -euo pipefail
 
 SKIP_PACKAGES=0
+SCRIPT_DIR="${0:A:h}"
 
 info() {
     printf "\r [\033[00;34m..\033[0m] %s\n" "$1"
@@ -241,7 +242,7 @@ post_installation_tasks() {
 main() {
     parse_args "$@"
 
-    REPO_ROOT=$(cd "$(dirname "$0")/../.." && pwd)
+    REPO_ROOT=$(cd "${SCRIPT_DIR}/../.." && pwd)
     cd "$REPO_ROOT"
     info "Operating from repository root: ${REPO_ROOT}"
 
