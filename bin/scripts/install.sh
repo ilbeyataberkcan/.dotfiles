@@ -189,12 +189,19 @@ stow_dotfiles() {
         gsd
         gsd-workspaces
         opencode
+        claude
         systemd
         carla
     )
 
     prepare_managed_path "gsd" ".gsd"
     prepare_managed_path "gsd-workspaces" "gsd-workspaces"
+
+    if [ -d "claude" ] && [ -x "bin/scripts/claude/stow-prep.sh" ]; then
+        info "Running claude stow-prep..."
+        zsh bin/scripts/claude/stow-prep.sh
+    fi
+
     ensure_stow
 
     cd "$REPO_ROOT"

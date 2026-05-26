@@ -7,12 +7,13 @@
 ## Repository Map
 - `nvim/.config/nvim/` -> Neovim config (Lua, lazy.nvim, plugin specs, keymaps).
 - `waybar/.config/waybar/` -> Waybar JSONC configs and CSS styles.
-- `bin/scripts/` -> setup and Waybar helper scripts (POSIX shell and zsh).
+- `bin/scripts/` -> setup helpers (POSIX shell and zsh), Waybar tools, and per-package pre-stage helpers (e.g. `claude/stow-prep.sh`).
 - `hypr/.config/hypr/` -> Hyprland and Hyprlock configs.
 - `tmux/.config/tmux/` -> tmux config.
 - `zsh/.zshrc` -> shell profile.
 - `ghostty/.config/ghostty/config` -> terminal config.
 - `opencode/.config/opencode/` -> OpenCode agent/tooling config.
+- `claude/.claude/` -> Claude Code global instructions (`CLAUDE.md`), harness settings, and account-wide memory. Per-project memory lives in the consuming repo (e.g. `synapsys-cve/.planning/claude-memory/`), not here.
 
 ## Command Reference (Repo Root)
 - Run commands from the repo root: `cd /home/ilbey/.dotfiles`.

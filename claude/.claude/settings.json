@@ -1,0 +1,123 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(/home/ilbey/Projects/nvim/**)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)"
+    ],
+    "defaultMode": "plan"
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/usr/bin/node\" \"/home/ilbey/.claude/hooks/gsd-check-update.js\""
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"/home/ilbey/.claude/hooks/gsd-session-state.sh\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash|Edit|Write|MultiEdit|Agent|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/usr/bin/node\" \"/home/ilbey/.claude/hooks/gsd-context-monitor.js\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/usr/bin/node\" \"/home/ilbey/.claude/hooks/gsd-read-injection-scanner.js\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"/home/ilbey/.claude/hooks/gsd-phase-boundary.sh\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/usr/bin/node\" \"/home/ilbey/.claude/hooks/gsd-prompt-guard.js\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/usr/bin/node\" \"/home/ilbey/.claude/hooks/gsd-read-guard.js\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/usr/bin/node\" \"/home/ilbey/.claude/hooks/gsd-workflow-guard.js\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"/home/ilbey/.claude/hooks/gsd-validate-commit.sh\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "\"/usr/bin/node\" \"/home/ilbey/.claude/hooks/gsd-statusline.js\""
+  },
+  "enabledPlugins": {
+    "typescript-lsp@claude-plugins-official": true,
+    "superpowers@superpowers-marketplace": true,
+    "superpowers-developing-for-claude-code@superpowers-marketplace": true,
+    "frontend-design@claude-plugins-official": false,
+    "code-simplifier@claude-plugins-official": true
+  },
+  "promptSuggestionEnabled": false,
+  "editorMode": "vim",
+  "preferredNotifChannel": "ghostty",
+  "skipAutoPermissionPrompt": true,
+  "agentPushNotifEnabled": true
+}
