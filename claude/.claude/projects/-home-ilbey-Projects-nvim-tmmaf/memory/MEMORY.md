@@ -1,0 +1,2 @@
+- [Spot-check revisions instead of re-running full checker](feedback_revision_verification.md) — when a revision agent returns a per-issue changelog, prefer targeted greps over a fresh full verifier agent
+- [TMMAF client deck — frame for the customer, not the dev team](feedback_tmmaf_deck_audience.md) — federation cares about brand, blockers, and asks; drop internal phase/package jargon

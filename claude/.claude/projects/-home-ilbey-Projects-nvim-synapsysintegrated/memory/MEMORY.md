@@ -1,0 +1,4 @@
+- [Validate test currency before debugging](feedback_validate_test_currency_first.md) — assume sibling/linked-repo or DOM-pinned test failures may be stale against newer package versions; classify as deferred and ask before debugging.
+- [Use plain terms, not GSD jargon](feedback_plain_terms_no_gsd_jargon.md) — explain blockers in concrete terms first; doc IDs (D-04, ISSUE-NN, AUTHZ-04) are footnotes, not context.
+- [Server-first architecture](project_server_first_architecture.md) — Synapsys + CVE intentionally server-authoritative; flag client-side leakage of server concerns as future cleanups.
+- [No bare console.* in host src/**](feedback_no_bare_console_in_host.md) — Phase 6 D-07 invariant; refactor to `logEvent` from `@/lib/log/emit`, never allowlist the offender.

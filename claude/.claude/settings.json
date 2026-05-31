@@ -122,6 +122,6 @@
   "promptSuggestionEnabled": false,
   "editorMode": "vim",
   "preferredNotifChannel": "ghostty",
-  "skipAutoPermissionPrompt": true,
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "skipAutoPermissionPrompt": true
 }
