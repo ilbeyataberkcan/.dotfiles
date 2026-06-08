@@ -1,0 +1,51 @@
+{
+  "pinnedAt": "2026-06-06T17:41:25.684Z",
+  "from": "/home/ilbey/Projects/nvim/synapsys-cve/packages/design-system/src",
+  "rawPins": [
+    "theme/oklch.ts",
+    "theme/utils.ts",
+    "tokens-codegen/index.ts"
+  ],
+  "artifacts": [
+    {
+      "name": "oklch.raw.ts",
+      "sha256": "95ffb923bd9d82115e8ad98c48847e5e20ed1579ad2e7bd57703c18d87ffe992",
+      "bytes": 33631
+    },
+    {
+      "name": "utils.raw.ts",
+      "sha256": "cc720554e676ad0740038e367fbdf766ed81be0b73b49b2d8f1359bdcb6a720f",
+      "bytes": 16890
+    },
+    {
+      "name": "tokens-codegen.raw.ts",
+      "sha256": "4d87c6b7a081cc24bba66e91fff1feaba27b5fb3c1f390f5d2db8216c37c1e46",
+      "bytes": 4460
+    },
+    {
+      "name": "theme-math.ts",
+      "sha256": "b921c0c51f4c285e775a5a550c814ea69a4503afa5a2df8c14e9b8d7f4fec63a",
+      "bytes": 55297
+    },
+    {
+      "name": "theme-types.ts",
+      "sha256": "21d108b55cb725513475054c3c8860b4bdfea2a8db1fe69403a9cf284307ba0b",
+      "bytes": 2048
+    },
+    {
+      "name": "culori.min.mjs",
+      "sha256": "09dc0be3088b19c120af9e7cad015236268b6b5e2a0f2a8d23ffed7b0d57326c",
+      "bytes": 63630
+    },
+    {
+      "name": "look-vocab.json",
+      "sha256": "4ec45c0729875e0bbbabf99ec3aeeab48694f5a369cd86afc6657c85d34f1911",
+      "bytes": 272
+    },
+    {
+      "name": "theme-vars.json",
+      "sha256": "9680f52afae42f0ec82e8b0ec0b7a2f203f7e6a69dc053cf6d970109bb27c9e0",
+      "bytes": 6379
+    }
+  ]
+}

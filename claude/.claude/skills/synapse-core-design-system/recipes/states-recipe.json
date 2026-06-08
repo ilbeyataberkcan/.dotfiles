@@ -1,0 +1,937 @@
+{
+  "$schema": "./states-recipe.schema.json",
+  "_doc": "NUDGE-KNOB (determinism.md): the design-relevant SOLO state matrix per component. Brand-overridable. build-review-surface reads this to expand each registry entry into specimens. Keys are registry componentType keys; each entry lists named specimens with the literal RenderEngine props to render. `force` pins an interactive paint (data-force) so a still capture shows hover/focus/active. Omit a key to fall back to the registry default (one specimen from schema defaults). This file is the ONLY judgment in SOLO generation \u2014 everything downstream is mechanical.",
+  "defaults": {
+    "forceStates": [
+      "hover",
+      "focus",
+      "active"
+    ],
+    "captionFromSpecimenName": true,
+    "fallbackSpecimen": "registry-default",
+    "_fallback": "A registry key absent from `components` still renders ONE specimen from its schema defaults (light+dark) \u2014 coverage never has holes; this recipe only WIDENS the meaningful keys past the single default."
+  },
+  "axes": {
+    "_doc": "DETERMINISTIC (not a knob): the fixed, intent-derived checklist axes the surface renders per unit and the chrome serializes into feedback.json. The states above are brand-curated; these axes are the same for every brand because they are the dimensions design intent lives on (RESEARCH \u00a75). build-review-surface fills {{AXIS_LEGEND}} and the AXES loop from this list; review-chrome.js reads it as MANIFEST.axes.",
+    "items": [
+      {
+        "key": "voice",
+        "name": "Voice",
+        "hint": "display face \u00b7 uppercase \u00b7 tabular figures"
+      },
+      {
+        "key": "elevation",
+        "name": "Elevation",
+        "hint": "raised vs recessed \u2014 no resting outlines"
+      },
+      {
+        "key": "media-drama",
+        "name": "Media drama",
+        "hint": "scrim depth + text legibility, both modes"
+      },
+      {
+        "key": "rhythm",
+        "name": "Rhythm",
+        "hint": "spacing \u00b7 breath \u00b7 vertical cadence"
+      },
+      {
+        "key": "color-budget",
+        "name": "Color budget",
+        "hint": "within the brand accent budget"
+      },
+      {
+        "key": "both-mode-parity",
+        "name": "Both-mode parity",
+        "hint": "holds up in light AND dark"
+      },
+      {
+        "key": "geometry",
+        "name": "Geometry",
+        "hint": "roundness · corners · shape compliance"
+      },
+      {
+        "key": "typography",
+        "name": "Typography",
+        "hint": "font face · weight · size · case"
+      },
+      {
+        "key": "ramp-step",
+        "name": "Ramp step",
+        "hint": "no 50/100/150 ramp steps as fills"
+      },
+      {
+        "key": "prominence",
+        "name": "Prominence",
+        "hint": "contrast · emphasis · visible in both modes"
+      },
+      {
+        "key": "container-fit",
+        "name": "Container fit",
+        "hint": "specimen renders at its own ratio"
+      },
+      {
+        "key": "broken",
+        "name": "Broken",
+        "hint": "validation / render failure"
+      }
+    ]
+  },
+  "components": {
+    "text": [
+      {
+        "name": "heading",
+        "props": {
+          "content": "Fight night is set",
+          "variant": "heading",
+          "as": "h2"
+        }
+      },
+      {
+        "name": "subheading",
+        "props": {
+          "content": "Bantamweight title bout",
+          "variant": "subheading",
+          "as": "h3"
+        }
+      },
+      {
+        "name": "body",
+        "props": {
+          "content": "Weigh-in opens two hours before the first bout. Bring your federation ID and medical certificate.",
+          "variant": "body",
+          "as": "p"
+        }
+      },
+      {
+        "name": "caption",
+        "props": {
+          "content": "Updated 2 hours ago",
+          "variant": "caption",
+          "as": "span"
+        }
+      },
+      {
+        "name": "label",
+        "props": {
+          "content": "Weight class",
+          "variant": "label",
+          "as": "span"
+        }
+      },
+      {
+        "name": "value (mono)",
+        "props": {
+          "content": "61.2 KG",
+          "variant": "eyebrow",
+          "as": "span"
+        }
+      },
+      {
+        "name": "display",
+        "props": {
+          "content": "TMMAF 12",
+          "variant": "display",
+          "as": "h1"
+        }
+      },
+      {
+        "name": "eyebrow",
+        "props": {
+          "content": "MAIN EVENT",
+          "variant": "eyebrow",
+          "as": "span"
+        }
+      }
+    ],
+    "logo": [
+      {
+        "name": "brand mark",
+        "props": {
+          "src": "/tmmaf-logo.png",
+          "alt": "TMMAF",
+          "width": 160,
+          "objectFit": "contain"
+        }
+      }
+    ],
+    "button": [
+      {
+        "name": "primary \u00b7 rest",
+        "props": {
+          "text": "Primary",
+          "intent": "primary",
+          "size": "md"
+        }
+      },
+      {
+        "name": "primary \u00b7 hover",
+        "props": {
+          "text": "Primary",
+          "intent": "primary",
+          "size": "md"
+        },
+        "force": "hover"
+      },
+      {
+        "name": "secondary",
+        "props": {
+          "text": "Secondary",
+          "intent": "secondary",
+          "size": "md"
+        }
+      },
+      {
+        "name": "hero + voice",
+        "props": {
+          "text": "Register Now",
+          "intent": "hero",
+          "size": "lg",
+          "voice": true
+        }
+      },
+      {
+        "name": "disabled",
+        "props": {
+          "text": "Disabled",
+          "intent": "primary",
+          "disabled": true
+        }
+      }
+    ],
+    "badge": [
+      {
+        "name": "default",
+        "props": {
+          "text": "Default",
+          "variant": "default",
+          "size": "md"
+        }
+      },
+      {
+        "name": "requirement",
+        "props": {
+          "text": "Required",
+          "variant": "requirement",
+          "size": "md"
+        }
+      },
+      {
+        "name": "success",
+        "props": {
+          "text": "Confirmed",
+          "variant": "success",
+          "size": "md"
+        }
+      },
+      {
+        "name": "error",
+        "props": {
+          "text": "Failed",
+          "variant": "error",
+          "size": "md"
+        }
+      }
+    ],
+    "priceDisplay": [
+      {
+        "name": "display \u00b7 tabular figure",
+        "props": {
+          "currentPrice": 1450,
+          "currency": "\u20ba",
+          "variant": "display",
+          "size": "lg",
+          "caption": "PER EVENT"
+        }
+      }
+    ],
+    "card": [
+      {
+        "name": "elevated \u00b7 resting depth",
+        "props": {
+          "variant": "elevated",
+          "padding": "md",
+          "hoverable": true
+        }
+      },
+      {
+        "name": "elevated \u00b7 hover lift",
+        "props": {
+          "variant": "elevated",
+          "padding": "md",
+          "hoverable": true
+        },
+        "force": "hover"
+      },
+      {
+        "name": "flat \u00b7 shade-only separation",
+        "props": {
+          "variant": "flat",
+          "padding": "md"
+        }
+      },
+      {
+        "name": "outlined \u00b7 state treatment",
+        "props": {
+          "variant": "outlined",
+          "padding": "md"
+        }
+      },
+      {
+        "name": "outlined \u00b7 focus outline",
+        "props": {
+          "variant": "outlined",
+          "padding": "md"
+        },
+        "force": "focus"
+      }
+    ],
+    "selectableRow": [
+      {
+        "name": "selected",
+        "props": {
+          "leadingIcon": "list",
+          "title": "Standard Membership",
+          "subtitle": "ANNUAL \u00b7 TIER A",
+          "trailingFigure": 1450,
+          "trailingCurrency": "\u20ba",
+          "selected": true
+        }
+      },
+      {
+        "name": "unselected",
+        "props": {
+          "leadingIcon": "list",
+          "title": "Trial Membership",
+          "subtitle": "MONTHLY \u00b7 TIER B",
+          "trailingFigure": 250,
+          "trailingCurrency": "\u20ba",
+          "selected": false
+        }
+      }
+    ],
+    "callout": [
+      {
+        "name": "info",
+        "props": {
+          "tone": "info",
+          "title": "Heads up",
+          "body": "Weigh-in opens two hours before the first bout."
+        }
+      },
+      {
+        "name": "warning",
+        "props": {
+          "tone": "warning",
+          "title": "Action needed",
+          "body": "Your medical certificate expires in 7 days."
+        }
+      },
+      {
+        "name": "success",
+        "props": {
+          "tone": "success",
+          "title": "All set",
+          "body": "Your registration is complete."
+        }
+      },
+      {
+        "name": "error",
+        "props": {
+          "tone": "error",
+          "title": "Payment failed",
+          "body": "We could not process your card."
+        }
+      }
+    ],
+    "statusIconTile": [
+      {
+        "name": "success",
+        "props": {
+          "status": "success",
+          "label": "Confirmed"
+        }
+      },
+      {
+        "name": "error",
+        "props": {
+          "status": "error",
+          "label": "Failed"
+        }
+      },
+      {
+        "name": "pending",
+        "props": {
+          "status": "pending",
+          "label": "Verifying"
+        }
+      },
+      {
+        "name": "neutral",
+        "props": {
+          "status": "neutral",
+          "icon": "mail",
+          "label": "Awaiting"
+        }
+      },
+      {
+        "name": "xs (inline)",
+        "props": {
+          "status": "success",
+          "size": "xs",
+          "label": "Confirmed"
+        }
+      }
+    ],
+    "input": [
+      {
+        "name": "empty",
+        "props": {
+          "name": "fullName",
+          "placeholder": "Full name",
+          "defaultValue": ""
+        }
+      },
+      {
+        "name": "filled",
+        "props": {
+          "name": "fullName",
+          "defaultValue": "Ay\u015fe Demir"
+        }
+      },
+      {
+        "name": "focus",
+        "props": {
+          "name": "fullName",
+          "defaultValue": "Ay\u015fe Demir"
+        },
+        "force": "focus"
+      },
+      {
+        "name": "error",
+        "props": {
+          "name": "email",
+          "invalid": true,
+          "defaultValue": "ayse@"
+        }
+      },
+      {
+        "name": "disabled",
+        "props": {
+          "name": "lockedField",
+          "disabled": true,
+          "defaultValue": "Locked field"
+        }
+      }
+    ],
+    "select": [
+      {
+        "name": "placeholder",
+        "props": {
+          "placeholder": "Select weight class",
+          "options": [
+            {
+              "label": "Flyweight",
+              "value": "fly"
+            },
+            {
+              "label": "Bantamweight",
+              "value": "bantam"
+            }
+          ]
+        }
+      },
+      {
+        "name": "chosen",
+        "props": {
+          "value": "bantam",
+          "options": [
+            {
+              "label": "Flyweight",
+              "value": "fly"
+            },
+            {
+              "label": "Bantamweight",
+              "value": "bantam"
+            }
+          ]
+        }
+      }
+    ],
+    "textarea": [
+      {
+        "name": "empty",
+        "props": {
+          "name": "matchmakingNotes",
+          "placeholder": "Notes for the matchmaking board",
+          "rows": 3
+        }
+      },
+      {
+        "name": "filled",
+        "props": {
+          "name": "matchmakingNotes",
+          "rows": 3,
+          "defaultValue": "Two prior amateur bouts, both wins."
+        }
+      }
+    ],
+    "hero": [
+      {
+        "name": "split \u00b7 dramatic dark media",
+        "props": {
+          "layout": "split",
+          "eyebrow": "MAIN EVENT",
+          "title": "Demir vs Y\u0131lmaz",
+          "subtitle": "Bantamweight title bout",
+          "ctaPrimary": "VIEW FIGHT CARD"
+        }
+      },
+      {
+        "name": "full \u00b7 full-bleed scrim",
+        "props": {
+          "layout": "full",
+          "eyebrow": "LIVE",
+          "title": "TMMAF 12",
+          "subtitle": "Istanbul \u00b7 Sinan Erdem",
+          "ctaPrimary": "WATCH LIVE"
+        }
+      }
+    ],
+    "overlayBadge": [
+      {
+        "name": "neutral \u00b7 over media",
+        "props": {
+          "display": "FEATURED",
+          "tone": "neutral"
+        }
+      },
+      {
+        "name": "success \u00b7 over media",
+        "props": {
+          "display": "CONFIRMED",
+          "tone": "accent"
+        }
+      },
+      {
+        "name": "danger \u00b7 over media",
+        "props": {
+          "display": "SOLD OUT",
+          "tone": "accent"
+        }
+      }
+    ],
+    "statusStrap": [
+      {
+        "name": "live",
+        "props": {
+          "segments": [
+            {
+              "tone": "live",
+              "label": "LIVE NOW",
+              "dot": true
+            },
+            {
+              "tone": "neutral",
+              "label": "ROUND",
+              "value": "2"
+            }
+          ]
+        }
+      },
+      {
+        "name": "upcoming",
+        "props": {
+          "segments": [
+            {
+              "tone": "accent",
+              "label": "UPCOMING"
+            },
+            {
+              "tone": "muted",
+              "label": "STARTS",
+              "value": "19:00"
+            }
+          ]
+        }
+      },
+      {
+        "name": "completed",
+        "props": {
+          "segments": [
+            {
+              "tone": "muted",
+              "label": "COMPLETED"
+            },
+            {
+              "tone": "positive",
+              "label": "RESULT",
+              "value": "FINAL"
+            }
+          ]
+        }
+      }
+    ],
+    "dateBadgeLockup": [
+      {
+        "name": "single date",
+        "props": {
+          "month": "SEP",
+          "day": "14",
+          "year": "2026",
+          "title": "TMMAF 12",
+          "subtitle": "Sinan Erdem \u00b7 Istanbul"
+        }
+      }
+    ],
+    "stepRail": [
+      {
+        "name": "mid-flow",
+        "props": {
+          "steps": [
+            {
+              "label": "Application",
+              "state": "done"
+            },
+            {
+              "label": "Payment",
+              "state": "current"
+            },
+            {
+              "label": "Confirmation",
+              "state": "wait"
+            }
+          ]
+        },
+        "force": "selected"
+      }
+    ],
+    "tabs": [
+      {
+        "name": "first active",
+        "props": {
+          "items": [
+            {
+              "label": "Overview",
+              "value": "o"
+            },
+            {
+              "label": "Fight card",
+              "value": "f"
+            },
+            {
+              "label": "Rules",
+              "value": "r"
+            }
+          ],
+          "defaultValue": "o"
+        },
+        "force": "active"
+      }
+    ],
+    "table": [
+      {
+        "name": "populated \u00b7 tabular figures",
+        "props": {
+          "columns": [
+            {
+              "key": "fighter",
+              "header": "Fighter"
+            },
+            {
+              "key": "record",
+              "header": "Record"
+            },
+            {
+              "key": "rank",
+              "header": "Rank"
+            }
+          ],
+          "data": [
+            {
+              "fighter": "Demir",
+              "record": "12-1",
+              "rank": "1"
+            },
+            {
+              "fighter": "Y\u0131lmaz",
+              "record": "10-3",
+              "rank": "2"
+            }
+          ]
+        }
+      },
+      {
+        "name": "empty",
+        "props": {
+          "columns": [
+            {
+              "key": "fighter",
+              "header": "Fighter"
+            },
+            {
+              "key": "record",
+              "header": "Record"
+            }
+          ],
+          "data": [],
+          "emptyMessage": "No fighters listed yet"
+        }
+      }
+    ],
+    "statusTimeline": [
+      {
+        "name": "in progress",
+        "props": {
+          "orientation": "vertical",
+          "nodes": [
+            {
+              "label": "Application received",
+              "state": "done",
+              "subLabel": "2026-05-02"
+            },
+            {
+              "label": "Under review",
+              "state": "current",
+              "subLabel": "IN PROGRESS"
+            },
+            {
+              "label": "Approved",
+              "state": "pending"
+            }
+          ]
+        }
+      }
+    ],
+    "dialog": [
+      {
+        "name": "open",
+        "props": {
+          "title": "Confirm withdrawal",
+          "description": "This removes your registration for TMMAF 12.",
+          "defaultOpen": true
+        }
+      }
+    ],
+    "lineItemsCard": [
+      {
+        "name": "fee breakdown",
+        "props": {
+          "items": [
+            {
+              "label": "Registration fee",
+              "subLabel": "PER EVENT",
+              "amount": 1450
+            },
+            {
+              "label": "Federation levy",
+              "subLabel": "ANNUAL",
+              "amount": 200
+            }
+          ],
+          "totalLabel": "TOTAL",
+          "totalAmount": 1650,
+          "currency": "\u20ba"
+        }
+      }
+    ],
+    "uploadStateRow": [
+      {
+        "name": "empty",
+        "props": {
+          "title": "Medical certificate",
+          "state": "idle",
+          "requirementLabel": "Required",
+          "actionLabel": "Upload",
+          "icon": "document"
+        }
+      },
+      {
+        "name": "uploading",
+        "props": {
+          "title": "Medical certificate",
+          "state": "idle",
+          "metaText": "Uploading\u2026 60%",
+          "icon": "document"
+        }
+      },
+      {
+        "name": "uploaded",
+        "props": {
+          "title": "Medical certificate",
+          "state": "complete",
+          "metaText": "med-cert.pdf \u00b7 1.2 MB",
+          "icon": "document"
+        }
+      },
+      {
+        "name": "error",
+        "props": {
+          "title": "Medical certificate",
+          "state": "required-missing",
+          "metaText": "File too large",
+          "requirementLabel": "Required",
+          "actionLabel": "Re-upload",
+          "icon": "document"
+        }
+      }
+    ],
+    "checkbox": [
+      {
+        "name": "checked",
+        "props": {
+          "name": "agreeTerms",
+          "label": "I agree to the federation rules",
+          "defaultChecked": true
+        }
+      },
+      {
+        "name": "unchecked",
+        "props": {
+          "name": "newsletter",
+          "label": "Send me event updates",
+          "defaultChecked": false
+        }
+      },
+      {
+        "name": "disabled",
+        "props": {
+          "name": "lockedConsent",
+          "label": "Consent on file",
+          "defaultChecked": true,
+          "disabled": true
+        }
+      }
+    ],
+    "switch": [
+      {
+        "name": "on",
+        "props": {
+          "name": "notifications",
+          "label": "Bout reminders",
+          "defaultChecked": true
+        }
+      },
+      {
+        "name": "off",
+        "props": {
+          "name": "publicProfile",
+          "label": "Show on public roster",
+          "defaultChecked": false
+        }
+      },
+      {
+        "name": "disabled",
+        "props": {
+          "name": "lockedSetting",
+          "label": "Managed by federation",
+          "defaultChecked": true,
+          "disabled": true
+        }
+      }
+    ],
+    "formField": [
+      {
+        "name": "label + input",
+        "props": {
+          "name": "fullName",
+          "label": "Full name"
+        }
+      },
+      {
+        "name": "with hint",
+        "props": {
+          "name": "weightKg",
+          "label": "Weight",
+          "required": true,
+          "helperText": "Recorded at the official weigh-in."
+        }
+      },
+      {
+        "name": "with error",
+        "props": {
+          "name": "email",
+          "label": "Email",
+          "required": true,
+          "errorMessage": "Enter a valid email address."
+        }
+      }
+    ],
+    "chipSelect": [
+      {
+        "name": "filter pills · multi-select",
+        "props": {
+          "ariaLabel": "Filter events",
+          "tone": "accent",
+          "selectedValues": ["all"],
+          "options": [
+            { "value": "all", "label": "ALL" },
+            { "value": "upcoming", "label": "UPCOMING" },
+            { "value": "live", "label": "LIVE" },
+            { "value": "completed", "label": "COMPLETED" },
+            { "value": "flyweight", "label": "FLYWEIGHT" },
+            { "value": "lightweight", "label": "LIGHTWEIGHT" }
+          ]
+        }
+      }
+    ],
+    "siteHeader": [
+      {
+        "name": "federation top-nav",
+        "props": {
+          "logoSrc": "/tmmaf-logo.png",
+          "logoAlt": "TMMAF",
+          "logoWidth": 140,
+          "logoHeight": 36,
+          "links": [
+            { "label": "Events", "href": "/events" },
+            { "label": "Fighters", "href": "/fighters" },
+            { "label": "Rankings", "href": "/rankings" },
+            { "label": "About", "href": "/about" }
+          ],
+          "ctaLabel": "Register",
+          "ctaHref": "/register"
+        }
+      }
+    ],
+    "label": [
+      {
+        "name": "default",
+        "props": {
+          "text": "Weight class"
+        }
+      },
+      {
+        "name": "required",
+        "props": {
+          "text": "Full name",
+          "required": true
+        }
+      },
+      {
+        "name": "field voice",
+        "props": {
+          "text": "WEIGHT CLASS",
+          "variant": "field"
+        }
+      }
+    ],
+    "statBlock": [
+      {
+        "name": "metric",
+        "props": {
+          "value": "12-1",
+          "label": "Pro record",
+          "icon": "trophy"
+        }
+      },
+      {
+        "name": "large",
+        "props": {
+          "value": "61.2 KG",
+          "label": "Weigh-in",
+          "size": "lg"
+        }
+      }
+    ]
+  }
+}

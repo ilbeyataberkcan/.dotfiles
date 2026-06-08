@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<!--
+  review-surface.template.html — the split-frame review shell.
+
+  `build-review-surface.ts` (the generator) loads this template, substitutes the
+  double-brace placeholders, and expands the LOOP block markers with
+  generated markup, then writes review.html into the output dir beside review.css +
+  review-chrome.js + reference/ + manifest.json. The result opens with file:// — no
+  dev server, no backend (L16: fidelity is judged by impeccable + the operator).
+
+  ── Placeholders the generator fills ───────────────────────────────────────────
+  {{BRAND_NAME}}        e.g. "TMMAF" — surface title chip
+  {{GENERATED_AT}}      ISO timestamp the generator stamps
+  {{SURFACE_ID}}        stable id for localStorage scoping + feedback.json
+  {{REGISTRY_PATH}}     the registry module the surface was built from (caption only)
+  {{CATEGORY_OPTIONS}}  <option>s for the category filter, from meta.category set
+  {{INLINE_THEME_CSS}}  the generated theme CSS for light+dark, inlined so specimens
+                        paint the REAL tokens (preset + theme.generated.css)
+  {{MANIFEST_JSON}}     window.__REVIEW__ = {...}: surfaceId, generatedAt, axes[],
+                        units[] (every data-capture-id) — the serializer's catalogue
+  {{AXIS_LEGEND}}       human-readable axis names for the chrome legend
+
+  ── Block markers the generator expands (repeat-per-unit) ──────────────────────
+  <!-- LOOP:SOLO_UNITS -->...<!-- /LOOP:SOLO_UNITS -->     one .rv-unit per specimen
+  <!-- LOOP:MOCKUP_UNITS -->...<!-- /LOOP:MOCKUP_UNITS --> one .rv-unit per screen
+  Inside each it fills:
+    {{UNIT_ID}} {{UNIT_TITLE}} {{UNIT_CATEGORY}} {{UNIT_KEY}} {{UNIT_SEARCH}}
+    {{REF_PANE}}        either <img> (ref present) or .rv-intent-note (degrade)
+    {{NO_REF}}          "true" when no reference image exists (left-rail intent note)
+    {{RENDER_PANE}}     the SSR'd specimen/screen markup (RenderEngine static output),
+                        width-locked to the reference; light+dark stacked for SOLO
+    <!-- LOOP:AXES -->...<!-- /LOOP:AXES -->  the per-axis ✅/⚠️/❌ row
+      {{AXIS_KEY}} {{AXIS_NAME}} {{AXIS_HINT}}
+
+  The double-brace tokens above and the LOOP markers are the ENTIRE generator
+  contract; everything else here is fixed chrome shared by every brand's surface.
+-->
+<html lang="en" data-mode="solo" data-theme="paired" data-viewport="desktop" data-reduced-motion="false">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{BRAND_NAME}} · Design Review Surface</title>
+
+  <!-- Surface scaffolding (shipped verbatim by the generator). -->
+  <link rel="stylesheet" href="review.css" />
+
+  <!-- The REAL generated theme tokens, inlined so specimens paint true light+dark.
+       The generator replaces this block with preset.css + theme.generated.css. -->
+  <style id="rv-theme">
+    {{INLINE_THEME_CSS}}
+  </style>
+</head>
+
+<body>
+  <div class="rv-root" data-mode="solo" data-theme="paired" data-viewport="desktop">
+
+    <!-- ── CHROME ─────────────────────────────────────────────────────────── -->
+    <header class="rv-chrome" role="toolbar" aria-label="Review controls">
+      <div class="rv-chrome__brand">
+        {{BRAND_NAME}}
+        <small>design review · {{GENERATED_AT}}</small>
+      </div>
+
+      <!-- Mode tabs: SOLO ⇄ MOCKUP -->
+      <div class="rv-group" data-chrome="mode" role="tablist" aria-label="Mode">
+        <button class="rv-seg" data-value="solo"   aria-pressed="true">SOLO</button>
+        <button class="rv-seg" data-value="mockup" aria-pressed="false">MOCKUP</button>
+      </div>
+
+      <!-- Theme: light / dark / paired (default — both stacked, divergence visible) -->
+      <div class="rv-group" data-chrome="theme" role="group" aria-label="Theme">
+        <button class="rv-seg" data-value="paired" aria-pressed="true">Paired</button>
+        <button class="rv-seg" data-value="light"  aria-pressed="false">Light</button>
+        <button class="rv-seg" data-value="dark"   aria-pressed="false">Dark</button>
+      </div>
+
+      <!-- Viewport: desktop / tablet / mobile (shown in MOCKUP) -->
+      <div class="rv-group" data-chrome="viewport" role="group" aria-label="Viewport" hidden>
+        <button class="rv-seg" data-value="desktop" aria-pressed="true">Desktop</button>
+        <button class="rv-seg" data-value="tablet"  aria-pressed="false">Tablet</button>
+        <button class="rv-seg" data-value="mobile"  aria-pressed="false">Mobile</button>
+      </div>
+
+      <!-- Reduced-motion emulation (rendered layer only) -->
+      <label class="rv-toggle">
+        <input type="checkbox" data-chrome="reduced-motion" />
+        Reduced motion
+      </label>
+
+      <div class="rv-chrome__spacer"></div>
+
+      <!-- Specimen filter: free-text over key / label / category -->
+      <input class="rv-filter" type="search" data-chrome="filter"
+             placeholder="Filter specimens… ({{CATEGORY_OPTIONS}})"
+             aria-label="Filter specimens" list="rv-categories" />
+      <datalist id="rv-categories">{{CATEGORY_OPTIONS}}</datalist>
+    </header>
+
+    <!-- ── SOLO MODE ──────────────────────────────────────────────────────── -->
+    <section class="rv-mode is-active" data-mode-panel="solo" aria-label="Solo specimens">
+      <p class="rv-mode__intro">
+        Every component across its design-relevant states (from <code>states-recipe.json</code>),
+        light + dark stacked, each beside its reference slice or written intent. Use the
+        per-unit <b>Wipe</b> view to sweep rendered over reference — the un-fakeable drift check.
+        Legend: {{AXIS_LEGEND}}.
+      </p>
+
+      <!-- LOOP:SOLO_UNITS -->
+      <article class="rv-unit" data-capture-id="{{UNIT_ID}}" data-search="{{UNIT_SEARCH}}">
+        <div class="rv-unit__head">
+          <span class="rv-unit__title">{{UNIT_TITLE}}</span>
+          <span class="rv-unit__cat">{{UNIT_CATEGORY}}</span>
+          <span class="rv-unit__key">{{UNIT_KEY}}</span>
+          <span class="rv-unit__views" data-chrome="unit-view" role="group" aria-label="Compare">
+            <button class="rv-seg" data-value="split" aria-pressed="true">Split</button>
+            <button class="rv-seg" data-value="wipe"  aria-pressed="false">Wipe</button>
+            <button class="rv-seg" data-value="fade"  aria-pressed="false">Fade</button>
+          </span>
+        </div>
+
+        <div class="rv-split" data-view="split" data-no-ref="{{NO_REF}}">
+          <div class="rv-pane rv-pane--ref rv-zoomable">
+            <span class="rv-pane__tag">REFERENCE</span>
+            {{REF_PANE}}
+          </div>
+          <div class="rv-pane rv-pane--render rv-zoomable">
+            <span class="rv-pane__tag">RENDERED</span>
+            <div class="dz-render">{{RENDER_PANE}}</div>
+          </div>
+          <div class="rv-wipe-handle" role="slider" aria-label="A/B wipe" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"></div>
+          <input type="range" data-fade-slider min="0" max="100" value="100" hidden />
+        </div>
+
+        <div class="rv-check">
+          <div class="rv-check__axes">
+            <!-- LOOP:AXES -->
+            <div class="rv-axis" data-axis="{{AXIS_KEY}}">
+              <span class="rv-axis__name">{{AXIS_NAME}}<small>{{AXIS_HINT}}</small></span>
+              <span class="rv-verdict" role="group" aria-label="{{AXIS_NAME}} verdict">
+                <button data-v="ok"   aria-pressed="false" title="Matches">✅</button>
+                <button data-v="warn" aria-pressed="false" title="Slightly off">⚠️</button>
+                <button data-v="bad"  aria-pressed="false" title="Wrong">❌</button>
+              </span>
+            </div>
+            <!-- /LOOP:AXES -->
+          </div>
+          <textarea class="rv-check__note" placeholder="Annotation for {{UNIT_TITLE}} (optional)…"></textarea>
+        </div>
+      </article>
+      <!-- /LOOP:SOLO_UNITS -->
+    </section>
+
+    <!-- ── MOCKUP MODE ────────────────────────────────────────────────────── -->
+    <section class="rv-mode" data-mode-panel="mockup" aria-label="Mockup screens">
+      <p class="rv-mode__intro">
+        Components composed into pages that mirror reference screens (from
+        <code>screen-recipes.json</code>), pinned side-by-side at matched width — where most
+        composition drift hides. Wipe to check alignment; switch viewport to catch responsive amputation.
+      </p>
+
+      <!-- LOOP:MOCKUP_UNITS -->
+      <article class="rv-unit" data-capture-id="{{UNIT_ID}}" data-search="{{UNIT_SEARCH}}">
+        <div class="rv-unit__head">
+          <span class="rv-unit__title">{{UNIT_TITLE}}</span>
+          <span class="rv-unit__cat">SCREEN</span>
+          <span class="rv-unit__key">{{UNIT_KEY}}</span>
+          <span class="rv-unit__views" data-chrome="unit-view" role="group" aria-label="Compare">
+            <button class="rv-seg" data-value="split" aria-pressed="true">Split</button>
+            <button class="rv-seg" data-value="wipe"  aria-pressed="false">Wipe</button>
+            <button class="rv-seg" data-value="fade"  aria-pressed="false">Fade</button>
+          </span>
+        </div>
+
+        <div class="rv-split" data-view="split" data-no-ref="{{NO_REF}}">
+          <div class="rv-pane rv-pane--ref rv-zoomable">
+            <span class="rv-pane__tag">REFERENCE</span>
+            {{REF_PANE}}
+          </div>
+          <div class="rv-pane rv-pane--render rv-zoomable">
+            <span class="rv-pane__tag">RENDERED</span>
+            <div class="dz-render">{{RENDER_PANE}}</div>
+          </div>
+          <div class="rv-wipe-handle" role="slider" aria-label="A/B wipe" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"></div>
+          <input type="range" data-fade-slider min="0" max="100" value="100" hidden />
+        </div>
+
+        <div class="rv-check">
+          <div class="rv-check__axes">
+            <!-- LOOP:AXES -->
+            <div class="rv-axis" data-axis="{{AXIS_KEY}}">
+              <span class="rv-axis__name">{{AXIS_NAME}}<small>{{AXIS_HINT}}</small></span>
+              <span class="rv-verdict" role="group" aria-label="{{AXIS_NAME}} verdict">
+                <button data-v="ok"   aria-pressed="false" title="Matches">✅</button>
+                <button data-v="warn" aria-pressed="false" title="Slightly off">⚠️</button>
+                <button data-v="bad"  aria-pressed="false" title="Wrong">❌</button>
+              </span>
+            </div>
+            <!-- /LOOP:AXES -->
+          </div>
+          <textarea class="rv-check__note" placeholder="Annotation for {{UNIT_TITLE}} (optional)…"></textarea>
+        </div>
+      </article>
+      <!-- /LOOP:MOCKUP_UNITS -->
+    </section>
+
+    <!-- ── LIGHTBOX ───────────────────────────────────────────────────────── -->
+    <div class="rv-lightbox" role="dialog" aria-modal="true" aria-label="Zoomed view">
+      <button class="rv-lightbox__close" aria-label="Close zoom">×</button>
+      <div class="rv-lightbox__stage"></div>
+    </div>
+
+    <!-- ── FEEDBACK DOCK (no backend — feedback.json is a plain file) ──────── -->
+    <div class="rv-dock">
+      <span class="rv-dock__stat" data-dock="progress"><b>0</b> / 0 units rated</span>
+      <button class="rv-btn" data-dock="copy">Copy JSON</button>
+      <button class="rv-btn rv-btn--primary" data-dock="download">Download feedback.json</button>
+    </div>
+    <div class="rv-toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <!-- Manifest: the serializer's complete, order-stable unit/axis catalogue. -->
+  <script>window.__REVIEW__ = {{MANIFEST_JSON}};</script>
+
+  <!-- Chrome behaviour: mode tabs, wipe drag, lightbox, checklist serializer. -->
+  <script src="review-chrome.js"></script>
+</body>
+</html>

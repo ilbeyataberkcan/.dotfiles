@@ -1,0 +1,9 @@
+{
+  "domainWords": ["tournament", "federation", "wrestler"],
+  "brandHex": ["#d81e0b"],
+  "brandFont": ["Barlow Condensed"],
+  "requirePrimitives": ["font-display", "tabular-nums", "uppercase", "ease-emphasis"],
+  "minPrimitiveFiles": 1,
+  "contrastPairs": [["--color-status-error-fg-bad", "--color-status-error-500"]],
+  "contrastMin": 4.5
+}

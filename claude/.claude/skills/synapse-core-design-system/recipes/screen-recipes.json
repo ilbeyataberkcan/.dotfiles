@@ -1,0 +1,96 @@
+{
+  "$schema": "./screen-recipes.schema.json",
+  "_doc": "NUDGE-KNOB (determinism.md): the MOCKUP screens to reconstruct, side-by-side with their reference screenshot. Brand-overridable. Each screen names a reference image (resolved relative to --reference <dir>) and a `tree`: a RenderEngine ComponentNode forest built from registered componentType keys + props, composed the way the mockup composes them (this is where 67% of drift hid — L10). build-review-surface renders each tree through RenderEngine, pins it to `referenceWidthPx`, and pairs it with the reference image under the A/B-wipe divider. The tree is authored by the recompose stage; this file is the ONLY judgment in MOCKUP generation.",
+  "defaults": {
+    "referenceWidthPx": 420,
+    "modes": ["light", "dark"],
+    "_coverage": "Ship at least one screen per primary surface the mockup defines so composition drift (L10) is judged where it hides. These default to the TMMAF public-site screens (Home hero, Event detail, Registration). A brand overrides by dropping its own screen-recipes.json beside its --reference dir; the id + reference filename + tree are the three things it must supply."
+  },
+  "screens": [
+    {
+      "id": "home-hero",
+      "name": "Home — split fight-card hero",
+      "reference": null,
+      "referenceWidthPx": 1400,
+      "tree": {
+        "componentType": "hero",
+        "props": {
+          "look": "split",
+          "state": "live",
+          "start": { "monogram": "AD", "eyebrow": "AYŞE", "display": "DEMIR", "tag": "RED CORNER", "align": "start" },
+          "end": { "monogram": "EY", "eyebrow": "ELIF", "display": "YILMAZ", "tag": "BLUE CORNER", "align": "end" },
+          "centerStrap": {
+            "eyebrow": "MAIN EVENT · TMMAF 12",
+            "chip": { "text": "LIVE", "live": true },
+            "vsMark": "VS",
+            "title": "Demir vs Yılmaz",
+            "subtitle": "Bantamweight title bout · Istanbul"
+          }
+        }
+      }
+    },
+    {
+      "id": "event-detail",
+      "name": "Event Detail — fight card + registration CTA",
+      "reference": "desktop-profile.png",
+      "referenceWidthPx": 1400,
+      "tree": {
+        "componentType": "section",
+        "props": { "spacing": "xl", "background": "transparent" },
+        "layout": { "type": "stack", "settings": { "gap": "lg" } },
+        "children": [
+          { "componentType": "dateBadgeLockup", "props": { "month": "SEP", "day": "14", "title": "TMMAF 12", "subtitle": "ISTANBUL · SINAN ERDEM" } },
+          { "componentType": "text", "props": { "content": "TMMAF 12 · ISTANBUL", "variant": "eyebrow", "as": "span" } },
+          { "componentType": "text", "props": { "content": "Fight card", "variant": "display", "as": "h1" } },
+          { "componentType": "statusStrap", "props": { "segments": [{ "tone": "live", "label": "LIVE NOW", "dot": true, "grow": true }, { "tone": "neutral", "label": "R2", "value": "03:14" }] } },
+          {
+            "componentType": "table",
+            "props": {
+              "columns": [{ "key": "bout", "header": "Bout" }, { "key": "fighters", "header": "Fighters" }, { "key": "weight", "header": "Weight" }],
+              "data": [
+                { "bout": "Main", "fighters": "Demir vs Yılmaz", "weight": "Bantamweight" },
+                { "bout": "Co-main", "fighters": "Kaya vs Aydın", "weight": "Flyweight" }
+              ]
+            }
+          },
+          { "componentType": "callout", "props": { "tone": "info", "title": "Registration open", "body": "Athlete entries for the undercard close in 6 days." } },
+          { "componentType": "button", "props": { "text": "Register for this event", "intent": "hero", "size": "lg", "voice": true, "fullWidth": true } }
+        ]
+      }
+    },
+    {
+      "id": "registration",
+      "name": "Registration — fee + selection step",
+      "reference": "m-citizenship.png",
+      "referenceWidthPx": 420,
+      "tree": {
+        "componentType": "section",
+        "props": { "spacing": "xl", "background": "primary" },
+        "layout": { "type": "stack", "settings": { "gap": "lg" } },
+        "children": [
+          { "componentType": "text", "props": { "content": "REGISTER", "variant": "eyebrow", "as": "span" } },
+          { "componentType": "text", "props": { "content": "Choose your membership", "variant": "display", "as": "h1" } },
+          {
+            "componentType": "selectableRow",
+            "props": { "leadingIcon": "list", "title": "Standard Membership", "subtitle": "ANNUAL · TIER A", "trailingFigure": 1450, "trailingCurrency": "₺", "selected": true }
+          },
+          {
+            "componentType": "selectableRow",
+            "props": { "leadingIcon": "list", "title": "Trial Membership", "subtitle": "MONTHLY · TIER B", "trailingFigure": 250, "trailingCurrency": "₺", "selected": false }
+          },
+          {
+            "componentType": "lineItemsCard",
+            "props": {
+              "items": [
+                { "label": "Registration fee", "subLabel": "PER EVENT", "amount": 1450 },
+                { "label": "Federation levy", "subLabel": "ANNUAL", "amount": 200 }
+              ],
+              "totalLabel": "TOTAL", "totalAmount": 1650, "currency": "₺"
+            }
+          },
+          { "componentType": "button", "props": { "text": "Continue to payment", "intent": "hero", "size": "lg", "voice": true, "fullWidth": true } }
+        ]
+      }
+    }
+  ]
+}

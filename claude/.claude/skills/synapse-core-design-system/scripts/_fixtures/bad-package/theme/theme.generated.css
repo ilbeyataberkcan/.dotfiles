@@ -1,0 +1,11 @@
+/* Crafted theme for the bad-fixture: deliberately MISSING --color-status-error-fg
+   and --shadow-signal so token-refs catches the dangling reference. Includes a
+   low-contrast status fg pair so the contrast sub-routine fires. */
+:root {
+  --color-status-error-500: oklch(0.55 0.22 27);
+  --color-status-error-fg-bad: oklch(0.54 0.21 27); /* near-identical to bg → low contrast */
+  --color-canvas: oklch(1 0 0);
+  --color-surface: oklch(0.98 0 0);
+  --color-text-primary: oklch(0.2 0 0);
+  --color-accent-primary-500: oklch(0.55 0.2 27);
+}

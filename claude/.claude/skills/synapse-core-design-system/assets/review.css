@@ -1,0 +1,516 @@
+/*
+ * review.css — split-frame / A-B-wipe scaffolding for the review surface.
+ *
+ * This is a HOST-STYLE artifact (L17): the review chrome MAY carry its own custom
+ * CSS because the split-frame, the draggable wipe divider, and the lightbox cannot
+ * be expressed in Tailwind tokens alone. The COMPONENTS UNDER REVIEW stay pure —
+ * nothing here leaks into a specimen; every selector below is namespaced under
+ * `.rv-*` (review chrome) or `.dz-*` (capture zones), never a package token.
+ *
+ * Colors here are deliberately neutral/system (not brand tokens): the chrome must
+ * stay visually quiet so the reviewer's eye lands on the specimen, not the frame.
+ * The specimens themselves render the real generated theme CSS, inlined by the
+ * generator into the SOLO/MOCKUP panels.
+ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * 0. Reset + page shell
+ * ──────────────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+  --rv-bg: #0b0c0e;
+  --rv-panel: #16181c;
+  --rv-panel-2: #1d2026;
+  --rv-line: #2a2e36;
+  --rv-line-strong: #3a3f49;
+  --rv-text: #e7e9ee;
+  --rv-text-dim: #9aa1ad;
+  --rv-accent: #5b8cff;
+  --rv-ok: #34c759;
+  --rv-warn: #ffb02e;
+  --rv-bad: #ff453a;
+  --rv-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+  --rv-radius: 10px;
+  --rv-chrome-h: 52px;
+  --rv-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  --rv-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* Wipe position is driven by review-chrome.js as a 0–100 percentage. */
+  --rv-wipe: 50%;
+}
+
+html, body {
+  margin: 0;
+  background: var(--rv-bg);
+  color: var(--rv-text);
+  font-family: var(--rv-sans);
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+.rv-root { padding-top: var(--rv-chrome-h); }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * 1. Chrome bar — mode tabs, theme, viewport, reduced-motion, wipe, filter
+ * ──────────────────────────────────────────────────────────────────────────── */
+.rv-chrome {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  height: var(--rv-chrome-h);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 16px;
+  background: color-mix(in srgb, var(--rv-panel) 92%, transparent);
+  backdrop-filter: saturate(140%) blur(10px);
+  border-bottom: 1px solid var(--rv-line);
+}
+
+.rv-chrome__brand {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.rv-chrome__brand small {
+  display: block;
+  font-weight: 400;
+  font-size: 10px;
+  color: var(--rv-text-dim);
+  letter-spacing: 0.04em;
+}
+
+.rv-chrome__spacer { flex: 1 1 auto; }
+
+.rv-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  background: var(--rv-panel-2);
+  border: 1px solid var(--rv-line);
+  border-radius: 8px;
+}
+.rv-group[hidden] { display: none; }
+
+.rv-seg {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--rv-text-dim);
+  font: inherit;
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 120ms ease, color 120ms ease;
+}
+.rv-seg:hover { color: var(--rv-text); }
+.rv-seg[aria-pressed="true"],
+.rv-seg.is-active {
+  background: var(--rv-accent);
+  color: #fff;
+}
+
+.rv-chrome label.rv-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--rv-text-dim);
+  cursor: pointer;
+  user-select: none;
+}
+.rv-chrome label.rv-toggle input { accent-color: var(--rv-accent); }
+
+.rv-filter {
+  appearance: none;
+  background: var(--rv-panel-2);
+  border: 1px solid var(--rv-line);
+  color: var(--rv-text);
+  font: inherit;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  min-width: 160px;
+}
+.rv-filter::placeholder { color: var(--rv-text-dim); }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * 2. Mode panels (SOLO / MOCKUP) — only one visible at a time
+ * ──────────────────────────────────────────────────────────────────────────── */
+.rv-mode { display: none; padding: 20px 16px 120px; }
+.rv-mode.is-active { display: block; }
+
+.rv-mode__intro {
+  max-width: 760px;
+  margin: 0 auto 22px;
+  color: var(--rv-text-dim);
+  font-size: 13px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * 3. The split frame — left REFERENCE, right RENDERED, draggable wipe divider
+ *    Used by both SOLO specimen pairs and MOCKUP screen pairs.
+ * ──────────────────────────────────────────────────────────────────────────── */
+.rv-unit {
+  margin: 0 auto 40px;
+  max-width: 1480px;
+  background: var(--rv-panel);
+  border: 1px solid var(--rv-line);
+  border-radius: var(--rv-radius);
+  overflow: hidden;
+  box-shadow: var(--rv-shadow);
+}
+.rv-unit[hidden] { display: none; }
+
+.rv-unit__head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--rv-line);
+}
+.rv-unit__title { font-weight: 650; font-size: 14px; }
+.rv-unit__cat {
+  font-size: 11px;
+  color: var(--rv-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.rv-unit__key {
+  margin-left: auto;
+  font-family: var(--rv-mono);
+  font-size: 11px;
+  color: var(--rv-text-dim);
+}
+
+/* Split mode: side-by-side panes. Wipe mode: stacked + clip. */
+.rv-split {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  background:
+    repeating-conic-gradient(#101216 0% 25%, #15171c 0% 50%) 0 0 / 22px 22px;
+}
+
+.rv-pane {
+  position: relative;
+  min-height: 120px;
+  overflow: auto;
+}
+.rv-pane__tag {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 3;
+  font-family: var(--rv-mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  padding: 2px 7px;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.6);
+  color: var(--rv-text);
+  pointer-events: none;
+}
+
+/* Reference: contain to native aspect (desktop 1400×900, mobile 924×540). */
+.rv-pane--ref { display: flex; align-items: flex-start; justify-content: center; }
+.rv-pane--ref img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Rendered: locked to the reference CSS width by the generator (inline width). */
+.rv-pane--render { background: #fff; }
+.rv-pane--render .dz-render { display: block; width: 100%; }
+
+/* The "no reference" degrade: render stands full-width, intent note in left rail. */
+.rv-split[data-no-ref="true"] { grid-template-columns: 280px 1fr; }
+.rv-intent-note {
+  padding: 16px;
+  font-size: 13px;
+  color: var(--rv-text-dim);
+  border-right: 1px solid var(--rv-line);
+  white-space: pre-wrap;
+}
+.rv-intent-note b { color: var(--rv-text); }
+
+/* ── A/B WIPE ──────────────────────────────────────────────────────────────
+ * When the unit is in wipe mode, the two panes overlay and the rendered layer
+ * is clipped to --rv-wipe so dragging the handle sweeps rendered over reference.
+ * review-chrome.js owns the drag math; CSS owns the clip + handle paint.
+ */
+.rv-split[data-view="wipe"] {
+  grid-template-columns: 1fr;
+}
+.rv-split[data-view="wipe"] .rv-pane {
+  grid-area: 1 / 1;
+  overflow: hidden;
+}
+.rv-split[data-view="wipe"] .rv-pane--render {
+  /* Reveal only the left portion up to the wipe line. */
+  clip-path: inset(0 calc(100% - var(--rv-wipe)) 0 0);
+}
+.rv-wipe-handle {
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--rv-wipe);
+  width: 2px;
+  margin-left: -1px;
+  z-index: 5;
+  background: var(--rv-accent);
+  cursor: ew-resize;
+  touch-action: none;
+}
+.rv-split[data-view="wipe"] .rv-wipe-handle { display: block; }
+.rv-wipe-handle::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 26px;
+  height: 26px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--rv-accent);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+.rv-wipe-handle::after {
+  content: "↔";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 13px;
+  pointer-events: none;
+}
+
+/* Per-unit view switch (split / wipe / opacity-fade) lives in the unit head. */
+.rv-unit__views { display: inline-flex; gap: 2px; margin-left: 12px; }
+
+/* Opacity-fade variant: rendered layer fades 0–100 over the reference. */
+.rv-split[data-view="fade"] { grid-template-columns: 1fr; }
+.rv-split[data-view="fade"] .rv-pane { grid-area: 1 / 1; }
+.rv-split[data-view="fade"] .rv-pane--render { opacity: var(--rv-fade, 1); }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * 4. SOLO specimen — light + dark stacked panels inside the rendered pane
+ * ──────────────────────────────────────────────────────────────────────────── */
+.dz-render .rv-modes-stack { display: grid; gap: 0; }
+.rv-mode-panel { position: relative; padding: 20px; }
+.rv-mode-panel[data-mode="light"] { background: #ffffff; color: #111; }
+.rv-mode-panel[data-mode="dark"]  { background: #0c0d10; color: #eee; }
+.rv-mode-panel__label {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-family: var(--rv-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  opacity: 0.5;
+}
+
+/* Solo theme-solo override: chrome may collapse the stack to one mode full-width. */
+.rv-root[data-theme="light"] .rv-mode-panel[data-mode="dark"] { display: none; }
+.rv-root[data-theme="dark"]  .rv-mode-panel[data-mode="light"] { display: none; }
+/* default (paired) shows both — no rule needed. */
+
+/* Variant matrix grid inside a mode panel. */
+.rv-matrix {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+  align-items: start;
+}
+.rv-cell { display: grid; gap: 8px; }
+.rv-cell__label {
+  font-family: var(--rv-mono);
+  font-size: 10px;
+  color: var(--rv-text-dim);
+}
+.rv-mode-panel[data-mode="light"] .rv-cell__label { color: #6b7280; }
+.rv-cell__stage { min-height: 0; }
+
+/* Forced static interactive states — the generator stamps data-force on the host
+ * wrapper; the surface paints what a still capture can't hover/focus into. */
+.dz-render [data-force="hover"]  { filter: none; }
+.dz-render [data-force="focus"]  { outline: 2px solid var(--rv-accent); outline-offset: 2px; }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * 5. Viewport simulation — chrome sets data-viewport on the root; render panes
+ *    clamp to a device width so proportions are honestly comparable.
+ * ──────────────────────────────────────────────────────────────────────────── */
+.rv-root[data-viewport="tablet"] .rv-pane--render .dz-render { max-width: 834px; margin: 0 auto; }
+.rv-root[data-viewport="mobile"] .rv-pane--render .dz-render { max-width: 390px; margin: 0 auto; }
+.rv-root[data-viewport="desktop"] .rv-pane--render .dz-render { max-width: none; }
+
+/* Reduced-motion emulation toggled by chrome (applies only to rendered layer). */
+.rv-root[data-reduced-motion="true"] .dz-render *,
+.rv-root[data-reduced-motion="true"] .dz-render *::before,
+.rv-root[data-reduced-motion="true"] .dz-render *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * 6. Lightbox — click any pane to zoom to 90vw/90vh
+ * ──────────────────────────────────────────────────────────────────────────── */
+.rv-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 4vh 4vw;
+  background: rgba(0, 0, 0, 0.86);
+  backdrop-filter: blur(4px);
+}
+.rv-lightbox.is-open { display: flex; }
+.rv-lightbox__stage {
+  max-width: 92vw;
+  max-height: 92vh;
+  overflow: auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: var(--rv-shadow);
+}
+.rv-lightbox__stage img { display: block; max-width: 92vw; height: auto; }
+.rv-lightbox__close {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--rv-panel-2);
+  color: var(--rv-text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.rv-zoomable { cursor: zoom-in; }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * 7. Per-unit review checklist — ✅ / ⚠️ / ❌ + annotation → feedback.json
+ *    Axes are fixed and intent-derived (voice · elevation · media-drama ·
+ *    rhythm · color-budget · both-mode parity). Serializer in review-chrome.js.
+ * ──────────────────────────────────────────────────────────────────────────── */
+.rv-check {
+  border-top: 1px solid var(--rv-line);
+  background: var(--rv-panel-2);
+  padding: 12px 16px;
+}
+.rv-check__axes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px 18px;
+}
+.rv-axis {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+}
+.rv-axis__name { font-size: 12px; color: var(--rv-text); }
+.rv-axis__name small { display: block; color: var(--rv-text-dim); font-size: 10px; }
+.rv-verdict { display: inline-flex; gap: 2px; }
+.rv-verdict button {
+  appearance: none;
+  border: 1px solid var(--rv-line-strong);
+  background: var(--rv-panel);
+  color: var(--rv-text-dim);
+  width: 30px;
+  height: 26px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1;
+}
+.rv-verdict button[data-v="ok"][aria-pressed="true"]   { background: color-mix(in srgb, var(--rv-ok) 26%, var(--rv-panel)); border-color: var(--rv-ok); }
+.rv-verdict button[data-v="warn"][aria-pressed="true"] { background: color-mix(in srgb, var(--rv-warn) 26%, var(--rv-panel)); border-color: var(--rv-warn); }
+.rv-verdict button[data-v="bad"][aria-pressed="true"]  { background: color-mix(in srgb, var(--rv-bad) 26%, var(--rv-panel)); border-color: var(--rv-bad); }
+
+.rv-check__note {
+  margin-top: 10px;
+  width: 100%;
+  min-height: 52px;
+  resize: vertical;
+  background: var(--rv-panel);
+  border: 1px solid var(--rv-line);
+  color: var(--rv-text);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font: inherit;
+  font-size: 12px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * 8. Feedback dock — export / copy feedback.json (no backend), progress count
+ * ──────────────────────────────────────────────────────────────────────────── */
+.rv-dock {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--rv-panel);
+  border: 1px solid var(--rv-line-strong);
+  border-radius: 12px;
+  box-shadow: var(--rv-shadow);
+}
+.rv-dock__stat { font-size: 12px; color: var(--rv-text-dim); }
+.rv-dock__stat b { color: var(--rv-text); }
+.rv-btn {
+  appearance: none;
+  border: 1px solid var(--rv-line-strong);
+  background: var(--rv-panel-2);
+  color: var(--rv-text);
+  font: inherit;
+  font-size: 12px;
+  padding: 7px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.rv-btn--primary { background: var(--rv-accent); border-color: var(--rv-accent); color: #fff; }
+.rv-btn:hover { filter: brightness(1.08); }
+
+/* Toast for copy confirmation. */
+.rv-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 76px;
+  transform: translateX(-50%) translateY(8px);
+  z-index: 130;
+  padding: 8px 14px;
+  background: var(--rv-ok);
+  color: #04210d;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+.rv-toast.is-shown { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Print/standalone fallback: the surface stays readable without JS. */
+@media (prefers-reduced-motion: reduce) {
+  .rv-toast { transition: none; }
+}

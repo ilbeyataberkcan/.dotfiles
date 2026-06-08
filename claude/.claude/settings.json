@@ -6,7 +6,8 @@
     "deny": [
       "Read(./.env)",
       "Read(./.env.*)",
-      "Read(./secrets/**)"
+      "Read(./secrets/**)",
+      "Bash(gh:*)"
     ],
     "defaultMode": "default"
   },
@@ -116,12 +117,14 @@
     "superpowers@superpowers-marketplace": true,
     "superpowers-developing-for-claude-code@superpowers-marketplace": true,
     "frontend-design@claude-plugins-official": false,
-    "code-simplifier@claude-plugins-official": true
+    "code-simplifier@claude-plugins-official": true,
+    "stripe@claude-plugins-official": true
   },
   "effortLevel": "xhigh",
   "promptSuggestionEnabled": false,
   "editorMode": "vim",
   "preferredNotifChannel": "ghostty",
   "agentPushNotifEnabled": true,
-  "skipAutoPermissionPrompt": true
+  "skipAutoPermissionPrompt": true,
+  "skipWorkflowUsageWarning": true
 }

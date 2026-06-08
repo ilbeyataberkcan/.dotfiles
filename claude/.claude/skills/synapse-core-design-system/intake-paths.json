@@ -1,0 +1,42 @@
+{
+  "root": "/home/ilbey/.claude/skills/synapse-core-design-system",
+  "hostRoot": "/home/ilbey/.claude/skills/synapse-core-design-system/scripts/_fixtures/bad-package",
+  "packageRoot": "/home/ilbey/.claude/skills/synapse-core-design-system",
+  "emittedThemeCss": {
+    "path": "/home/ilbey/.claude/skills/synapse-core-design-system/scripts/_fixtures/bad-package/theme/theme.generated.css",
+    "via": "emitted theme CSS: **/theme.generated.css"
+  },
+  "themeSeed": {
+    "path": null,
+    "via": "theme seed: no match under /home/ilbey/.claude/skills/synapse-core-design-system/scripts/_fixtures/bad-package"
+  },
+  "codegenCli": {
+    "path": null,
+    "via": "codegen CLI: no match under /home/ilbey/.claude/skills/synapse-core-design-system"
+  },
+  "registry": {
+    "path": null,
+    "via": "components registry: no match under /home/ilbey/.claude/skills/synapse-core-design-system"
+  },
+  "iconsIndex": {
+    "path": null,
+    "via": "icons index: no match under /home/ilbey/.claude/skills/synapse-core-design-system"
+  },
+  "presetCss": {
+    "path": null,
+    "via": "preset.css (@theme): no match under /home/ilbey/.claude/skills/synapse-core-design-system"
+  },
+  "hostGlobals": {
+    "path": null,
+    "via": "host globals: no match under /home/ilbey/.claude/skills/synapse-core-design-system/scripts/_fixtures/bad-package"
+  },
+  "showcase": {
+    "path": null,
+    "via": "showcase: no match under /home/ilbey/.claude/skills/synapse-core-design-system"
+  },
+  "referenceAssets": {
+    "path": null,
+    "via": "reference assets: no images under /home/ilbey/.claude/skills/synapse-core-design-system"
+  },
+  "ok": true
+}

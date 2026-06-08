@@ -1,0 +1,13 @@
+{
+  "_source": "cve-design-system preset.css — data-cve-look escape-hatch",
+  "_note": "Closed vocabulary. Any look token outside this set is a violation.",
+  "vocab": [
+    "bleed",
+    "flat",
+    "hairline",
+    "inline",
+    "sharp",
+    "stack",
+    "sunken"
+  ]
+}

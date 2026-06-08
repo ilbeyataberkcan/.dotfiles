@@ -71,6 +71,16 @@ bun changeset publish --dry-run    # show what would publish, no upload (does NO
 
 Useful for previewing the version-bump → publish chain, but the dry-run only exercises bare Changesets, not the wave-orchestrated workspace:* rewrite. The first real `release:wave` run is the only thing that exercises the rewrite end-to-end.
 
+## Gotchas observed 2026-06-04 (the "packages won't update" detour)
+
+1. **`release:wave` cascade-skips any version already on GHP** (`isVersionAlreadyOnGhp`). If the on-disk versions already exist on the registry, it publishes NOTHING and exits 0 with "ALL 4 WAVES COMPLETE". "Nothing published" is NOT a failure — it means the version numbers didn't change. To ship current code you MUST bump versions forward (you cannot republish over an existing version).
+2. **A stale `.release-wave-state.json` silently skips every wave.** If that file lists waves as `completed`, the script skips them at the wave level WITHOUT checking GHP. It's gitignored on the feature branch but was found COMMITTED on the stale local `main` (so `git checkout main` restored an all-complete state from weeks earlier). Delete it before a fresh release.
+3. **A published version ≠ the `latest` dist-tag.** Two divergent publish lineages (the dropped `56ed286b` "republish" commit's versions vs. the reconciled breaking-wave versions) left GHP with both sets published but `latest` pointing at the wrong one — so `bun install` (which pulls `latest`) got old code. ALWAYS verify `dist-tags.latest` against intent, not just version existence: `curl -H "Authorization: Bearer <tok>" https://npm.pkg.github.com/<pkg%2Fenc>` and read `["dist-tags"].latest`. Don't trust a "published to GHP" commit message — check the registry.
+4. **Auth is read from `~/.npmrc`, NOT an env var.** `readAuthToken()` requires a single `//npm.pkg.github.com/:_authToken=<PAT>` line in `~/.npmrc` (read+write:packages). The earlier "NODE_AUTH_TOKEN" note above is the CI-workflow path; the local script reads `.npmrc`.
+5. **Manual version edit + `release:wave` works** — `changeset version` is not strictly required (the script reads on-disk versions). When lineages are tangled, a uniform forward bump is the clean escape hatch.
+
+**2026-06-04 resolution:** all 10 packages reset to a uniform **`10.0.0`** (sed-bumped the version field, kept `workspace:*` deps, committed `56dfa6f5`, pushed via SSH) and republished via `release:wave`. `latest = 10.0.0` confirmed across all 10; published deps are `^10.0.0` caret ranges (no `workspace:*` leak). This is the current GHP baseline. The bump lives on branch `gsd/v1.3-cve-auth-completion`, not yet merged to `main`. Hosts must set deps to `^10.0.0` (old caret pins won't reach a v10 major).
+
 ## Trigger phase
 
 Any phase that produces a new package version. Phase 19 (v1.1 release wave) did 9 packages coordinated. Plan 07.2-09 attempted Phase 07.2 release but used the wrong script; canonical path going forward is the 3-step `version → commit → release:wave` flow above.

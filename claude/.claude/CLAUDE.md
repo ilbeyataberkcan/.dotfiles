@@ -106,3 +106,6 @@ These decisions have been validated through implementation. Use them to guide fu
 
 - **ORM-agnostic core** — CVE Core defines interfaces (`CoreDriver`), host apps implement them (`DrizzleDriver`). Core has zero ORM dependencies. This pattern applies to all data access — define the contract in core, implement in consumer.
 - **Registry contravariance** — Component registries export strict types (for ComponentBuilder type inference) and consumers cast at the call site (for RenderEngine). Never cast at the export site. This is a known TypeScript limitation, not a bug in our code.
+# graphify
+- **graphify** (`~/.claude/skills/graphify/SKILL.md`) - any input to knowledge graph. Trigger: `/graphify`
+When the user types `/graphify`, invoke the Skill tool with `skill: "graphify"` before doing anything else.

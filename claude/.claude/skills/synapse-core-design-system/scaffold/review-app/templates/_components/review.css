@@ -1,0 +1,1582 @@
+/*
+ * review.css — the review surface CHROME (host-style scaffolding only).
+ *
+ * L17: the review surface is a host-style artifact, so it MAY carry its own
+ * scaffolding CSS for the shell, panes, specimen cards, overlay, popover, and
+ * reference popup. The components UNDER REVIEW stay pure — every selector here is
+ * an `.rv-*` chrome class, never a package primitive. Nothing here paints a
+ * component; the live specimens paint themselves from the theme scope.
+ *
+ * Layout contract (DESIGN §2/§5):
+ *   - `.rv-shell` is a 100dvh CSS grid: top bar (auto) / main (1fr) / footer (auto).
+ *   - The DOCUMENT never scrolls — only the two panes do: `.rv-stage-pane` and the
+ *     annotation-list `.rv-panel`. Both are `overflow:auto; min-height:0` so they
+ *     scroll independently inside the grid track instead of growing the page.
+ *   - Fits the viewport at desktop AND 420px (the rail collapses, the panel stacks).
+ *
+ * THEMED CHROME: the whole review surface — top bar, panes, specimen cards,
+ * backgrounds, popover, panel, footer — reads the LIVE THEME TOKENS. The tokens are
+ * declared in the <ThemeInjector>-emitted <style> block under [data-theme="light"] / [data-theme="dark"],
+ * which the host's single cve <ThemeMode> provider (attribute mode) sets on <html>; every --color-* var
+ * therefore cascades to the whole document, `.rv-shell` included. Mapping the `--rv-*`
+ * chrome aliases to those tokens makes the ENTIRE surface flip with the ☀/☾ toggle (it
+ * drives that one <html> attribute), not just the specimens — page, cards, and
+ * backgrounds all resolve from the same tokens. NO second provider, NO scope <div>.
+ *
+ * SEPARATION = ELEVATION, NOT OUTLINES: cards are lifted off the page by a SHADE step
+ * (surface over canvas) + a SHADOW, never a resting hairline border. No `--rv-line*`
+ * resting bound exists anymore; outlines are STATE-only (focus / hover / selection).
+ */
+
+.rv-shell {
+  /* Backgrounds & elevation steps — page (canvas) → pane → raised card → inset well. */
+  --rv-bg: var(--color-canvas);
+  --rv-bg-2: var(--color-surface);
+  --rv-bg-3: var(--color-surface-elevated);
+  --rv-card: var(--color-surface-raised);
+  --rv-inset: var(--color-surface-inset);
+  /* Text. */
+  --rv-fg: var(--color-text-primary);
+  --rv-fg-dim: var(--color-text-secondary);
+  --rv-fg-mute: var(--color-text-tertiary);
+  --rv-accent: var(--color-accent-primary-600);
+  --rv-accent-fg: var(--color-text-inverse);
+  --rv-ok: var(--color-status-success);
+  --rv-fix: var(--color-status-warning);
+  --rv-keep: var(--color-status-success);
+  --rv-danger: var(--color-status-error);
+  /* State-only outline color (focus / hover / selection) — NEVER a resting bound. */
+  --rv-ring: var(--color-focus-ring);
+  --rv-radius: var(--radius-lg);
+  --rv-radius-sm: var(--radius-md);
+  /* Elevation shadows (carry the lift; these flip implicitly with the seed shadows). */
+  --rv-shadow: var(--shadow-lg);
+  --rv-shadow-sm: var(--shadow-sm);
+  --rv-shadow-md: var(--shadow-md);
+  --rv-pane-bg: var(--color-canvas);
+  --rv-pane-fg: var(--color-text-primary);
+
+  /* The shell is the only 100dvh box and the ONLY thing the document shows. */
+  position: fixed;
+  inset: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 100%;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden; /* the document itself never scrolls — only the panes do */
+  background: var(--rv-bg);
+  color: var(--rv-fg);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+ * TOP BAR (§2) — brand · stage tabs · mode toggle · round
+ * ───────────────────────────────────────────────────────────────────────── */
+.rv-topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 16px;
+  height: 52px;
+  /* Elevation, not a hairline: the bar is a raised surface over the canvas, lifted by
+   * a downward shadow — the shade step + shadow separate it from the stage beneath. */
+  background: var(--rv-bg-2);
+  box-shadow: var(--rv-shadow-sm);
+  position: relative;
+  z-index: 2;
+  flex: 0 0 auto;
+}
+
+.rv-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.rv-brand-mark {
+  color: var(--rv-accent);
+  font-size: 16px;
+  line-height: 1;
+}
+.rv-brand-logo {
+  height: 28px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+.rv-brand-name {
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.rv-brand-surface {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 11px;
+  color: var(--rv-fg-mute);
+  background: var(--rv-inset);
+  border-radius: 4px;
+  padding: 1px 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 220px;
+}
+
+.rv-stage-tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 auto;
+}
+.rv-stage-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: transparent;
+  color: var(--rv-fg-dim);
+  border: none;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 550;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease, box-shadow 0.12s ease;
+}
+.rv-stage-tab:hover:not(:disabled) {
+  color: var(--rv-fg);
+  background: var(--rv-bg-3);
+}
+.rv-stage-tab:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+/* Active tab = a raised pill (filled surface + lift), never an outline. */
+.rv-stage-tab-on {
+  color: var(--rv-fg);
+  background: var(--rv-bg-3);
+  box-shadow: var(--rv-shadow-sm);
+}
+.rv-stage-tab-num {
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--rv-inset);
+  font-size: 11px;
+  font-weight: 700;
+}
+.rv-stage-tab-on .rv-stage-tab-num {
+  background: var(--rv-accent);
+  color: var(--rv-accent-fg);
+}
+.rv-stage-tab-ok {
+  color: var(--rv-ok);
+  font-weight: 700;
+}
+.rv-stage-tab-lock {
+  font-size: 11px;
+  opacity: 0.7;
+}
+.rv-stage-arrow {
+  color: var(--rv-fg-mute);
+  font-size: 12px;
+}
+
+.rv-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+.rv-round {
+  font-size: 11px;
+  color: var(--rv-fg-dim);
+  background: var(--rv-inset);
+  border-radius: 999px;
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+
+.rv-mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  background: var(--rv-bg-3);
+  color: var(--rv-fg);
+  border: none;
+  border-radius: 999px;
+  box-shadow: var(--rv-shadow-sm);
+  font: inherit;
+  font-weight: 550;
+  cursor: pointer;
+  transition: box-shadow 0.12s ease, background 0.12s ease;
+}
+/* Hover = a STATE outline (focus-ring), the only time an outline appears. */
+.rv-mode-toggle:hover {
+  box-shadow: 0 0 0 2px var(--rv-ring), var(--rv-shadow-sm);
+}
+.rv-mode-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+.rv-mode-label {
+  font-size: 12px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+ * MAIN (§2) — stage pane (scrolls) + annotation-list pane (scrolls)
+ * The grid row is 1fr; this inner grid splits it stage / panel. min-height:0
+ * on every level is what lets the CHILDREN scroll instead of the document.
+ * ───────────────────────────────────────────────────────────────────────── */
+.rv-main {
+  display: grid;
+  grid-template-columns: 1fr clamp(260px, 24vw, 360px);
+  min-height: 0; /* critical: children may overflow:auto without growing the row */
+  overflow: hidden;
+}
+/* When the panel is collapsed to a rail the second track shrinks. */
+.rv-main:has(.rv-panel-collapsed) {
+  grid-template-columns: 1fr 44px;
+}
+
+.rv-stage-pane {
+  position: relative; /* anchor for the absolutely-positioned overlay layer */
+  min-height: 0;
+  min-width: 0;
+  overflow: auto; /* the ONLY vertical scroller for the stage content */
+  background: var(--rv-pane-bg);
+  color: var(--rv-pane-fg);
+}
+
+.rv-stage-locked {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  padding: 32px;
+  text-align: center;
+  color: var(--rv-fg-mute);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+ * STAGE bodies — foundations & screens share the section rhythm
+ * ───────────────────────────────────────────────────────────────────────── */
+.rv-stage {
+  padding: 24px 28px 64px;
+  max-width: 100%;
+}
+/* Per-stage hooks (modifiers on .rv-stage) — same rhythm, distinct anchors so a
+ * brand can target one stage without the other. */
+.rv-stage-foundations {
+  --rv-stage: foundations;
+}
+.rv-stage-screens {
+  --rv-stage: screens;
+}
+.rv-stage-head {
+  margin-bottom: 20px;
+}
+.rv-stage-title {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--rv-pane-fg);
+}
+.rv-stage-sub {
+  margin: 0;
+  font-size: 13px;
+  color: var(--rv-fg-dim);
+  max-width: 64ch;
+}
+.rv-stage-sub strong {
+  color: var(--rv-pane-fg);
+}
+
+.rv-section {
+  margin-bottom: 32px;
+}
+/* Section header carries its weight through type + space, not a hairline rule. */
+.rv-section-title {
+  margin: 0 0 14px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--rv-fg-dim);
+}
+.rv-count {
+  font-weight: 500;
+  color: var(--rv-fg-mute);
+}
+
+/* ── Font specimens (S1.1) ─────────────────────────────────────────────── */
+.rv-font-grid {
+  display: grid;
+  gap: 16px;
+}
+.rv-font-block {
+  background: var(--rv-card);
+  border-radius: var(--rv-radius);
+  padding: 16px;
+  box-shadow: var(--rv-shadow-md);
+}
+.rv-font-meta {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.rv-font-role {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--rv-pane-fg);
+  text-transform: capitalize;
+}
+.rv-font-family {
+  font-size: 12px;
+  color: var(--rv-fg-dim);
+}
+.rv-font-var {
+  margin-left: auto;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 11px;
+  color: var(--rv-fg-mute);
+  background: var(--rv-inset);
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+.rv-font-lines {
+  display: grid;
+  gap: 8px;
+}
+.rv-font-line {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.3;
+  color: var(--rv-pane-fg);
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.rv-font-weight-tag {
+  flex: 0 0 auto;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--rv-fg-mute);
+  width: 36px;
+}
+
+/* ── Color-token swatches (S1.2) ───────────────────────────────────────── */
+.rv-swatch-family {
+  margin-bottom: 20px;
+}
+.rv-swatch-family-name {
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 650;
+  color: var(--rv-fg-dim);
+  text-transform: capitalize;
+}
+.rv-swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+.rv-swatch {
+  margin: 0;
+  background: var(--rv-card);
+  border-radius: var(--rv-radius-sm);
+  overflow: hidden;
+  box-shadow: var(--rv-shadow-md);
+}
+.rv-swatch-chip {
+  height: 56px;
+  display: grid;
+  place-items: center;
+}
+.rv-swatch-fg-sample {
+  font-size: 18px;
+  font-weight: 600;
+}
+/* The caption sits on an inset shade step under the color chip — the shade reads the
+ * boundary, no hairline. */
+.rv-swatch-cap {
+  display: grid;
+  gap: 2px;
+  padding: 8px 10px;
+  background: var(--rv-inset);
+}
+.rv-swatch-name {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 11px;
+  color: var(--rv-pane-fg);
+  word-break: break-all;
+}
+.rv-swatch-value {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 10px;
+  color: var(--rv-fg-mute);
+}
+
+/* ── Atom / molecule specimen grid (S1.3 / S2.1) ───────────────────────── */
+.rv-atom-group {
+  margin-bottom: 20px;
+}
+.rv-atom-key {
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 650;
+  color: var(--rv-fg-dim);
+  text-transform: capitalize;
+}
+.rv-specimen-grid {
+  display: grid;
+  /* Blocks lay out at their intrinsicWidth and scale to fit — a wider min column keeps
+   * the conforming render readable instead of squishing it into a ~220px cell (#8/#18). */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+/* Full-width blocks (siteHeader / selectableRow / table / lineItemsCard) own the row so
+ * their wide intrinsic ratio is preserved — no sibling crammed beside them (#8/#18). */
+.rv-specimen-grid--full {
+  grid-template-columns: 1fr;
+}
+/* Composed blocks (S2.1) are laid out at their NATURAL width and scaled down to fit —
+ * a wider min column gives the scaled render room to read without being tiny. */
+.rv-specimen-grid-composed {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+/* A cell hosts the scaled specimen + its Zoom affordance. */
+.rv-specimen-cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+/* The specimen card = a RAISED surface lifted off the canvas by a shade step
+ * (surface-raised over canvas) + a shadow. No resting border — separation is
+ * ELEVATION. Hovering it (the 'card' targeting level) reveals a STATE ring (below). */
+.rv-specimen {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--rv-card);
+  border-radius: var(--rv-radius);
+  padding: 14px;
+  box-shadow: var(--rv-shadow-md);
+  min-width: 0;
+}
+.rv-specimen__caption {
+  font-size: 12px;
+  font-weight: 650;
+  color: var(--rv-pane-fg);
+}
+/* The live render sits in an INSET well — a recessed shade step (no dashed hairline);
+ * the shade alone reads the boundary between card chrome and rendered component. */
+.rv-specimen__render {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px;
+  background: var(--rv-inset);
+  border-radius: var(--rv-radius-sm);
+  overflow: auto;
+}
+.rv-specimen-direct .rv-specimen__render {
+  display: block;
+}
+/* SCALE-TO-FIT (Stage 2): a scaled render fills the well left-aligned (no centering —
+ * the natural box transforms from its top-left corner). The fit viewport is as wide as
+ * the well; the natural box is laid out at its design width and shrunk by `transform`. */
+.rv-specimen__render[data-scaled] {
+  display: block;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding: 10px;
+  overflow: hidden;
+}
+/* Force-paint replay: the Card hover/focus is real Tailwind pseudo-classes that only paint on a live pointer, so a still specimen replays them on the engine-rendered root. `> *` hits the Card div (CVEErrorBoundary adds no DOM box); `.rv-specimen__natural > *` covers the Stage-2 scaled nesting. */
+.rv-specimen__render[data-rv-force="hover"] > *,
+.rv-specimen__render[data-rv-force="hover"] .rv-specimen__natural > * {
+  transform: translateY(-0.25rem);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--color-border-accent);
+}
+.rv-specimen__render[data-rv-force="focus"] > *,
+.rv-specimen__render[data-rv-force="focus"] .rv-specimen__natural > * {
+  border-color: var(--color-border-accent);
+}
+.rv-specimen__fit {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  /* height is reserved inline (JS) = natural height × scale, so the column reflows to
+   * the visually shrunk box instead of leaving a gap or clipping. */
+}
+.rv-specimen__natural {
+  /* width set inline = natural design width; `transform: scale()` set inline from JS.
+   * transform-origin top-left so the shrink pins to the well's top-left corner. */
+  transform-origin: top left;
+}
+/* CSS-only fit (the out-of-engine EventSelectionGrid, which has no JS measure hook):
+ * a container query downscales the 420px natural box to the well width with no JS. The
+ * wrapper is the query container; `100cqw` is its inner width, so scale = fit, capped at
+ * 1× (min keeps it from ever blowing UP past natural). transform-origin top-left so the
+ * shrunk box pins to the corner. The wrapper's own height tracks the scaled box via the
+ * aspect trick below so the column reflows to it. */
+.rv-specimen__fit-css {
+  container-type: inline-size;
+  width: 100%;
+}
+.rv-specimen__natural-css {
+  transform-origin: top left;
+  transform: scale(min(1, calc(100cqw / 420)));
+  /* Pull following content up by the height the scale removed so no gap is left. */
+  margin-bottom: calc((min(1, calc(100cqw / 420)) - 1) * 100%);
+}
+
+/* The Zoom affordance — opens the close-inspection modal. It is a raised pill lifted by
+ * a shadow (no resting border); on the composed cells it floats at the card's top-right. */
+.rv-zoom-btn {
+  align-self: flex-end;
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: var(--rv-card);
+  color: var(--rv-fg-dim);
+  border: none;
+  border-radius: 999px;
+  box-shadow: var(--rv-shadow-sm);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: box-shadow 0.12s ease, color 0.12s ease;
+}
+.rv-zoom-btn:hover {
+  color: var(--rv-pane-fg);
+  box-shadow: 0 0 0 2px var(--rv-ring), var(--rv-shadow-sm);
+}
+.rv-zoom-btn-inline {
+  align-self: center;
+  margin-top: 0;
+  margin-left: auto;
+}
+.rv-specimen__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.rv-specimen__type {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 10px;
+  color: var(--rv-fg-mute);
+}
+.rv-specimen__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.rv-specimen__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  background: var(--rv-inset);
+  border-radius: 999px;
+  padding: 1px 7px 1px 4px;
+  color: var(--rv-fg-dim);
+}
+.rv-specimen__chip code {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 10px;
+}
+.rv-specimen__chip-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+/* ── Screens (S2.2) ────────────────────────────────────────────────────── */
+.rv-screen-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.rv-screen-tab {
+  padding: 5px 12px;
+  background: var(--rv-card);
+  color: var(--rv-fg-dim);
+  border: none;
+  border-radius: 999px;
+  box-shadow: var(--rv-shadow-sm);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 550;
+  cursor: pointer;
+  transition: box-shadow 0.12s ease, color 0.12s ease, background 0.12s ease;
+}
+.rv-screen-tab:hover {
+  color: var(--rv-pane-fg);
+  box-shadow: 0 0 0 2px var(--rv-ring), var(--rv-shadow-sm);
+}
+.rv-screen-tab-on {
+  background: var(--rv-accent);
+  color: var(--rv-accent-fg);
+}
+.rv-screen-list {
+  display: grid;
+  gap: 24px;
+}
+/* Screen card = a raised surface (shade + shadow), no resting border. */
+.rv-screen {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--rv-card);
+  border-radius: var(--rv-radius);
+  padding: 14px;
+  box-shadow: var(--rv-shadow-md);
+  transition: box-shadow 0.12s ease;
+}
+/* Active screen = a STATE ring (selection) + a stronger lift — outline is state-only. */
+.rv-screen-active {
+  box-shadow: 0 0 0 2px var(--rv-ring), var(--rv-shadow-lg);
+}
+.rv-screen-cap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.rv-screen-name {
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--rv-pane-fg);
+}
+.rv-screen-meta {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 11px;
+  color: var(--rv-fg-mute);
+}
+/* Scale-to-fit frame — the live render is laid out at its reference width then scaled
+ * DOWN (devtools-style) to fit this frame's width, so nothing is condensed/overlapping.
+ * The SpecimenCard inside measures THIS well and reserves the scaled height, so vertical
+ * growth is bounded and the well never needs horizontal scroll. An inset shade well, no
+ * dashed hairline. */
+.rv-screen-scroll {
+  overflow: auto;
+  max-height: 78vh;
+  background: var(--rv-inset);
+  border-radius: var(--rv-radius-sm);
+  padding: 8px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+ * ANNOTATION-LIST PANE (§5) — the collapsible right rail. Scrolls; never the doc.
+ * ───────────────────────────────────────────────────────────────────────── */
+/* The rail is a raised surface beside the stage — separated by its shade step + an
+ * inward shadow on the seam, not a hairline. */
+.rv-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--rv-bg-2);
+  box-shadow: var(--rv-shadow-sm);
+  position: relative;
+  z-index: 1;
+}
+.rv-panel-collapsed {
+  align-items: stretch;
+}
+.rv-panel-expand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+  width: 100%;
+  padding: 12px 0;
+  background: transparent;
+  color: var(--rv-fg-dim);
+  border: none;
+  font: inherit;
+  cursor: pointer;
+}
+.rv-panel-expand:hover {
+  color: var(--rv-fg);
+  background: var(--rv-bg-3);
+}
+.rv-panel-rail-icon {
+  font-size: 16px;
+}
+.rv-panel-rail-count {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--rv-fg);
+}
+.rv-panel-rail-fixes {
+  writing-mode: vertical-rl;
+  font-size: 10px;
+  color: var(--rv-fix);
+  margin-top: 4px;
+}
+
+.rv-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  flex: 0 0 auto;
+}
+.rv-panel-title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 650;
+}
+.rv-panel-fixes {
+  font-size: 11px;
+  color: var(--rv-fix);
+  white-space: nowrap;
+}
+.rv-panel-collapse {
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  background: var(--rv-bg-3);
+  color: var(--rv-fg-dim);
+  border: none;
+  border-radius: 6px;
+  font: inherit;
+  cursor: pointer;
+}
+.rv-panel-collapse:hover {
+  color: var(--rv-fg);
+  box-shadow: 0 0 0 2px var(--rv-ring);
+}
+
+.rv-panel-empty {
+  padding: 24px 16px;
+  margin: 0;
+  font-size: 12px;
+  color: var(--rv-fg-mute);
+  text-align: center;
+}
+
+.rv-panel-list {
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  overflow: auto; /* the pane's scroller */
+}
+/* Each row is a raised tile on the rail — shade + small lift, no resting border. */
+.rv-panel-row {
+  display: flex;
+  gap: 6px;
+  background: var(--rv-bg-3);
+  border-radius: var(--rv-radius-sm);
+  box-shadow: var(--rv-shadow-sm);
+  padding: 8px;
+}
+.rv-panel-row-main {
+  flex: 1 1 auto;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  background: transparent;
+  border: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  min-width: 0;
+}
+.rv-panel-row-num {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--rv-accent);
+  color: var(--rv-accent-fg);
+  font-size: 11px;
+  font-weight: 700;
+}
+.rv-panel-row-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.rv-panel-row-target {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--rv-fg);
+  word-break: break-word;
+}
+.rv-panel-row-variant {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--rv-fg-dim);
+}
+.rv-panel-row-note {
+  font-size: 12px;
+  color: var(--rv-fg-dim);
+  word-break: break-word;
+}
+.rv-panel-row-edit {
+  width: 100%;
+  font: inherit;
+  font-size: 12px;
+  color: var(--rv-fg);
+  background: var(--rv-inset);
+  border: none;
+  border-radius: 4px;
+  padding: 4px 6px;
+  resize: vertical;
+}
+.rv-panel-row-edit:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--rv-ring);
+}
+.rv-panel-row-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.rv-tag {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+.rv-tag-fix {
+  background: var(--color-status-warning-surface);
+  color: var(--color-status-warning-fg);
+}
+.rv-tag-keep {
+  background: var(--color-status-success-surface);
+  color: var(--color-status-success-fg);
+}
+.rv-tag-axis {
+  background: var(--rv-inset);
+  color: var(--rv-fg-dim);
+}
+.rv-panel-row-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 0 0 auto;
+}
+.rv-panel-row-btn {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  background: var(--rv-inset);
+  color: var(--rv-fg-dim);
+  border: none;
+  border-radius: 5px;
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+.rv-panel-row-btn:hover {
+  color: var(--rv-fg);
+  box-shadow: 0 0 0 2px var(--rv-ring);
+}
+.rv-panel-row-del:hover {
+  color: var(--rv-danger);
+  box-shadow: 0 0 0 2px var(--rv-danger);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+ * FOOTER (§2) — open fixes · approve · finish · save
+ * ───────────────────────────────────────────────────────────────────────── */
+.rv-footer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 16px;
+  height: 52px;
+  /* Raised bar lifted by an upward shadow — elevation, not a hairline. */
+  background: var(--rv-bg-2);
+  box-shadow: var(--rv-shadow-sm);
+  position: relative;
+  z-index: 2;
+  flex: 0 0 auto;
+}
+.rv-footer-fixes {
+  font-size: 12px;
+  color: var(--rv-fg-dim);
+}
+.rv-footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+.rv-btn {
+  padding: 7px 14px;
+  background: var(--rv-bg-3);
+  color: var(--rv-fg);
+  border: none;
+  border-radius: 6px;
+  box-shadow: var(--rv-shadow-sm);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+}
+.rv-btn:hover:not(:disabled) {
+  box-shadow: 0 0 0 2px var(--rv-ring), var(--rv-shadow-sm);
+}
+.rv-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.rv-btn-approve {
+  background: var(--rv-accent);
+  color: var(--rv-accent-fg);
+}
+.rv-btn-approve:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+.rv-btn-finish {
+  background: var(--rv-ok);
+  color: var(--rv-accent-fg);
+}
+.rv-btn-finish:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+.rv-btn-save {
+  /* neutral default .rv-btn styling */
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+ * ANNOTATION OVERLAY — click-through layer; only the pins catch clicks.
+ *
+ * CLICK-TO-PLACE FIX: the overlay LAYER is pointer-events:none so clicks pass
+ * THROUGH to the specimens beneath (which carry [data-rv-id]); the click handler
+ * lives on the stage/specimen layer, and `event.target.closest('[data-rv-id]')`
+ * resolves the real specimen. Only the PINS opt back into pointer events.
+ * ───────────────────────────────────────────────────────────────────────── */
+.rv-overlay {
+  pointer-events: none; /* layer is transparent to clicks — they hit the specimens */
+}
+
+/* ── LIVE HOVER TARGETING (Fix 3) ──────────────────────────────────────────
+ * The element under the cursor is outlined so selection is DIRECT — you see what a
+ * click will target before clicking. The outline is a STATE affordance (targeting),
+ * the only kind of outline allowed. Two levels read DISTINCTLY:
+ *   data-level="card" — the whole specimen card ("overall change to this component"):
+ *                       a solid accent ring + a soft accent wash over the card.
+ *   data-level="part" — an inner rendered element ("a specific part"): a tighter,
+ *                       brighter focus-ring with a dashed inner edge so it reads as
+ *                       a finer pick nested inside the card.
+ * ───────────────────────────────────────────────────────────────────────── */
+.rv-overlay__hover {
+  pointer-events: none;
+  border-radius: var(--rv-radius-sm);
+  z-index: 41;
+  transition: box-shadow 0.08s ease;
+}
+.rv-overlay__hover[data-level="card"] {
+  box-shadow: 0 0 0 2px var(--rv-accent);
+  background: var(--color-surface-accent);
+}
+.rv-overlay__hover[data-level="part"] {
+  box-shadow: 0 0 0 2px var(--rv-ring), inset 0 0 0 1px var(--rv-accent-fg);
+  outline: 1px dashed var(--rv-accent);
+  outline-offset: -3px;
+}
+.rv-overlay__hover-label {
+  position: absolute;
+  top: -22px;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--rv-accent-fg);
+  background: var(--rv-accent);
+  border-radius: 4px;
+  padding: 2px 7px;
+  white-space: nowrap;
+  box-shadow: var(--rv-shadow-sm);
+}
+/* The level word leads the label so "whole component" vs "a part" is unmistakable. */
+.rv-overlay__hover-level {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 9px;
+  opacity: 0.85;
+}
+.rv-overlay__hover-kind {
+  text-transform: lowercase;
+  opacity: 0.85;
+}
+.rv-overlay__hover-name {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+}
+
+.rv-overlay__pin {
+  pointer-events: auto; /* the pins (and only the pins) catch clicks */
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--rv-accent);
+  color: var(--rv-accent-fg);
+  /* The light "halo" ring is a STATE-style separator that lifts the pin off any
+   * background; rendered as a ring shadow (canvas-colored) + elevation, not a border. */
+  box-shadow: 0 0 0 2px var(--rv-card), var(--rv-shadow-sm);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 42;
+}
+.rv-overlay__pin[data-status="keep"] {
+  background: var(--rv-keep);
+}
+.rv-overlay__pin[data-status="fix"] {
+  background: var(--rv-fix);
+}
+.rv-overlay__pin[data-mark="box"] {
+  border-radius: 5px;
+}
+
+/* The annotatable wrapper: a relative box the hover outline hugs. It must stay
+ * clickable (it carries [data-rv-id]) and shows the crosshair so the operator knows
+ * it is pickable. The 'part' boundary fills its host so its box hugs the render. */
+.rv-annotatable {
+  cursor: crosshair;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+ * ANNOTATION POPOVER — the note input at the click point
+ * ───────────────────────────────────────────────────────────────────────── */
+/* Radix positions the popover (collision-aware flip/shift); we only style it. It is
+ * portaled INTO .rv-shell so it inherits the live theme tokens and flips with the mode.
+ * Separation from the page is ELEVATION (raised dialog surface + strong shadow), no
+ * resting border. */
+.rv-popover {
+  pointer-events: auto; /* re-enable: the overlay layer is pointer-events:none */
+  width: 280px;
+  max-width: calc(100vw - 24px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  background: var(--color-dialog);
+  color: var(--rv-fg);
+  border-radius: var(--rv-radius);
+  box-shadow: var(--rv-shadow);
+  z-index: 60;
+}
+.rv-popover__header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.rv-popover__kind {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--rv-accent);
+  background: var(--color-surface-accent);
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+/* The level chip names the chosen granularity right in the note header. */
+.rv-popover__level {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+.rv-popover__level[data-level="card"] {
+  color: var(--color-status-info-fg);
+  background: var(--color-status-info-surface);
+}
+.rv-popover__level[data-level="part"] {
+  color: var(--color-status-warning-fg);
+  background: var(--color-status-warning-surface);
+}
+.rv-popover__target {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 11px;
+  color: var(--rv-fg-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1 1 100%;
+}
+.rv-popover__note {
+  width: 100%;
+  font: inherit;
+  font-size: 12px;
+  color: var(--rv-fg);
+  background: var(--rv-inset);
+  border: none;
+  border-radius: 6px;
+  padding: 8px;
+  resize: vertical;
+}
+.rv-popover__note:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--rv-ring);
+}
+.rv-popover__status {
+  display: flex;
+  gap: 4px;
+  border-radius: 6px;
+}
+.rv-popover__seg {
+  flex: 1 1 0;
+  padding: 6px;
+  background: var(--rv-inset);
+  color: var(--rv-fg-dim);
+  border: none;
+  border-radius: 6px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.rv-popover__seg[aria-pressed="true"] {
+  background: var(--rv-accent);
+  color: var(--rv-accent-fg);
+}
+.rv-popover__axes {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+.rv-popover__axes-legend {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--rv-fg-mute);
+  padding: 0 0 6px;
+}
+.rv-popover__axes-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  /* 11 axis chips wrap to several rows; cap the height and scroll so the popover footer
+   * stays in view instead of the chip grid pushing it off the panel. */
+  max-height: 120px;
+  overflow-y: auto;
+}
+.rv-popover__axis {
+  padding: 3px 8px;
+  background: var(--rv-inset);
+  color: var(--rv-fg-dim);
+  border: none;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+.rv-popover__axis[aria-pressed="true"] {
+  background: var(--rv-accent);
+  color: var(--rv-accent-fg);
+}
+.rv-popover__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.rv-popover__cancel {
+  padding: 6px 12px;
+  background: var(--rv-inset);
+  color: var(--rv-fg-dim);
+  border: none;
+  border-radius: 6px;
+  font: inherit;
+  cursor: pointer;
+}
+.rv-popover__cancel:hover {
+  color: var(--rv-fg);
+  box-shadow: 0 0 0 2px var(--rv-ring);
+}
+.rv-popover__save {
+  padding: 6px 14px;
+  background: var(--rv-accent);
+  color: var(--rv-accent-fg);
+  border: none;
+  border-radius: 6px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.rv-popover__save:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+ * REFERENCE POPUP + corner chip — floating, draggable mockup reference
+ * ───────────────────────────────────────────────────────────────────────── */
+/* Floating reference popup = a raised dialog surface (shade + strong shadow), no
+ * resting border. */
+.rv-ref-popup {
+  position: fixed;
+  z-index: 50;
+  width: min(360px, calc(100vw - 32px));
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-dialog);
+  color: var(--rv-fg);
+  border-radius: var(--rv-radius);
+  box-shadow: var(--rv-shadow);
+  overflow: hidden;
+}
+.rv-ref-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: var(--rv-bg-3);
+  cursor: grab;
+  user-select: none;
+}
+.rv-ref-head:active {
+  cursor: grabbing;
+}
+.rv-ref-grip {
+  color: var(--rv-fg-mute);
+  font-size: 14px;
+}
+.rv-ref-title {
+  font-size: 12px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rv-ref-mode {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--rv-fg-mute);
+  background: var(--rv-inset);
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+.rv-ref-collapse {
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  background: var(--rv-inset);
+  color: var(--rv-fg-dim);
+  border: none;
+  border-radius: 5px;
+  font: inherit;
+  cursor: pointer;
+}
+.rv-ref-collapse:hover {
+  color: var(--rv-fg);
+  box-shadow: 0 0 0 2px var(--rv-ring);
+}
+/* The reference IMAGE keeps a fixed white plate (mockups were shot on white) — this is
+ * deliberate image backing, not chrome, so it does not flip with the mode. */
+.rv-ref-body {
+  overflow: auto;
+  background: var(--color-neutral-0);
+}
+.rv-ref-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.rv-ref-empty {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 24px 16px;
+  text-align: center;
+  color: var(--rv-fg-mute);
+  background: var(--rv-bg-2);
+}
+.rv-ref-empty strong {
+  color: var(--rv-fg-dim);
+  font-size: 12px;
+}
+.rv-ref-empty span {
+  font-size: 11px;
+}
+
+.rv-ref-chip {
+  position: fixed;
+  right: 16px;
+  bottom: 68px; /* clears the 52px footer */
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: var(--rv-bg-2);
+  color: var(--rv-fg);
+  border: none;
+  border-radius: 999px;
+  box-shadow: var(--rv-shadow);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.rv-ref-chip:hover {
+  box-shadow: 0 0 0 2px var(--rv-ring), var(--rv-shadow);
+}
+.rv-ref-chip-icon {
+  font-size: 14px;
+  color: var(--rv-accent);
+}
+.rv-ref-chip-label {
+  white-space: nowrap;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+ * SCREEN MODAL — the click-to-zoom inspector (Radix Dialog)
+ *
+ * Inspect a Stage-2 specimen larger / at a chosen scale, still annotatable inside.
+ * Portaled INTO .rv-shell so it reads the live theme tokens and flips with the mode.
+ * Separation is ELEVATION: a soft scrim (a theme-true wash over the canvas, NOT a
+ * hardcoded black) + a strongly-lifted dialog panel — no resting hairline anywhere.
+ * ───────────────────────────────────────────────────────────────────────── */
+.rv-modal__scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  /* Theme-true scrim: the canvas color dimmed — flips with the mode, never a raw black. */
+  background: color-mix(in oklab, var(--color-canvas) 30%, transparent);
+  backdrop-filter: blur(2px);
+}
+.rv-modal {
+  position: fixed;
+  z-index: 71;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(1320px, calc(100vw - 48px));
+  height: min(88vh, calc(100dvh - 48px));
+  display: flex;
+  flex-direction: column;
+  background: var(--color-dialog);
+  color: var(--rv-fg);
+  border-radius: var(--rv-radius);
+  box-shadow: var(--rv-shadow);
+  overflow: hidden;
+}
+/* The modal header is a raised bar lifted off the body by a shade step (surface-elevated
+ * over the dialog) — the shade reads the seam, no hairline. */
+.rv-modal__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 10px 14px;
+  background: var(--rv-bg-3);
+}
+.rv-modal__id {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.rv-modal__name {
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--rv-pane-fg);
+}
+.rv-modal__meta {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 11px;
+  color: var(--rv-fg-mute);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* The scale picker — a recessed inset well holding the zoom segments. */
+.rv-modal__scales {
+  display: inline-flex;
+  gap: 2px;
+  margin-left: auto;
+  padding: 2px;
+  background: var(--rv-inset);
+  border-radius: 999px;
+}
+.rv-modal__scale {
+  padding: 4px 12px;
+  background: transparent;
+  color: var(--rv-fg-dim);
+  border: none;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease, box-shadow 0.12s ease;
+}
+.rv-modal__scale:hover {
+  color: var(--rv-pane-fg);
+}
+/* The active scale lifts onto a raised pill — selection by elevation, not a border. */
+.rv-modal__scale[aria-pressed="true"] {
+  background: var(--rv-accent);
+  color: var(--rv-accent-fg);
+  box-shadow: var(--rv-shadow-sm);
+}
+.rv-modal__close {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  background: var(--rv-inset);
+  color: var(--rv-fg-dim);
+  border: none;
+  border-radius: 50%;
+  font: inherit;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+.rv-modal__close:hover {
+  color: var(--rv-fg);
+  box-shadow: 0 0 0 2px var(--rv-ring);
+}
+/* The zoom body is a scrollable inset well; the specimen scales to fit inside it and its
+ * own overlay keeps it annotatable. position:relative so the overlay layer anchors here. */
+.rv-modal__body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 16px;
+  background: var(--rv-inset);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+ * RESPONSIVE — at <=720px the rail stacks under the stage; 420px must still fit.
+ * The shell stays a 100dvh grid; main becomes two rows (stage / panel) and each
+ * keeps its own scroll so the document never grows.
+ * ───────────────────────────────────────────────────────────────────────── */
+@media (max-width: 720px) {
+  .rv-topbar,
+  .rv-footer {
+    gap: 8px;
+    padding: 0 10px;
+  }
+  .rv-brand-surface {
+    display: none;
+  }
+  .rv-mode-label {
+    display: none;
+  }
+  .rv-main {
+    grid-template-columns: 100%;
+    grid-template-rows: 1fr auto;
+  }
+  .rv-main:has(.rv-panel-collapsed) {
+    grid-template-columns: 100%;
+    grid-template-rows: 1fr auto;
+  }
+  .rv-panel {
+    max-height: 40vh;
+  }
+  .rv-panel-collapsed {
+    max-height: none;
+  }
+  .rv-panel-expand {
+    flex-direction: row;
+    justify-content: center;
+    height: auto;
+    padding: 8px;
+  }
+  .rv-panel-rail-fixes {
+    writing-mode: horizontal-tb;
+    margin-top: 0;
+  }
+  .rv-stage {
+    padding: 16px 14px 48px;
+  }
+  .rv-modal {
+    width: calc(100vw - 16px);
+    height: calc(100dvh - 16px);
+  }
+  .rv-modal__head {
+    gap: 8px;
+  }
+  .rv-modal__scales {
+    margin-left: 0;
+    flex: 1 1 100%;
+    justify-content: center;
+    order: 3;
+  }
+}
+
+@media (max-width: 460px) {
+  .rv-specimen-grid-composed {
+    grid-template-columns: 1fr;
+  }
+  .rv-shell {
+    font-size: 12px;
+  }
+  .rv-stage-title {
+    font-size: 17px;
+  }
+  .rv-font-line {
+    font-size: 18px;
+  }
+  .rv-specimen-grid,
+  .rv-swatch-grid {
+    grid-template-columns: 1fr;
+  }
+  .rv-footer-actions {
+    gap: 4px;
+  }
+  .rv-btn {
+    padding: 6px 9px;
+    font-size: 12px;
+  }
+}
