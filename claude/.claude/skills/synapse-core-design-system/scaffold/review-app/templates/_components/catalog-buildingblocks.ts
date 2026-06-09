@@ -22,7 +22,7 @@ export interface BuildingBlockGroup {
   keys: string[];
   /** The expanded specimens (recipe entries, or one schema-default fallback per key). */
   blocks: SpecimenDescriptor[];
-  /** This group holds a full-width block (siteHeader / selectableRow / table / lineItemsCard) → route to the 1-col grid. */
+  /** This group holds a full-width block (siteHeader / selectableRow / table / lineItemsCard / fightCard / hero) → route to the 1-col grid. */
   fullWidth: boolean;
 }
 
@@ -53,21 +53,45 @@ const INTRINSIC_WIDTH: Record<string, number> = {
   dialog: 420,
   tabs: 420,
   stepRail: 420,
+  // Brand + card + tournament + hero composites — each renders at its design ratio.
+  brandPattern: 280, // square motif tile
+  wordmark: 300,
+  portraitCard: 300, // 3:4 portrait
+  mediaCard: 440, // full well-card with info panel
+  fightCard: 760, // two figures + center strap
+  hero: 960, // near-desktop to read the split
   // OMITTED (render 1x): priceDisplay, statBlock, chipSelect, formField, label — small atoms.
 };
 
 // Groups whose blocks span the column — route to the single-column (full) grid so the
 // wide render isn't crammed beside a sibling.
-const FULL_WIDTH_KEYS = new Set(['siteHeader', 'selectableRow', 'table', 'lineItemsCard']);
+const FULL_WIDTH_KEYS = new Set(['siteHeader', 'selectableRow', 'table', 'lineItemsCard', 'fightCard', 'hero']);
 
-// ── group → registry keys (Fork-H/-I cut list + siteHeader nav, operator opted in) ──
-// EXCLUDED (Stage-3 / domain): hero, overlayBadge, statusStrap, dateBadgeLockup, all
-// tmmaf-*, EventSelectionGrid. `text`/`button`/`logo`/`card` stay Stage-1 atoms.
+// ── group → registry keys (mirrors the preview folder: brand + cards + tournament + hero) ──
+// EXCLUDED (still sub-parts, not standalone groups): overlayBadge, statusStrap, dateBadgeLockup —
+// these render inside portraitCard/mediaCard/fightCard. `text`/`button`/`card`/`badge` stay Stage-1
+// atoms; `logo` joins Brand here (the Stage-1 atom catalog is an independent pane). `statusBadge`
+// (the 9-tone status/result family, FORK 7) is surfaced here in Status & feedback.
 const GROUP_KEYS: { title: string; keys: string[] }[] = [
+  // Brand — logo (image lockup), wordmark (live-text chip), brandPattern (motif tiles).
+  { title: 'Brand', keys: ['logo', 'wordmark', 'brandPattern'] },
   { title: 'Form inputs', keys: ['input', 'select', 'textarea', 'checkbox', 'switch', 'label', 'formField'] },
   { title: 'Selection & lists', keys: ['chipSelect', 'selectableRow', 'tabs', 'stepRail'] },
-  { title: 'Status & feedback', keys: ['callout', 'statusIconTile', 'statusTimeline', 'dialog'] },
+  { title: 'Status & feedback', keys: ['statusBadge', 'callout', 'statusIconTile', 'statusTimeline', 'dialog'] },
   { title: 'Data display', keys: ['priceDisplay', 'statBlock', 'table', 'lineItemsCard', 'uploadStateRow'] },
+  // Cards — portraitCard (figure) + mediaCard (event). DEFERRED: figure mini / mini-narrow
+  // inline-record density; media featured/hero size + stats row; media sold-out overlay;
+  // media mini left-rail. Surfaced here so none is silently dropped.
+  { title: 'Cards', keys: ['portraitCard', 'mediaCard'] },
+  // Tournament — fightCard (two-figure composite). DEFERRED: resultRow stacked completed fights
+  // (depends on the fightCard result formula) and the bracket pan/zoom canvas (SVG connectors +
+  // drag = app behavior, host-custom), both out of building-blocks scope. The completed specimen's
+  // loser-desaturate + per-round scores are host-CSS, low-confidence.
+  { title: 'Tournament', keys: ['fightCard'] },
+  // Hero — split/solo/banner. DEFERRED: center-strap CTAs are unreachable via a single-node recipe
+  // specimen (children are not carried through) and the carousel variant is FeatureShowcase
+  // territory; both land in the real pages, not the catalog.
+  { title: 'Hero', keys: ['hero'] },
   { title: 'Navigation', keys: ['siteHeader'] },
 ];
 

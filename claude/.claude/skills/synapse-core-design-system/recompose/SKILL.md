@@ -37,6 +37,8 @@ first-class. If you find yourself wanting to relax one, stop and raise it with t
 
 ## Stage 4 — MAP reference → primitives
 
+The reference's preview/mockup files are the per-element GROUND TRUTH — both for WHICH elements exist and for how each one looks. They are typically hand-written, one-off markup, NOT reusable components, so the map's job is to CORRELATE each preview element to a reusable component, preferring reuse and adding a custom primitive only when no variant/compose path reaches it. Never assume the provided files are themselves the components, and never treat their per-file CSS as the component contract — the registry (4a) is the reuse set, the preview is the target.
+
 ### 4a · List the registry — EXECUTE, don't guess what exists
 
 Re-deriving the component inventory from memory is how a recomposition accidentally rewrites a

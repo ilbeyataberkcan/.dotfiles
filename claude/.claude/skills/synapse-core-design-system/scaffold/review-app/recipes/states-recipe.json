@@ -122,7 +122,7 @@
         "name": "value (mono)",
         "props": {
           "content": "61.2 KG",
-          "variant": "eyebrow",
+          "variant": "value",
           "as": "span"
         }
       },
@@ -151,6 +151,271 @@
           "alt": "TMMAF",
           "width": 160,
           "objectFit": "contain"
+        }
+      }
+    ],
+    "wordmark": [
+      {
+        "name": "ui chip",
+        "props": {
+          "text": "TMMAF",
+          "accentLead": 1,
+          "sub": "FEDERATION",
+          "notch": true
+        }
+      }
+    ],
+    "brandPattern": [
+      { "name": "cage grid", "props": { "pattern": "grid", "label": "01 · Cage grid" } },
+      { "name": "red wash", "props": { "pattern": "wash", "label": "02 · Arena wash" } },
+      { "name": "ink field", "props": { "pattern": "field", "label": "03 · Ink field" } },
+      { "name": "soft mesh", "props": { "pattern": "mesh", "label": "04 · Soft mesh" } },
+      { "name": "editorial divider", "props": { "pattern": "divider", "num": "R02 · 02:14", "title": "Round end" } },
+      { "name": "event stripe", "props": { "pattern": "stripe", "label": "05 · Event stripe" } }
+    ],
+    "portraitCard": [
+      {
+        "name": "portrait · default",
+        "props": {
+          "monogram": "EY",
+          "eyebrow": "Emir",
+          "display": "Yıldız",
+          "tag": "Lightweight",
+          "meta": ["İstanbul", "27 yrs", "70.3 kg"],
+          "badge": { "display": "#1", "tone": "accent", "size": "sm", "corner": "top-start" },
+          "strap": { "segments": [
+            { "tone": "positive", "label": "W", "value": "12", "weight": 12 },
+            { "tone": "critical", "label": "L", "value": "2", "weight": 2 },
+            { "tone": "muted", "label": "D", "value": "0", "weight": 0 }
+          ] }
+        }
+      },
+      {
+        "name": "portrait · champion",
+        "props": {
+          "monogram": "DK",
+          "eyebrow": "Demir",
+          "display": "Kaya",
+          "tag": "Lightweight",
+          "accent": "champion",
+          "meta": ["Ankara", "29 yrs", "70.1 kg"],
+          "badge": { "display": "C", "tone": "accent-secondary", "size": "sm", "corner": "top-start" },
+          "strap": { "segments": [
+            { "tone": "positive", "label": "W", "value": "15", "weight": 15 },
+            { "tone": "critical", "label": "L", "value": "1", "weight": 1 },
+            { "tone": "muted", "label": "D", "value": "0", "weight": 0 }
+          ] }
+        }
+      },
+      {
+        "name": "portrait · mixed record",
+        "props": {
+          "monogram": "SÖ",
+          "eyebrow": "Selin",
+          "display": "Öztürk",
+          "tag": "Bantamweight",
+          "meta": ["İzmir", "24 yrs", "61.0 kg"],
+          "badge": { "display": "#4", "tone": "accent", "size": "sm", "corner": "top-start" },
+          "strap": { "segments": [
+            { "tone": "positive", "label": "W", "value": "7", "weight": 7 },
+            { "tone": "critical", "label": "L", "value": "5", "weight": 5 },
+            { "tone": "muted", "label": "D", "value": "2", "weight": 2 }
+          ] }
+        }
+      },
+      {
+        "name": "slim · start",
+        "props": {
+          "look": "slim",
+          "align": "start",
+          "monogram": "EY",
+          "eyebrow": "Emir",
+          "display": "Yıldız",
+          "tag": "Lightweight",
+          "meta": ["İstanbul", "70.3 kg"],
+          "badge": { "display": "#1", "tone": "accent", "size": "sm", "corner": "top-start" },
+          "strap": { "segments": [
+            { "tone": "positive", "label": "W", "value": "12", "weight": 12 },
+            { "tone": "critical", "label": "L", "value": "2", "weight": 2 },
+            { "tone": "muted", "label": "D", "weight": 0 }
+          ] }
+        }
+      },
+      {
+        "name": "slim · end",
+        "props": {
+          "look": "slim",
+          "align": "end",
+          "monogram": "MÖ",
+          "eyebrow": "Mert",
+          "display": "Öz",
+          "tag": "Lightweight",
+          "meta": ["İzmir", "70.1 kg"],
+          "badge": { "display": "#4", "tone": "accent", "size": "sm", "corner": "top-end" },
+          "strap": { "segments": [
+            { "tone": "positive", "label": "W", "value": "15", "weight": 15 },
+            { "tone": "critical", "label": "L", "value": "3", "weight": 3 },
+            { "tone": "muted", "label": "D", "weight": 0 }
+          ] }
+        }
+      }
+    ],
+    "mediaCard": [
+      {
+        "name": "full · scheduled",
+        "props": {
+          "monogram": "BR",
+          "kicker": "Featherweight",
+          "title": "Bursa Regional",
+          "metaTop": ["Regional"],
+          "footTitle": "Bursa Spor Salonu",
+          "footAside": "19:00 TRT",
+          "meta": ["12 Fighters", "3 × 3min"],
+          "badge": { "display": "29", "caption": "JUN", "tone": "accent", "size": "md", "corner": "top-start" },
+          "strap": { "segments": [
+            { "tone": "accent", "label": "SCHEDULED", "value": "29 JUN", "grow": true },
+            { "tone": "neutral", "label": "TICKETS" }
+          ] }
+        }
+      },
+      {
+        "name": "full · live",
+        "props": {
+          "state": "live",
+          "monogram": "İO",
+          "kicker": "Lightweight Final",
+          "title": "İzmir Open",
+          "metaTop": ["National"],
+          "footTitle": "Halkapınar Arena",
+          "footAside": "LIVE",
+          "meta": ["Main Card", "5 × 5min"],
+          "badge": { "display": "24", "caption": "MAY", "tone": "accent", "size": "md", "corner": "top-start" },
+          "strap": { "segments": [
+            { "tone": "live", "label": "LIVE · R3", "value": "02:14", "dot": true, "grow": true },
+            { "tone": "accent", "label": "34 — 28" }
+          ] }
+        }
+      },
+      {
+        "name": "full · past",
+        "props": {
+          "state": "past",
+          "monogram": "AK",
+          "kicker": "Bantamweight",
+          "title": "Ankara Classic",
+          "metaTop": ["Regional"],
+          "footTitle": "Ankara Spor Salonu",
+          "footAside": "12 APR",
+          "meta": ["Completed", "Results in"],
+          "badge": { "display": "12", "caption": "APR", "tone": "neutral", "size": "md", "corner": "top-start" },
+          "strap": { "segments": [
+            { "tone": "muted", "label": "COMPLETED", "grow": true },
+            { "tone": "positive", "label": "RESULTS" }
+          ] }
+        }
+      },
+      {
+        "name": "compact · scheduled",
+        "props": {
+          "look": "slim",
+          "monogram": "BR",
+          "footTitle": "Bursa Regional",
+          "footAside": "29 Jun",
+          "badge": { "display": "29", "caption": "JUN", "tone": "accent", "size": "md", "corner": "top-start" },
+          "strap": { "segments": [
+            { "tone": "accent", "label": "SCHEDULED", "grow": true },
+            { "tone": "neutral", "label": "TICKETS" }
+          ] }
+        }
+      },
+      {
+        "name": "compact · live",
+        "props": {
+          "look": "slim",
+          "state": "live",
+          "monogram": "İO",
+          "footTitle": "İzmir Open · Lightweight Final",
+          "footAside": "R3 · 02:14",
+          "badge": { "display": "24", "caption": "MAY", "tone": "accent", "size": "md", "corner": "top-start" },
+          "strap": { "segments": [
+            { "tone": "live", "label": "LIVE", "dot": true, "grow": true },
+            { "tone": "accent", "label": "34—28" }
+          ] }
+        }
+      }
+    ],
+    "fightCard": [
+      {
+        "name": "fight · hero live",
+        "props": {
+          "look": "full",
+          "state": "live",
+          "left": {
+            "monogram": "EY", "eyebrow": "Emir", "display": "Yıldız",
+            "badge": { "display": "#1", "tone": "accent", "size": "sm", "corner": "top-start" },
+            "meta": ["İstanbul", "70.3 kg"],
+            "strap": { "segments": [
+              { "tone": "positive", "label": "W", "value": "12", "weight": 12 },
+              { "tone": "critical", "label": "L", "value": "2", "weight": 2 },
+              { "tone": "muted", "label": "D", "weight": 0 }
+            ] }
+          },
+          "right": {
+            "align": "end", "monogram": "MÖ", "eyebrow": "Mert", "display": "Öz",
+            "badge": { "display": "#4", "tone": "accent", "size": "sm", "corner": "top-end" },
+            "meta": ["İzmir", "70.1 kg"],
+            "strap": { "segments": [
+              { "tone": "positive", "label": "W", "value": "15", "weight": 15 },
+              { "tone": "critical", "label": "L", "value": "3", "weight": 3 },
+              { "tone": "muted", "label": "D", "weight": 0 }
+            ] }
+          },
+          "center": { "vsMark": "VS", "ribbon": { "label": "LIVE", "time": "R3 · 02:14" }, "bout": "Bout 7" }
+        }
+      },
+      {
+        "name": "fight · scheduled",
+        "props": {
+          "look": "full",
+          "state": "default",
+          "left": { "monogram": "EY", "eyebrow": "Emir", "display": "Yıldız", "meta": ["İstanbul", "70.3 kg"] },
+          "right": { "align": "end", "monogram": "MÖ", "eyebrow": "Mert", "display": "Öz", "meta": ["İzmir", "70.1 kg"] },
+          "center": { "vsMark": "VS", "bout": "Co-main · Bout 6", "when": "29 Jun", "format": "3 × 5" }
+        }
+      },
+      {
+        "name": "fight · slim scheduled",
+        "props": {
+          "look": "slim",
+          "state": "default",
+          "left": { "look": "slim", "monogram": "EY", "eyebrow": "Emir", "display": "Yıldız" },
+          "right": { "look": "slim", "align": "end", "monogram": "MÖ", "eyebrow": "Mert", "display": "Öz" },
+          "center": { "vsMark": "VS", "bout": "Bout 5", "when": "29 Jun" }
+        }
+      },
+      {
+        "name": "fight · completed (win-left)",
+        "props": {
+          "look": "full",
+          "state": "completed",
+          "win": "left",
+          "left": {
+            "monogram": "EY", "eyebrow": "Emir", "display": "Yıldız",
+            "strap": { "segments": [
+              { "tone": "positive", "label": "W", "value": "13", "weight": 13 },
+              { "tone": "critical", "label": "L", "value": "2", "weight": 2 },
+              { "tone": "muted", "label": "D", "weight": 0 }
+            ] }
+          },
+          "right": {
+            "align": "end", "monogram": "DV", "eyebrow": "Daan", "display": "de Vries",
+            "strap": { "segments": [
+              { "tone": "positive", "label": "W", "value": "9", "weight": 9 },
+              { "tone": "critical", "label": "L", "value": "4", "weight": 4 },
+              { "tone": "muted", "label": "D", "weight": 0 }
+            ] }
+          },
+          "center": { "vsMark": "VS", "bout": "Bout 4 · 12 Apr", "when": "TKO · R2" }
         }
       }
     ],
@@ -309,6 +574,71 @@
         }
       }
     ],
+    "statusBadge": [
+      {
+        "name": "live · pulse dot",
+        "props": {
+          "text": "LIVE",
+          "tone": "live"
+        }
+      },
+      {
+        "name": "upcoming",
+        "props": {
+          "text": "UPCOMING",
+          "tone": "upcoming"
+        }
+      },
+      {
+        "name": "scheduled · ◷ glyph",
+        "props": {
+          "text": "SCHEDULED",
+          "tone": "scheduled"
+        }
+      },
+      {
+        "name": "completed",
+        "props": {
+          "text": "COMPLETED",
+          "tone": "completed"
+        }
+      },
+      {
+        "name": "weigh-in · info dot",
+        "props": {
+          "text": "WEIGH-IN",
+          "tone": "weighin"
+        }
+      },
+      {
+        "name": "win",
+        "props": {
+          "text": "W · TKO R2",
+          "tone": "win"
+        }
+      },
+      {
+        "name": "loss",
+        "props": {
+          "text": "L · DEC (U)",
+          "tone": "loss"
+        }
+      },
+      {
+        "name": "draw",
+        "props": {
+          "text": "DRAW",
+          "tone": "draw"
+        }
+      },
+      {
+        "name": "no contest · ⊘ glyph",
+        "props": {
+          "text": "NC · NO CONTEST",
+          "tone": "nc"
+        }
+      }
+    ],
     "callout": [
       {
         "name": "info",
@@ -410,7 +740,7 @@
         "name": "error",
         "props": {
           "name": "email",
-          "invalid": true,
+          "errorMessage": "Must be 12 characters.",
           "defaultValue": "ayse@"
         }
       },
@@ -477,23 +807,66 @@
     ],
     "hero": [
       {
-        "name": "split \u00b7 dramatic dark media",
+        "name": "split \u00b7 fight-card",
         "props": {
-          "layout": "split",
-          "eyebrow": "MAIN EVENT",
-          "title": "Demir vs Y\u0131lmaz",
-          "subtitle": "Bantamweight title bout",
-          "ctaPrimary": "VIEW FIGHT CARD"
+          "look": "split",
+          "minHeight": "lg",
+          "start": {
+            "monogram": "EY", "eyebrow": "Emir", "display": "Y\u0131ld\u0131z",
+            "badge": { "display": "#1", "tone": "accent", "corner": "top-start", "size": "sm" },
+            "meta": ["\u0130stanbul", "70.3 kg"],
+            "strap": { "segments": [
+              { "tone": "positive", "label": "W", "value": "12", "weight": 12 },
+              { "tone": "critical", "label": "L", "value": "2", "weight": 2 },
+              { "tone": "muted", "label": "D", "weight": 0 }
+            ] }
+          },
+          "end": {
+            "align": "end", "monogram": "M\u00d6", "eyebrow": "Mert", "display": "\u00d6z",
+            "badge": { "display": "#4", "tone": "accent", "corner": "top-end", "size": "sm" },
+            "meta": ["\u0130zmir", "70.1 kg"],
+            "strap": { "segments": [
+              { "tone": "positive", "label": "W", "value": "15", "weight": 15 },
+              { "tone": "critical", "label": "L", "value": "3", "weight": 3 },
+              { "tone": "muted", "label": "D", "weight": 0 }
+            ] }
+          },
+          "centerStrap": {
+            "eyebrow": "ANKARA OPEN",
+            "vsMark": "VS",
+            "title": "Lightweight Grand Prix \u00b7 Final",
+            "subtitle": "Ankara Spor Salonu \u00b7 Bout 7 \u00b7 5\u00d75",
+            "countdown": [
+              { "value": "07", "label": "Days" },
+              { "value": "14", "label": "Hours" },
+              { "value": "22", "label": "Min" }
+            ]
+          }
         }
       },
       {
-        "name": "full \u00b7 full-bleed scrim",
+        "name": "solo \u00b7 live",
         "props": {
-          "layout": "full",
-          "eyebrow": "LIVE",
-          "title": "TMMAF 12",
-          "subtitle": "Istanbul \u00b7 Sinan Erdem",
-          "ctaPrimary": "WATCH LIVE"
+          "look": "solo",
+          "minHeight": "lg",
+          "state": "live",
+          "centerStrap": {
+            "chip": { "text": "LIVE \u00b7 R3 02:14", "live": true },
+            "vsMark": "VS",
+            "title": "Open Weight Title \u00b7 Main Event",
+            "subtitle": "Halkap\u0131nar Arena \u00b7 Bout 9"
+          }
+        }
+      },
+      {
+        "name": "banner",
+        "props": {
+          "look": "banner",
+          "background": "gradient",
+          "align": "left",
+          "minHeight": "md",
+          "title": "Y\u0131ld\u0131z vs. \u00d6z",
+          "subtitle": "Eight fighters. One weekend. One national lightweight crown."
         }
       }
     ],
@@ -513,10 +886,13 @@
         }
       },
       {
-        "name": "danger \u00b7 over media",
+        "name": "accent \u00b7 rank sticker",
         "props": {
-          "display": "SOLD OUT",
-          "tone": "accent"
+          "display": "#1",
+          "caption": "RANK",
+          "tone": "accent",
+          "corner": "top-end",
+          "size": "sm"
         }
       }
     ],
@@ -577,7 +953,6 @@
         "props": {
           "month": "SEP",
           "day": "14",
-          "year": "2026",
           "title": "TMMAF 12",
           "subtitle": "Sinan Erdem \u00b7 Istanbul"
         }
