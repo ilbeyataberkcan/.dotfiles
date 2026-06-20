@@ -133,3 +133,24 @@ export XDG_DATA_DIRS="/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Install Bun dependencies using the active GitHub CLI auth token.
+bun-install-gh() {
+  if ! command -v gh >/dev/null 2>&1; then
+    printf '%s\n' 'gh is not installed or not on PATH.' >&2
+    return 1
+  fi
+
+  if ! command -v bun >/dev/null 2>&1; then
+    printf '%s\n' 'bun is not installed or not on PATH.' >&2
+    return 1
+  fi
+
+  local token
+  if ! token="$(gh auth token 2>/dev/null)"; then
+    printf '%s\n' 'Could not read GitHub auth token. Run: gh auth login' >&2
+    return 1
+  fi
+
+  NODE_AUTH_TOKEN="$token" bun install "$@"
+}

@@ -2,3 +2,9 @@
 *.private
 /secrets/
 /nvim/.config/nvim/tmp/
+
+# Claude session artifacts can contain prompts, command output, env values, and tool results.
+claude/.claude/projects/**/*.jsonl
+claude/.claude/projects/**/subagents/
+claude/.claude/projects/**/tool-results/
+claude/.claude/projects/**/memory.local-*/

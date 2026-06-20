@@ -1,21 +1,6 @@
-- [Spot-check revisions instead of re-running full checker](feedback_revision_verification.md) — when a revision agent returns a per-issue changelog, prefer targeted greps over a fresh full verifier agent
-- [Ultracode = Workflow tool, run as GSD plan→execute](feedback_ultracode_gsd_plan_execute.md) — for substantive multi-file work use 1 planning workflow then 1 execution workflow, not ad-hoc single Agents
-- [TMMAF client deck — frame for the customer, not the dev team](feedback_tmmaf_deck_audience.md) — federation cares about brand, blockers, and asks; drop internal phase/package jargon
-- [Registration flow IS the primary sign-up](project_registration_flow_is_signup.md) — collect full profile in-flow, Turkish-only interim, weight is per-event; incremental persistence + flow routing still deferred
-- [graphify scope = code + docs only](project_graphify_scope_code_and_docs.md) — .graphifyignore allowlists app/db/docs/lib/scripts; never include .planning (it bloats the graph); rebuild clears semantic cache, keeps AST
-- [Keep comments short](feedback_concise_comments.md) — one concise line, never multi-line explanatory blocks; put rationale in commit messages
-- [Analyze top-down, fix system-wide](feedback_fix_properly_system_wide.md) — whole-system perspective first then details; no one-off patches; mirror cve-test-host; reusable contracts
+# Memory Index
 
-- [Never reset the DB](feedback_never_reset_db.md) — only seed (idempotent, version-bumped); cleaning rows/tables is the user's authority
-- [DB driver abstraction debt](project_db_driver_abstraction_debt.md) — ~23 sites call getDrizzle() directly, bypassing CoreDriver; deferred system-wide refactor, remind the user
-- [trainingSince is an experience bracket](project_trainingsince_is_experience_bracket.md) — TEXT '3+'|'1-3'|'<1' per the mockup, NOT an integer year; modeled wrong twice — don't flip it back
-- [Minimal change to native inputs](feedback_minimal_change_native_inputs.md) — when asked to tweak a UI element, make the smallest change; don't replace native controls the user likes (native date order is locale-controlled, not forceable)
-- [cve-auth revokeSessions patch](project_cve_auth_revokesessions_patch.md) — local bun patch fixes deleteSessions→deleteUserSessions ("Value must be an array"); affects all role assignment; upstream to cve-auth & drop the patch
-- [Accent/status ramp 50/100 → tone down in BOTH modes](project_ramp_5010_both_modes.md) — only the neutral ramp keeps bright 50/100 (for text); cap at ramp level, never dark-only
-- [Light & dark are both first-class](project_light_dark_both_first_class.md) — tmmaf ships light-only but cve packages must never assume a mode; media "drama" = scrim-over-photo (mode-agnostic), not a dark effect
-- [Visual analyzers are weak](feedback_visual_analyzers_weak.md) — don't trust sub-agent screenshot "PASS"; confirm design fidelity with impeccable + the operator via an interactive HTML review surface (component solo + in a mockup page)
-- [Host custom CSS is allowed](feedback_host_custom_css_allowed.md) — when Tailwind can't express a provided design, the host app may use custom CSS classes; packages stay Tailwind + escape-hatch
-- [Review app is a gated design tool](project_review_loop_gated_design_tool.md) — build/approve Stage 1, THEN Stage 2, THEN the real pages; never build a stage ahead; approved designs → seedable RenderEngine trees (pre-cve-studio tool)
-- [No hairline outlines](feedback_no_hairline_outlines.md) — never use hairline/resting outlines anywhere unless explicitly asked; separation = elevation only; audit-elevation flags them
-- [Evolve the skill as we progress](feedback_evolve_skill_as_we_progress.md) — fold accepted directives INTO the synapse-core-design-system skill (SKILL.md/sub-skills/audits), not just into memories
-- [Never drop annotations](feedback_never_drop_annotations.md) — distinct content never skipped; identical content on different targets must each be fixed per-target; don't collapse "applies to all X" into one fix
+- [tmmaf test baseline needs docker](tmmaf-test-baseline-needs-docker.md) — 9-failure baseline only valid with tmmaf_pg + tmmaf_mailpit up; otherwise ~25 env failures
+- [tmmaf deploy hostnames](tmmaf-deploy-hostnames.md) — live=fighterscore.com, staging=staging.fighterscore.com; shared-parent-domain → keep auth cookies host-scoped, WEBAUTHN_RP_ID exact-host per env
+- [tmmaf TODO: docker cred helper](tmmaf-todo-docker-cred-helper.md) — DEFERRED: encrypt VPS GHCR token via pass credential helper; baseline chmod already done, remind later
+- [tmmaf prelaunch live db read-only](tmmaf-prelaunch-live-db-readonly.md) — before real data: switch live DB GUI to ilbey_ro (read-only); live ilbey is RW + shares staging password for now
