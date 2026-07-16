@@ -18,5 +18,8 @@
     "external_directory": {
       "~/.config/opencode/get-shit-done/*": "allow"
     }
-  }
+  },
+  "plugin": [
+    "@dietrichgebert/ponytail@4.8.4"
+  ]
 }

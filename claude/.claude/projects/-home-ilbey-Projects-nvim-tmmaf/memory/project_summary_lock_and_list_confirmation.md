@@ -1,0 +1,34 @@
+---
+name: summary-lock-and-list-confirmation
+description: "feat/summary-lock-warning branch — Task 1 (lock warnings, v29) COMMITTED; Task 2 (list-confirmation force-accept/auto-reject + guard dialogs) IMPLEMENTED uncommitted; local staging is stale"
+metadata:
+  node_type: memory
+  type: project
+  originSessionId: f2ce26f0-0e9a-4fd6-9c58-5df7eb9d8dc4
+---
+
+Branch `feat/summary-lock-warning` cut from **origin/main ce92a32** (2026-07-11). Local `staging` is ~20 commits STALE and holds 2 local-only planning-doc commits (aeebc85, 63c986e — prompt-draft.md/xml) — never build on it; `prompt-draft.xml` is stale planning, code wins.
+
+**Task 1 — COMMITTED** (`eb4238b` feat, `ee103fb` fix; user pushes via `git push -u origin feat/summary-lock-warning`, Bitwarden gates SSH):
+- Registration flow **v29**: red `callout` `summary/lock-warning` (first child of summary/body, headline "Bu adımdan sonra bilgilerinizi değiştiremeyeceksiniz"), amber `payment/lock-note` ("Başvurunuz Tamamlandı…Başvuru Durumu…"), prominence via className descendant overrides (`[&>span]:gap-3`, body text-sm), `branch/pre-confirm` (payment-step defer).
+- `RegistrationChrome.tsx`: `ConfirmAdvanceButton` (popup ONLY on "Ödemeye geç"; reuses ExitSheet — gained `cancelLabel`, `aria-label={title}`, ReactNode body); payment footer gained `DeferPaymentButton` **gated `flowVersion >= 27`** (older pinned trees lack the branch and would park unpaid at step-confirm); `host-flow-actions.ts` step-payment payLater strip+persist hook.
+- **Back on payment deliberately rejected**: mint at summary-advance is one-shot (`terminalDispatched`) — post-mint edits are silently dropped, so Back would lie. User accepted.
+- Club-region prefill fix: `getAthleteClubName`→**`getAthleteClub`** (returns region too); injector falls back to saved club's region (city was empty on first land, country only looked filled via 'TR' default).
+
+**Task 2 — IMPLEMENTED, UNCOMMITTED, awaiting user eyeball then commit** (plan: ~/.claude/plans/the-federation-has-request-squishy-fiddle.md):
+- `confirmEventRegistrations`: after stamp — per-athlete tx force-accept of `offered` rows (accepted+approved+APPROVED, not_required→unpaid CASE, RETURNING-driven displacement, athlete activation), auto-reject sweep (AWAITING + NULL/accepted → rejected+CANCELLED, staged-rejected keep reasons), declined sweep; result `{notified, forced, autoRejected}`; audits `registration.category.offer-forced` / `registration.application.auto-rejected`.
+- `lib/registration-eligibility.ts`: `displaceReplacedCategoryLines` (single-branch same-discipline displacement + paid transfer, at most once per discipline) + `CATEGORY_DISPLACEMENT_REASON` / `UNREVIEWED_AUTO_REJECT_REASON`; `DbOrTx` exported. ('use server' files can't export consts — that's why they live here.)
+- `approveApplication` now skips offered/declined rows (limbo fix); `resolveCategoryOffer` accept = tx + displacement + CASE, decline = +CANCELLED; athlete re-add upsert clears `assignmentState/assignedBy/rejectionReason` (zombie fix); propose gate counts open offers per discipline; offer mail+page state auto-accept-at-confirmation + single-branch replacement (`replacesExistingSelection`).
+- StaffConfirmationBoard guard chain: Dialog 1 (N unreviewed→auto-REJECT + K offers→auto-accept) → only on Devam et → Dialog 2 (M approved-unpaid) → submit; Vazgeç anywhere aborts; step-up retry bypasses chain; counts from module loader.
+- **NO migration**; 24 DB-backed tests green across 4 suites (incl. new `category-edit-self-terminal.test.ts`); build green.
+- Deferred/accepted consequences: forced rows stay payment-enforced (no admitUnpaidOverride); level/doc gates bypassed on forced lines (propose-time parity, audited); legacy declined-but-approved rows healed by neither sweep.
+
+**Task 2 COMMITTED** as `dbb8849` (user-tested). **Task 3 COMMITTED**: `1298d49` (weigh-in "Tartı" step at order 2 in event management — three synced lists in get-event-management-module.tsx + EventManagementStepNav STEPS, gate `weighin:view`, link-out card w/ getWeighInRoster progress; QueueRail row `flexShrink:0` scroll fix) + `b39a761` (`scripts/approve-event-registrations.ts` — dev-data finalize CLI, direct drizzle writes per import-sheet precedent since approveApplication is session-gated with NO actor seam; dry-run default, `--confirm`, idempotent). Dev DB: `test-new-systems` fully finalized (137 lines approved+unpaid+admitUnpaidOverride, athletes activated); list confirmation click left to the user (Dialog 2 + step-up UAT). Branch has 5 commits over origin/main — user pushes (`git push -u origin feat/summary-lock-warning`).
+
+**Task 4 COMMITTED** `6d1cea0` (weigh-in overhaul, migration **0044 APPLIED locally** — deploy needs db:migrate): attempts/third-strike DQ (outcome `'disqualified'`, kind `'disqualify'` updates latest row, terminal guard, DisqualifyDialog + AttemptHistory replace keypad), step-up-gated "Tartıya İzin Ver" (`weigh_in_doc_override` table, policy `weighin:doc-override`='high-impact', shared `StepUpDialogMount` in app/step-up-dialog-mount.tsx for BOTH layouts), direct "Diskalifiye Et", multi-desk sync (weigh_in_state version row + transient weigh_in_claim w/ 2 full uniques; `bumpWeighInAndNotify` twin on RING_BUMP_CHANNEL; per-event `pg_advisory_xact_lock`; server-assigned `claimNext`/`claimAthlete`/`releaseMyClaim`; no-TTL takeover; refusals-before-writes tx order — drizzle tx COMMITS on plain return), progress = outcome!=null "işlendi" both surfaces. 52 DB tests + 11-item two-context Playwright all green.
+- **LATENT BUG FIXED in shared hook** (`use-versioned-state.ts`, extracted from use-ring-state which had it since phase-19): cursor-ref mutation INSIDE a setState updater → React re-invocation discarded frames → the ACTING desk froze its own view. Fix: merge outside setState via stateRef. **Referee panel inherited the fix.**
+- `RefreshOnRestore` (lib/admin/components/): BACK-nav staleness needs BOTH guards — bfcache `pageshow.persisted` AND `navigation.type==='back_forward'` (Firefox serves history from HTTP cache, transferSize 0, persisted=false).
+- **Hand-authored migrations MUST append a `db/migrations/meta/_journal.json` entry** (idx/version:'7'/when/tag) — drizzle-kit migrate walks the journal, not loose .sql; 0044 silently no-opped until journaled.
+- Dev residue on test-new-systems: ~13 weigh-in records incl. 3 DQ'd (YUSUF GÜNEŞ/YALIN BERKE BAŞER/ABDULLAH CANBİRDİ), UMUT BOŞVER awaiting-DQ, YUSUF GÜNEŞ registration missing_documents flipped true (test fixture); progress 56/139. Deferred: SSE liveness watchdog (byte-silent stream never degrades to poll — pre-existing referee behavior), claim-lost sentinel is an error-substring match (`ponytail:` note), un-DQ admin revert.
+
+Related: [[project_deferrable_payment_pre_payment_approval]], [[project_registration_category_model]], [[project_weigh_in_referee_portal]].

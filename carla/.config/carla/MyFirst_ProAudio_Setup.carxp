@@ -2280,20 +2280,24 @@
 
  <ExternalPatchbay>
   <Connection>
-   <Source>Built-in Audio Analog Stereo:capture_FL</Source>
+   <Source>USB Advanced Audio Device:capture_FL</Source>
    <Target>LSP Gate Mono:Input</Target>
-  </Connection>
-  <Connection>
-   <Source>LSP Parametric Equalizer x16 Mono:Output</Source>
-   <Target>Noise Suppressor for Voice (Mono):Input</Target>
   </Connection>
   <Connection>
    <Source>LSP Gate Mono:Output</Source>
    <Target>LSP Parametric Equalizer x16 Mono:Input</Target>
   </Connection>
   <Connection>
+   <Source>LSP Parametric Equalizer x16 Mono:Output</Source>
+   <Target>Noise Suppressor for Voice (Mono):Input</Target>
+  </Connection>
+  <Connection>
    <Source>Noise Suppressor for Voice (Mono):Output</Source>
    <Target>LSP Compressor Mono:Input</Target>
+  </Connection>
+  <Connection>
+   <Source>LSP Compressor Mono:Output</Source>
+   <Target>LSP Limiter Mono:Input</Target>
   </Connection>
   <Connection>
    <Source>LSP Limiter Mono:Output</Source>
@@ -2301,23 +2305,11 @@
   </Connection>
   <Connection>
    <Source>LSP Send Stereo:Output L</Source>
-   <Target>Built-in Audio Analog Stereo:playback_FL</Target>
+   <Target>Master Mix (Loopback):playback_FL</Target>
   </Connection>
   <Connection>
    <Source>LSP Send Stereo:Output R</Source>
-   <Target>Built-in Audio Analog Stereo:playback_FR</Target>
-  </Connection>
-  <Connection>
-   <Source>LSP Compressor Mono:Output</Source>
-   <Target>LSP Limiter Mono:Input</Target>
-  </Connection>
-  <Connection>
-   <Source>Zen:output_FL</Source>
-   <Target>Multimedia Audio:playback_FL</Target>
-  </Connection>
-  <Connection>
-   <Source>Zen:output_FR</Source>
-   <Target>Multimedia Audio:playback_FR</Target>
+   <Target>Master Mix (Loopback):playback_FR</Target>
   </Connection>
   <Connection>
    <Source>Main Audio:monitor_FL</Source>
@@ -2344,59 +2336,47 @@
    <Target>LSP Send Stereo:Input R</Target>
   </Connection>
   <Positions>
-   <Position x1="111" y1="554" x2="1173" y2="828">
-    <Name>Built-in Audio Analog Stereo</Name>
+   <Position x1="192" y1="536" x2="784" y2="1892">
+    <Name>USB Advanced Audio Device</Name>
    </Position>
-   <Position x1="1099" y1="2004" x2="2153" y2="1692">
-    <Name>GA106 High Definition Audio Controller Pro 9</Name>
+   <Position x1="280" y1="1966" x2="882" y2="1966">
+    <Name>Razer Kraken V3 HyperSense Analog Stereo</Name>
    </Position>
-   <Position x1="1099" y1="1782" x2="863" y2="1391">
-    <Name>GA106 High Definition Audio Controller Pro</Name>
+   <Position x1="280" y1="2040" x2="990" y2="2040">
+    <Name>GA104 High Definition Audio Controller Digital Stereo (HDMI)</Name>
    </Position>
-   <Position x1="1099" y1="1856" x2="1946" y2="1081">
-    <Name>GA106 High Definition Audio Controller Pro 7</Name>
+   <Position x1="1694" y1="987">
+    <Name>Master Mix (Loopback)</Name>
    </Position>
-   <Position x1="1099" y1="1930" x2="2144" y2="1240">
-    <Name>GA106 High Definition Audio Controller Pro 8</Name>
-   </Position>
-   <Position x1="394" y1="737">
+   <Position x1="795" y1="994">
     <Name>Main Audio</Name>
    </Position>
-   <Position x1="1456" y1="543">
+   <Position x1="1664" y1="531">
     <Name>Microphone FX</Name>
    </Position>
-   <Position x1="586" y1="1094">
+   <Position x1="795" y1="1142">
     <Name>Multimedia Audio</Name>
    </Position>
-   <Position x1="408" y1="950">
+   <Position x1="795" y1="1216">
     <Name>Voice Chat Audio</Name>
    </Position>
-   <Position x1="803" y1="2047" x2="809" y2="1964">
-    <Name>Midi-Bridge</Name>
-   </Position>
-   <Position x1="800" y1="2124" x2="827" y2="2051">
-    <Name>BLE MIDI 1</Name>
-   </Position>
-   <Position x1="356" y1="548" pluginId="0">
+   <Position x1="469" y1="541" pluginId="0">
     <Name>LSP Gate Mono</Name>
    </Position>
-   <Position x1="545" y1="549" pluginId="1">
+   <Position x1="667" y1="541" pluginId="1">
     <Name>LSP Parametric Equalizer x16 Mono</Name>
    </Position>
-   <Position x1="814" y1="549" pluginId="2">
+   <Position x1="991" y1="532" pluginId="2">
     <Name>Noise Suppressor for Voice (Mono)</Name>
    </Position>
-   <Position x1="1073" y1="548" pluginId="3">
+   <Position x1="1280" y1="534" pluginId="3">
     <Name>LSP Compressor Mono</Name>
    </Position>
-   <Position x1="1244" y1="549" pluginId="4">
+   <Position x1="1495" y1="532" pluginId="4">
     <Name>LSP Limiter Mono</Name>
    </Position>
-   <Position x1="987" y1="821" pluginId="5">
+   <Position x1="1189" y1="1079" pluginId="5">
     <Name>LSP Send Stereo</Name>
-   </Position>
-   <Position x1="364" y1="1088">
-    <Name>Zen</Name>
    </Position>
   </Positions>
  </ExternalPatchbay>

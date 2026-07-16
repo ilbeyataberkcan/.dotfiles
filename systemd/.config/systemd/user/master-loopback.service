@@ -1,0 +1,13 @@
+[Unit]
+Description=PipeWire Master Mix Loopback
+After=pipewire.service
+BindsTo=pipewire.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/pw-loopback --capture-props='node.target="Master_Mix" stream.capture.sink=true'
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=default.target

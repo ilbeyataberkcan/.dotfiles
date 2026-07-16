@@ -154,3 +154,57 @@ bun-install-gh() {
 
   NODE_AUTH_TOKEN="$token" bun install "$@"
 }
+
+initiate-android-camera() {
+    # 1. Set variables with default fallback values
+    # If $1 (first argument) is empty, default to "camera"
+    # If $2 (second argument) is empty, default to "/dev/video0"
+    local video_source="${1:-camera}"
+    local v4l2_sink="${2:-/dev/video0}"
+
+    # 2. Define required packages for Arch Linux
+    local required_pkgs=(scrcpy android-tools v4l2loopback-dkms linux-headers)
+    local missing_pkgs=()
+
+    # Check which packages are missing
+    for pkg in "${required_pkgs[@]}"; do
+        if ! pacman -Qi "$pkg" &> /dev/null; then
+            missing_pkgs+=("$pkg")
+        fi
+    done
+
+    # 3. Install missing dependencies if any are found
+    if (( ${#missing_pkgs[@]} > 0 )); then
+        echo "Missing dependencies detected. Installing: ${missing_pkgs[*]}"
+        # Prompt for sudo password to install via pacman
+        sudo pacman -S --needed --noconfirm "${missing_pkgs[@]}" || {
+            echo "Installation failed. Aborting."
+            return 1
+        }
+    fi
+
+    # 4. Check if the virtual camera kernel module is loaded
+    if ! lsmod | grep -q "^v4l2loopback"; then
+        echo "Virtual camera module not found. Loading v4l2loopback..."
+        sudo modprobe v4l2loopback exclusive_caps=1 card_label="Android_Camera" || {
+            echo "Failed to load v4l2loopback. You might need to reboot if you recently updated your kernel."
+            return 1
+        }
+    fi
+
+    # 5. Check if the Android device is connected and authorized
+    echo "Checking ADB connection..."
+    adb start-server &> /dev/null
+
+    # get-state returns "device" if successfully connected and authorized
+    local adb_state=$(adb get-state 2>/dev/null)
+    if [[ "$adb_state" != "device" ]]; then
+        echo "Error: No Android device detected or unauthorized."
+        echo "Please ensure the phone is plugged in, unlocked, and USB Debugging is allowed."
+        return 1
+    fi
+
+    # 6. Execute scrcpy with the passed (or default) arguments
+    echo "Starting stream: Source -> $video_source | Sink -> $v4l2_sink"
+    scrcpy --video-source="$video_source" --camera-size=1920x1080 --v4l2-sink="$v4l2_sink" --no-video-playback --no-audio
+}

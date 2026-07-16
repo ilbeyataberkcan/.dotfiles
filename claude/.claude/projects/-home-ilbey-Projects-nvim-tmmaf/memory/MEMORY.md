@@ -1,76 +1,98 @@
 # Memory Index
 
-- [Date format lock dd.mm.yyyy](project_date_format_lock.md) — all dates locked to Turkish dd.mm.yyyy; format-date.ts + DateField/DateTimeField + dob island; reg v21/welcome v8 seeded; UNCOMMITTED
-- [Sign-up agreements + rename-safe seedKey](project_signup_agreements_and_seedkey.md) — welcome v7 gated step-agreements (4 PDFs) + per-user snapshots; federation seeding rename-safe via host seed_key; migration 0025 + db:migrate/seed/uploads pending; UNCOMMITTED
-- [cve-admin shell slots](reference_cve_admin_shell_slots.md) — AdminShell renders only 5 coarse zones by EXACT key (sidebar:before/after-nav/controls, header, footer); granular header:* never render; AdminHeader → ml-auto for top-right
-- [Email templates clean-replacement](project_email_templates_redesign.md) — quick 260624-26u; shared lib/email/ layout + redesign all transactional; P3 payment-timeout emphasis (failed/canceled branch sent no mail); R1/R2 need real per-category rows
-- [Registration category model](project_registration_category_model.md) — step = 1 weight × N branches/discipline; ONE weight class is the hard rule; branches=levels gated at approval (minLevel); age at event-start; shared resolveCategoryDisciplineGroups
-- [Payment redirect closed-tab fix](project_payment_redirect_closed_tab_fix.md) — cve-payment 10.2.0; verifyAfterRedirect NOT needed (gate server-authoritative); fix = settlement-hook canceled→fail-park; operator subscribes checkout.session.expired
-- [step-confirm Complete button + resume-first re-init](project_payment_confirm_complete_button.md) — Başvuruyu Tamamla = pure re-check (never charges); re-initiate resume-first via continuePayment (no double-charge); settlement webhook-only; live-verify DEFERRED (host-only 260627); UNCOMMITTED
-- [cve vitest: zod inline + concurrency](project_cve_vitest_zod_concurrency.md) — `bun run test` needs `server.deps.inline:['zod']` per pkg + `--concurrency=1`; cve-test-host tests env-gated
-- [Phase 7.1 plan shape](project_phase71_plan.md) — category+event-creation refactor; R1–R14/D-01–D-18; collector is cve-core upstream; plan both repos
-- [Per-application doc review redesign](project_per_application_doc_review_redesign.md) — "can't see files" = partial 7.2 divisionId→eventId migration; review docs ONCE per (athlete,event) in unified modal, per-line approve/reject, rejected-doc blocks overall+step-up override; IMPLEMENTED 260624-s2 (per-category status, ONE finalize mail, Kısmen Onaylandı); migration 0019+0020 pending; UNCOMMITTED
-- [Phase 7.2 catalog re-normalization](project_phase72_catalog_renormalization.md) — SUPERSEDES 7.1; normalized discipline/branch(min_level)/age/weight + event join tables + per-line registration; payment moves class→discipline; spec 07.2-SPEC-INPUT.md
-- [Catalog weight scoping model](project_catalog_weight_scoping_model.md) — weights per (discipline→age→gender), branchId stays null; branches = level gates not a weight dim; reuse by COPY; admin UI = get-catalog-module.tsx + components/catalog/ + catalog-queries.ts
-- [Club affiliation feature](project_club_affiliation_feature.md) — athlete↔club search-or-create combobox + "Ferdi"; catalog + join table; migration 0021 + reseed (reg v18/welcome v5) pending; UNCOMMITTED
-- [Catalog clean-slate reseed + purge](project_catalog_clean_slate_reseed.md) — v4 STRIPPED to MMA Amatör (2026-06-25); idempotent seedCatalog() wired into Dockerfile seeder (every deploy); one-time purge-catalog.ts (dry-run, --confirm); UNCOMMITTED
-- [Architecture before tests (HARD)](feedback_architecture_before_tests.md) — design+build architecture first; tests are a regression net after; never let test-shape drive design
-- [Storage permission redesign + integration debt](project_storage_permission_redesign.md) — cve-storage 0.2.0 action-level perms; host bugs (missed transpilePackages, no self-init, metadata driver misplaced, athletes lacked storage role)
-- [Storage document model redesign (UAT)](project_storage_document_model_redesign.md) — owner-scoped file vault + registration snapshots as VERSIONS + per-event required docs; LIVE 2026-06-16 (seeder CMD + STORAGE_ROOT_DIR fixed)
-- [In-modal file preview shipped](project_file_preview_viewer.md) — cve-components@10.4.3/cve-storage@0.3.1/cve-design-system@10.1.1; self-hosted pdfjs worker (never CDN — PII), native-scroll PDF, z-modal, allowDownload authz
-- [cve-design-system z-utilities latent bug](project_cve_design_system_z_utilities.md) — Tailwind v4 has no --z-* namespace so z-modal never compiled; fixed in 10.1.1 via @utility decls
-- [cve-auth version drift](project_cve_auth_version_drift.md) — local 10.1.2 vs published 10.1.3; don't republish from local (regresses 10.1.3); blocks strict step-up z-tier
-- [Client bundle server-import poison](project_client_bundle_server_import_poison.md) — a 'use client' block importing from a module that also imports getDrizzle pulls postgres→fs into browser ("Can't resolve fs"); tsc+vitest miss it; keep client helpers in zero-server-import modules
-- [cve-core flow terminal rendering](project_cve_core_flow_terminal_rendering.md) — transition() is index-walk; FlowOrchestratorNode renders any isTerminal as bare "complete." (ignores body); done screens must be a flow-step the flow PARKS on (BUG-POSTPAY)
-- [cve-auth init ordering](project_cve_auth_init_ordering.md) — getAuth() throws if initAuth() not awaited (no lazy init); entrypoints await lazy auth() first; pattern ensureStorageReady→auth→ensureStorageInitialized (BUG-AUTH-INIT)
-- [tmmaf Drizzle migration ops](project_tmmaf_drizzle_migration_ops.md) — verify via Drizzle Studio not psql; agents author migrations + operator runs db:migrate; cross-schema FK = uuid col + raw-SQL ALTER; applied migrations immutable
-- [GSD roadmap verb miscounts](project_gsd_roadmap_verb_miscount.md) — roadmap.update-plan-progress flips whole phase to Complete (counts STAGE summaries); own STATE/ROADMAP centrally; only phase.complete should finish
-- [Client is a dumb reflection, never the authority](feedback_client_is_dumb_reflection.md) — no client-side business gates on mutations; always submit, server decides; a client early-return hid a silent upload failure
-- [Spot-check revisions instead of re-running full checker](feedback_revision_verification.md) — when a revision agent returns a per-issue changelog, prefer targeted greps over a fresh verifier
-- [Run Playwright via sub-agents, not inline](feedback_playwright_via_subagent.md) — inline Playwright fills context fast; delegate the Firefox drive, view only decisive shots
-- [Ultracode = Workflow tool, GSD plan→execute](feedback_ultracode_gsd_plan_execute.md) — substantive multi-file work = 1 planning workflow then 1 execution workflow, not ad-hoc Agents
-- [TMMAF client deck — frame for the customer](feedback_tmmaf_deck_audience.md) — federation cares about brand, blockers, asks; drop internal phase/package jargon
-- [Registration flow IS the primary sign-up](project_registration_flow_is_signup.md) — full profile in-flow, Turkish-only interim, weight per-event; incremental persistence still deferred
-- [graphify scope = code + docs only](project_graphify_scope_code_and_docs.md) — .graphifyignore allowlists app/db/docs/lib/scripts; never .planning; rebuild clears semantic cache, keeps AST
-- [Keep comments short](feedback_concise_comments.md) — one concise line, never multi-line blocks; rationale goes in commit messages
-- [Analyze top-down, fix system-wide](feedback_fix_properly_system_wide.md) — whole-system perspective first; no one-off patches; mirror cve-test-host; reusable contracts
-- [Never reset the DB](feedback_never_reset_db.md) — only seed (idempotent, version-bumped); cleaning rows/tables is the user's authority
-- [DB driver abstraction debt](project_db_driver_abstraction_debt.md) — ~23 sites call getDrizzle() directly, bypassing CoreDriver; deferred system-wide refactor
-- [trainingSince is an experience bracket](project_trainingsince_is_experience_bracket.md) — TEXT '3+'|'1-3'|'<1' per mockup, NOT an integer year; modeled wrong twice
-- [Minimal change to native inputs](feedback_minimal_change_native_inputs.md) — smallest change; don't replace native controls the user likes (native date order is locale-controlled)
-- [cve-auth revokeSessions patch](project_cve_auth_revokesessions_patch.md) — local bun patch fixes deleteSessions→deleteUserSessions ("Value must be an array"); affects all role assignment; upstream to cve-auth & drop the patch
-- [Password-auth milestone state](project_password_auth_milestone.md) — landed 2026-06-10, published 10.1.0 2026-06-11; 2 open MEDIUMs (postRecoveryProof, shared OTP budget)
-- [cve release path](project_cve_release_path.md) — tag CI builds FULL turbo so gate with `bun run build`; local tier-ordered bun publish is proven; .npmrc 401 gotcha; changeset peer-cascade majors need manual override
-- [Local payments need stripe listen](project_dev_stripe_webhook_forwarder.md) — no forwarder = intents stuck pending + flows parked at step-confirm; looks like a regression but isn't
-- [GHA Node 20 deprecation — deferred CI bump](project_gha_node20_deprecation.md) — bump actions/checkout@v4→v5 etc. before 2026-06-16 forced / 2026-09-16 removal
-- [Captcha rejections are unaudited](project_captcha_rejections_unaudited.md) — CAPTCHA_REQUIRED/FAILED emit no audit row + no log; add emission so outages are visible server-side
-- [Identifier-first milestone state](project_identifier_first_milestone.md) — landed 2026-06-11; captcha seam + 2d/7d verification + rotation; rotation/R8 smoke await operator; prod reCAPTCHA keys TODO
-- [Flow validation must use fieldErrors not throw](project_flow_validation_channel.md) — thrown advance errors redact to a neutral banner; host field validations re-deliver the step with fieldErrors; throw only for unreachable backstops
-- [Flow advance button gates on chrome requireFields](project_flow_advance_button_requirefields.md) — "Devam et" disables on host chrome step config's `requireFields` (registration-steps/welcome-steps), NOT tree `required`; keyed by stepId; identity uses flow-input nodes
-- [Accent/status ramp 50/100 → tone down in BOTH modes](project_ramp_5010_both_modes.md) — only the neutral ramp keeps bright 50/100 (for text); cap at ramp level, never dark-only
-- [Light & dark are both first-class](project_light_dark_both_first_class.md) — tmmaf ships light-only but cve packages never assume a mode; media "drama" = scrim-over-photo, not a dark effect
-- [Visual analyzers are weak](feedback_visual_analyzers_weak.md) — don't trust sub-agent screenshot "PASS"; confirm with impeccable + operator via interactive HTML review surface
-- [Host custom CSS is allowed](feedback_host_custom_css_allowed.md) — when Tailwind can't express a design, host may use custom CSS; packages stay Tailwind + escape-hatch
-- [Review app is a gated design tool](project_review_loop_gated_design_tool.md) — approve Stage 1, THEN 2, THEN real pages; never build a stage ahead; approved designs → seedable RenderEngine trees
-- [No hairline outlines](feedback_no_hairline_outlines.md) — never hairline/resting outlines unless asked; separation = elevation only; audit-elevation flags them
-- [Evolve the skill as we progress](feedback_evolve_skill_as_we_progress.md) — fold accepted directives INTO the synapse-core-design-system skill, not just memories
-- [Never drop annotations](feedback_never_drop_annotations.md) — distinct content never skipped; identical content on different targets fixed per-target; don't collapse "applies to all X"
-- [Preview HTMLs are the element ground truth](feedback_preview_html_is_element_ground_truth.md) — docs/tmmaf-design-system/project/preview/*.html define what to build; correlate to cve components (CORRELATION-MAP.md); flag ambiguous
-- [tmmaf test baseline needs docker](tmmaf-test-baseline-needs-docker.md) — 9-failure baseline only valid with tmmaf_pg + tmmaf_mailpit up; otherwise ~25 env failures
-- [tmmaf deploy hostnames](tmmaf-deploy-hostnames.md) — live=fighterscore.com, staging=staging.fighterscore.com; cookies host-scoped, WEBAUTHN_RP_ID exact-host per env
-- [tmmaf TODO: docker cred helper](tmmaf-todo-docker-cred-helper.md) — DEFERRED: encrypt VPS GHCR token via pass credential helper; baseline chmod done, remind later
-- [tmmaf prelaunch live db read-only](tmmaf-prelaunch-live-db-readonly.md) — before real data switch live DB GUI to ilbey_ro; live ilbey is RW + shares staging password for now
-- [cve-core is a peer dep + bun isolated linker pinned](project_bun_dual_cve_core_store.md) — one store copy invariant; file: links retired 2026-06-11 (all ^10.1.0); NODE_AUTH_TOKEN from ~/.npmrc
-- [Never `next build` while dev server runs](feedback_no_build_while_dev_running.md) — tramples .next → 404/500 flakiness; build only with server down, then clean-restart
-- [Bitwarden gates SSH pushes](feedback_bitwarden_ssh_agent.md) — publickey failures usually mean a missed Bitwarden approval; hand the push to the user
-- [Phase 7 defers registration-day doc handling](project_phase7_registration_day_doc_handling_deferred.md) — missing-docs flag visibility on weigh-in days + on-site update tools belong to later event-management work
-- [GHP token sourcing for cve installs](project_ghp_token_sourcing.md) — project .npmrc's ${NODE_AUTH_TOKEN} shadows ~/.npmrc → 401; source token into env, or query versions from $HOME
-- [cve next/* vitest red baseline](project_cve_next_vitest_resolution.md) — isolated-linker nests next; vite-node can't resolve bare next/navigation from cve dist; fix host-side (inline cve UI pkgs + next/* stub)
-- [Auth split-brain → provider-neutral edge guard (FIXED, cve-auth 10.1.6)](project_auth_marker_proxy_split_brain.md) — /admin redirects + Giriş badge = proxy(marker) vs getSession(validity); fixed by NEUTRAL EdgeAuthGuard in cve-auth core; host names provider in 2 adapters; DEPLOYED 2026-06-18
-- [RBAC admin:access durability gap — FIX on branch](project_rbac_admin_access_durability_gap.md) — host seeder ordering + swallowed bootstrap; fix (durable bootstrap + retry/assert + stay-up-degraded + audit-on-denial) on feat/export-and-admin-durability, pending operator DB tests + merge
-- [cve-core flow: no object step-field](project_cve_core_flow_field_model.md) — buildStepSubmitSchema only text/number/multi-select; an object field is rejected → serialize to JSON-string-in-text or persist out-of-band
-- [Playwright dev-testing recipe](tmmaf-playwright-dev-testing.md) — Firefox via playwright-core@1.60.0 script (MCP chrome broken); reCAPTCHA test-key + magic-link auth + ?device=mobile + storage-role-at-terminal gotchas
-- [CI: PGlite DB tests are local-only](project_ci_db_tests_local_only.md) — 9 cve-auth PGlite test files skipped in GHA via GITHUB_ACTIONS gate (add new to DB_BACKED_TESTS); turbo needs passThroughEnv; lint timeout 15→30
-- [Event-creation wizard rebuild (CVE flow v3)](project_event_creation_wizard_rebuild.md) — 7-step "Etkinlik Oluşturma" on flow engine; Leaflet+OSM map, draft-first, S0–S4; S0 backend DONE (3450872, v3 seeded); bundle in docs/design/event-creation/
-- [cve-auth authz model](reference_cve_auth_authz_model.md) — authz = grant-based (role.permissions union + string match), NEVER reads PermissionRegistry; registry = display + riskLevel; wildcards DEPRECATED; host client-mirrors catalogs for role dialog
-- [Event permissions hardening (deferred)](project_event_permissions_hardening.md) — granular event:* shipped (260623-ke4); deferred: route gates through StrictPermissionResolver + upstream server-authoritative registry; wildcard grants deprecated
+## Active / current state
+- [Matchday controls milestone: matchmaking rules, bye spread, ring lifecycle, scheduling locks, export overhaul (COMMITTED, push pending)](project_matchday_controls_milestone.md) — 7 commits 8eac468..b588701 on feat/summary-lock-warning, USER pushes (sync, no PR); 0045 applied locally, needed on deploy; ready-at-mint fix ends first-round select deadlock; concurrent session's license-test edits left uncommitted
+- [Tasks 1-4: lock warnings, list-confirmation semantics, weigh-in step, weigh-in overhaul (ALL COMMITTED)](project_summary_lock_and_list_confirmation.md) — feat/summary-lock-warning off ce92a32, 6 commits, user pushes; local staging STALE; flow v29; migration 0044 applied locally + JOURNAL lesson; latent use-ring-state freeze fixed in shared hook; test-new-systems approved + weigh-in residue
+- [Passkey login consent gate + userId-bound audit](project_passkey_login_consent_gate.md) — post-passkey consent Dialog every login (KVKK); migration 0043 hand-authored; UNCOMMITTED, operator db:migrate + staging test pending
+- [Agreement locations + iOS DOB fix](project_agreement_locations_and_ios_dob.md) — admin-configurable agreement placement + login checkboxes; iOS date picker fix; UNCOMMITTED, seed:storage-file-types pending
+- [Federation Platform — EXECUTED 2026-07-08, 12 phases merged](project_federation_platform_spec_pack.md) — migrations 0029–0038 applied; OPERATOR TODO: MAIL_TRANSPORT→smtp, referee-role grant, screenshots, worktree cleanup; milestone-end publish+unlink reminder
+- [Registrant import admin UI](project_registrant_import_admin.md) — .xlsx → pending registrations in applications board; LEVEL 5/6 + Phase 4 open
+- [Invite-link step-up fix + invite card](project_invite_link_step_up_fix.md) — COMMITTED; PENDING cve-user-management 11.1.0 publish + pin bump
+- [Create-user dialog broken by dual cve-core](project_create_user_cve_core_split.md) — link: pulls 2nd cve-core → split FlowContext; publish pkg then pin
+- [Event-creation wizard rebuild (flow v3)](project_event_creation_wizard_rebuild.md) — 7-step flow, Leaflet map, draft-first; S0 backend done
+- [Weigh-in referee portal](project_weigh_in_referee_portal.md) — /weigh-in/:eventId render-engine block; weigh_in table 0028; dark instrument design
+- [DB driver abstraction debt](project_db_driver_abstraction_debt.md) — ~23 getDrizzle() call sites bypass CoreDriver; deferred
+- [Event permissions hardening (deferred)](project_event_permissions_hardening.md) — route gates via StrictPermissionResolver + server-authoritative registry pending
+- [Phase 7 defers registration-day doc handling](project_phase7_registration_day_doc_handling_deferred.md) — on-site doc tools = later event-management work
+- [GHA Node 20 deprecation](project_gha_node20_deprecation.md) — bump actions before 2026-09-16 removal
+- [Captcha rejections are unaudited](project_captcha_rejections_unaudited.md) — add audit emission for CAPTCHA_REQUIRED/FAILED
+- [tmmaf TODO: docker cred helper](tmmaf-todo-docker-cred-helper.md) — encrypt VPS GHCR token via pass; remind later
+- [tmmaf prelaunch live db read-only](tmmaf-prelaunch-live-db-readonly.md) — switch live DB GUI to ilbey_ro before real data
+- [RBAC admin:access durability gap](project_rbac_admin_access_durability_gap.md) — fix on feat/export-and-admin-durability, pending operator tests + merge
+- [cve-auth revokeSessions patch](project_cve_auth_revokesessions_patch.md) — local bun patch; upstream to cve-auth then drop
+- [cve-auth version drift](project_cve_auth_version_drift.md) — local 10.1.2 vs published 10.1.3; don't republish from local
+
+## Working rules (feedback)
+- [Fix ALL severity levels of review findings](feedback_fix_all_severity_findings.md) — never filter to crit/high
+- [Model/effort + ponytail staffing matrix](feedback_model_effort_ponytail_matrix.md) — Opus implements, Fable specs/reviews; ponytail is a plugin; in every executor prompt
+- [Ultracode = Workflow tool, GSD plan→execute](feedback_ultracode_gsd_plan_execute.md) — 1 planning + 1 execution workflow, not ad-hoc Agents
+- [Architecture before tests (HARD)](feedback_architecture_before_tests.md) — tests are a regression net after
+- [Client is a dumb reflection, never authority](feedback_client_is_dumb_reflection.md) — no client-side business gates; server decides
+- [Analyze top-down, fix system-wide](feedback_fix_properly_system_wide.md) — no one-off patches
+- [Never reset the DB](feedback_never_reset_db.md) — only idempotent version-bumped seeds; row cleanup is user's authority
+- [Never `next build` while dev server runs](feedback_no_build_while_dev_running.md) — build with server down, clean-restart
+- [Run Playwright via sub-agents](feedback_playwright_via_subagent.md) — delegate the drive, view only decisive shots
+- [Spot-check revisions](feedback_revision_verification.md) — targeted greps over fresh full verifier
+- [Visual analyzers are weak](feedback_visual_analyzers_weak.md) — don't trust sub-agent screenshot PASS; operator confirms
+- [Keep comments short](feedback_concise_comments.md) — one line max; rationale in commit messages
+- [Minimal change to native inputs](feedback_minimal_change_native_inputs.md) — don't replace native controls the user likes
+- [Bitwarden gates SSH pushes](feedback_bitwarden_ssh_agent.md) — publickey failure = missed approval; hand push to user
+- [TMMAF client deck framing](feedback_tmmaf_deck_audience.md) — federation cares brand/blockers/asks, not internals
+- [Host custom CSS is allowed](feedback_host_custom_css_allowed.md) — when Tailwind can't express it
+- [No hairline outlines](feedback_no_hairline_outlines.md) — separation = elevation only
+- [Evolve the design skill as we progress](feedback_evolve_skill_as_we_progress.md) — fold directives into synapse-core-design-system skill
+- [Never drop annotations](feedback_never_drop_annotations.md) — distinct content never skipped; per-target fixes
+- [Preview HTMLs are element ground truth](feedback_preview_html_is_element_ground_truth.md) — docs/tmmaf-design-system previews define what to build
+
+## Domain models & conventions
+- [Registration category model](project_registration_category_model.md) — 1 weight × N branches/discipline; branches=level gates; age at event-start
+- [Registration flow IS the primary sign-up](project_registration_flow_is_signup.md) — full profile in-flow, Turkish-only interim
+- [Catalog weight scoping model](project_catalog_weight_scoping_model.md) — weights per (discipline→age→gender); branches aren't a weight dim
+- [Phase 7.2 catalog re-normalization](project_phase72_catalog_renormalization.md) — normalized catalog + per-line registration; supersedes 7.1 ([Phase 7.1 shape](project_phase71_plan.md))
+- [Club affiliation feature](project_club_affiliation_feature.md) — search-or-create combobox + Ferdi sentinel
+- [Per-application doc review redesign](project_per_application_doc_review_redesign.md) — docs reviewed ONCE per (athlete,event); per-category status; one finalize mail
+- [Deferrable payment + pre-payment approval](project_deferrable_payment_pre_payment_approval.md) — mint rows at summary, not settlement
+- [step-confirm Complete button + resume-first re-init](project_payment_confirm_complete_button.md) — Başvuruyu Tamamla never charges; settlement webhook-only
+- [Payment redirect closed-tab fix](project_payment_redirect_closed_tab_fix.md) — settlement-hook canceled→fail-park; subscribe checkout.session.expired
+- [Email templates clean-replacement](project_email_templates_redesign.md) — shared lib/email/ layout; R1/R2 need real per-category rows
+- [Date format lock dd.mm.yyyy](project_date_format_lock.md) — Turkish dates everywhere; format-date.ts + DateField
+- [Sign-up agreements + rename-safe seedKey](project_signup_agreements_and_seedkey.md) — welcome gated agreements; host seed_key
+- [Catalog clean-slate reseed + purge](project_catalog_clean_slate_reseed.md) — idempotent seedCatalog in Dockerfile seeder; purge-catalog.ts dry-run/--confirm
+- [Storage document model redesign](project_storage_document_model_redesign.md) — owner-scoped vault + registration snapshots as versions; LIVE
+- [Storage permission redesign](project_storage_permission_redesign.md) — cve-storage 0.2.0 action-level perms + host integration bugs
+- [trainingSince is an experience bracket](project_trainingsince_is_experience_bracket.md) — TEXT '3+'|'1-3'|'<1', NOT a year
+- [Review app is a gated design tool](project_review_loop_gated_design_tool.md) — approve stages in order; approved designs → seedable trees
+- [Light & dark both first-class](project_light_dark_both_first_class.md) — cve packages never assume a mode
+- [Accent/status ramp 50/100 tone-down](project_ramp_5010_both_modes.md) — cap at ramp level in BOTH modes
+- [graphify scope = code + docs only](project_graphify_scope_code_and_docs.md) — allowlist app/db/docs/lib/scripts; never .planning
+
+## Platform gotchas (cve + Next + flows)
+- [Flow-island field wiring checklist](project_flow_island_field_wiring_checklist.md) — new field needs fields[] + version bump + prefill + hydration + terminal
+- [Flow validation must use fieldErrors not throw](project_flow_validation_channel.md) — throws redact to neutral banner
+- [Flow advance button gates on chrome requireFields](project_flow_advance_button_requirefields.md) — host chrome config, not tree required
+- [cve-core flow terminal rendering](project_cve_core_flow_terminal_rendering.md) — done screens must be a parked flow-step
+- [cve-core flow: no object step-field](project_cve_core_flow_field_model.md) — serialize JSON-string-in-text or persist out-of-band
+- [cve-auth init ordering](project_cve_auth_init_ordering.md) — await lazy auth() before getAuth()
+- [cve-auth authz model](reference_cve_auth_authz_model.md) — grant-based union, never reads PermissionRegistry; wildcards deprecated
+- [cve-auth 13 org upgrade wiped live roles](project_cve_auth_13_org_role_wipe.md) — NEVER db:push on live; re-grant heals
+- [cve-admin shell slots](reference_cve_admin_shell_slots.md) — only 5 coarse zones by exact key
+- [cve-design-system z-utilities bug](project_cve_design_system_z_utilities.md) — Tailwind v4 needs @utility for z-*; fixed 10.1.1
+- [Client bundle server-import poison](project_client_bundle_server_import_poison.md) — 'use client' importing getDrizzle-adjacent modules → "Can't resolve fs"
+- [Auth split-brain → neutral edge guard](project_auth_marker_proxy_split_brain.md) — fixed cve-auth 10.1.6, deployed
+- [In-modal file preview](project_file_preview_viewer.md) — self-hosted pdfjs worker (never CDN — PII)
+- [cve-core peer dep + bun isolated linker](project_bun_dual_cve_core_store.md) — one store copy invariant
+- [cve release path](project_cve_release_path.md) — gate with bun run build; tier-ordered local publish; changeset peer-cascade overrides
+- [GHP token sourcing](project_ghp_token_sourcing.md) — project .npmrc shadows ~/.npmrc → 401; export token
+- [cve vitest zod inline + concurrency](project_cve_vitest_zod_concurrency.md) — server.deps.inline:['zod'] + --concurrency=1
+- [cve next/* vitest red baseline](project_cve_next_vitest_resolution.md) — inline cve UI pkgs + next/* stub host-side
+- [CI: PGlite DB tests local-only](project_ci_db_tests_local_only.md) — GITHUB_ACTIONS gate; turbo passThroughEnv
+- [GSD roadmap verb miscounts](project_gsd_roadmap_verb_miscount.md) — own STATE/ROADMAP centrally
+
+## Ops (tmmaf)
+- [tmmaf Drizzle migration ops](project_tmmaf_drizzle_migration_ops.md) — agents author + operator runs db:migrate; hand-authored SQL needs a _journal.json entry; verify via Drizzle Studio
+- [tmmaf test baseline needs docker](tmmaf-test-baseline-needs-docker.md) — tmmaf_pg + tmmaf_mailpit up, else ~25 env failures
+- [tmmaf deploy hostnames](tmmaf-deploy-hostnames.md) — live=fighterscore.com, staging=staging.fighterscore.com; WEBAUTHN_RP_ID exact-host
+- [Local payments need stripe listen](project_dev_stripe_webhook_forwarder.md) — no forwarder = intents stuck pending
+- [Playwright dev-testing recipe](tmmaf-playwright-dev-testing.md) — Firefox playwright-core@1.60.0; magic-link via Mailpit :8026; ?device=mobile
+- [Password-auth milestone](project_password_auth_milestone.md) — landed 2026-06-10; 2 open MEDIUMs
+- [Identifier-first milestone](project_identifier_first_milestone.md) — landed 2026-06-11; prod reCAPTCHA keys TODO
