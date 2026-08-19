@@ -6,19 +6,18 @@
     "deny": [
       "Read(./.env)",
       "Read(./.env.*)",
-      "Read(./secrets/**)",
-      "Bash(gh:*)"
+      "Read(./secrets/**)"
     ],
     "defaultMode": "auto"
   },
-  "model": "fable",
+  "model": "opus[1m]",
   "hooks": {
     "SessionStart": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "node \"/home/ilbey/.claude/hooks/gsd-check-update.js\""
+            "command": "\"/home/ilbey/.nvm/versions/node/v24.14.1/bin/node\" \"/home/ilbey/.claude/hooks/gsd-check-update.js\""
           }
         ]
       },
@@ -37,7 +36,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"/home/ilbey/.claude/hooks/gsd-context-monitor.js\"",
+            "command": "\"/home/ilbey/.nvm/versions/node/v24.14.1/bin/node\" \"/home/ilbey/.claude/hooks/gsd-context-monitor.js\"",
             "timeout": 10
           }
         ]
@@ -47,7 +46,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"/home/ilbey/.claude/hooks/gsd-read-injection-scanner.js\"",
+            "command": "\"/home/ilbey/.nvm/versions/node/v24.14.1/bin/node\" \"/home/ilbey/.claude/hooks/gsd-read-injection-scanner.js\"",
             "timeout": 5
           }
         ]
@@ -69,7 +68,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"/home/ilbey/.claude/hooks/gsd-prompt-guard.js\"",
+            "command": "\"/home/ilbey/.nvm/versions/node/v24.14.1/bin/node\" \"/home/ilbey/.claude/hooks/gsd-prompt-guard.js\"",
             "timeout": 5
           }
         ]
@@ -79,7 +78,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"/home/ilbey/.claude/hooks/gsd-read-guard.js\"",
+            "command": "\"/home/ilbey/.nvm/versions/node/v24.14.1/bin/node\" \"/home/ilbey/.claude/hooks/gsd-read-guard.js\"",
             "timeout": 5
           }
         ]
@@ -89,7 +88,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"/home/ilbey/.claude/hooks/gsd-workflow-guard.js\"",
+            "command": "\"/home/ilbey/.nvm/versions/node/v24.14.1/bin/node\" \"/home/ilbey/.claude/hooks/gsd-workflow-guard.js\"",
             "timeout": 5
           }
         ]
@@ -106,6 +105,9 @@
       }
     ]
   },
+  "worktree": {
+    "baseRef": "fresh"
+  },
   "statusLine": {
     "type": "command",
     "command": "node \"/home/ilbey/.claude/hooks/gsd-statusline.js\""
@@ -115,11 +117,13 @@
     "typescript-lsp@claude-plugins-official": true,
     "clangd-lsp@claude-plugins-official": true,
     "lua-lsp@claude-plugins-official": true,
-    "frontend-design@claude-plugins-official": false,
+    "frontend-design@claude-plugins-official": true,
     "code-simplifier@claude-plugins-official": true,
     "stripe@claude-plugins-official": true,
     "ponytail@ponytail": true,
-    "claude-md-management@claude-plugins-official": true
+    "claude-md-management@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true,
+    "twilio-developer-kit@twilio": true
   },
   "extraKnownMarketplaces": {
     "ponytail": {
@@ -127,10 +131,17 @@
         "source": "github",
         "repo": "DietrichGebert/ponytail"
       }
+    },
+    "twilio": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/twilio/ai.git"
+      }
     }
   },
   "effortLevel": "high",
   "promptSuggestionEnabled": false,
+  "askUserQuestionTimeout": "never",
   "tui": "fullscreen",
   "skipWorkflowUsageWarning": true,
   "editorMode": "vim",

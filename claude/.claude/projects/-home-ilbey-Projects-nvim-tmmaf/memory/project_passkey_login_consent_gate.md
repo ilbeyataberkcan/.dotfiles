@@ -1,10 +1,11 @@
 ---
 name: project_passkey_login_consent_gate
-description: Direct email-step passkey login bypassed login-consent; fixed with a post-passkey consent dialog gate
+description: Login-consent must PRECEDE the session — the post-passkey consent dialog was decoration and was deleted 2026-08-14
 metadata:
   node_type: memory
   type: project
   originSessionId: b3f857b6-50c3-4f2e-9904-34c23beda06f
+  modified: 2026-08-14T08:50:00.221Z
 ---
 
 **The hole:** on `/sign-in`, the identify (email) step arms conditional-mediation passkey
@@ -16,7 +17,21 @@ passkey / password / magic-link are fine (identify submit is consent-gated first
 (registration-login twin) has NO autofill, so it's unaffected. Google OAuth from identify has the
 SAME bypass — left as a flagged out-of-scope sibling gap.
 
-**The fix (host-only, no cve edit; IMPLEMENTED, UNCOMMITTED 2026-07-10):** intercept the autofill
+**SUPERSEDED 2026-08-14 — the dialog was decoration.** The operator reported that closing it still
+logged them in. Root cause: the ceremony had ALREADY minted a valid session before the dialog opened,
+so dismissing it, or simply reloading `/sign-in` (which redirects a signed-in visitor onward), entered
+the app. The `signOut()` on cancel was best-effort and swallowed its own failure. **A gate that runs
+after the session exists cannot be enforced on the client.** Redesign: consent PRECEDES the session on
+every leg — conditional-mediation autofill is no longer armed until `consentOk`, the Google OAuth
+button is `disabled={!consentOk}` (that sibling gap is now closed too), and the gate Dialog +
+`handleGateAccept/Cancel/OpenChange` are deleted. Capability detection stayed mount-only (gating it
+would park the form on `view='detecting'`); only the arming waits. Residual: unticking between arming
+and ceremony completion is caught in `onSuccess` (signOut + a Turkish refusal line), and a devtools
+user can still force their own ceremony — the airtight version is a server-side session hold
+(`getSession()` returns null until a consent row exists for that session id) which needs a migration.
+Below is the ORIGINAL 2026-07-10 design, kept for the audit-table facts only:
+
+**The old fix (host-only, no cve edit; 2026-07-10, NOW REMOVED):** intercept the autofill
 `onSuccess` — if `agreementItems.length > 0`, open a blocking `Dialog` (cve-components) with the
 reused `AgreementChecklist` instead of redirecting. Accept → `recordLoginConsentForUser('signin')`
 (new server action in `lib/login-consent-actions.ts`, reuses `recordLoginConsentClick` +

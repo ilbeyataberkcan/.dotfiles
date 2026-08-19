@@ -32,6 +32,19 @@ falls back to default identity files and finds none → "Permission denied
   `SSH_AUTH_SOCK=$HOME/.bitwarden-ssh-agent.sock` override, but expect it may
   not work either.
 
+- **2026-08-18 update — stop retrying, hand the push to the user.** In one
+  session BOTH forms failed from tool subshells (`Permission denied
+  (publickey)`): the explicit `SSH_AUTH_SOCK` override AND the bare `git push`
+  with no override. Minutes earlier the user ran `git push` in their OWN
+  interactive shell against the same remote and it succeeded. Bitwarden appears
+  to approve the key for the user's foreground shell only. One earlier push in
+  that same session did succeed from a subshell with the override, so it is
+  inconsistent rather than a hard rule.
+  **Apply:** try a push at most twice, then hand it over — tell the user to run
+  `! git push …` in their own prompt. tmmaf's CLAUDE.md already states "the user
+  pushes (Bitwarden gates the SSH key)"; treat that as the default for both
+  repos rather than something to work around.
+
 **Three independent gates inside Bitwarden Desktop must all be on for
 the agent to serve a key:**
 1. Settings → Security → "SSH agent" toggle

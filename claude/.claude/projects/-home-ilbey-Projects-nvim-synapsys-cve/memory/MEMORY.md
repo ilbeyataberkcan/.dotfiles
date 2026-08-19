@@ -1,3 +1,4 @@
+- [Codebase questions go through graphify, not grep](feedback_use_graphify_not_grep.md) — graphify-out/ exists in both repos; grep only for literal-string checks in a known file.
 - [Org/RBAC/multi-tenancy into cve-auth — milestone design](project_org_rbac_milestone_design.md) — membership→AuthDriver(BA via $context.adapter), org-authz→sovereign RbacDriver; substrate exists, org-scope at actor BUILD not resolver; 6 user decisions pending.
 - [cve-auth 3-major publish chain HELD (12→13→14)](project_cve_auth_v14_publish_chain_held.md) — strict-order release:wave gates; v1.4 P04 teams code-complete+verified, only publish pending; secure-phase 4 not yet run.
 - [cve-auth test fixtures hand-roll DDL](project_cve_auth_test_fixtures_handroll_ddl.md) — 3 fixtures (setup-ba-fixture + 2 setup-pglite) carry independent CREATE TABLE; tables-factory.ts schema changes don't reach tests unless mirrored into all three.
@@ -109,3 +110,7 @@
 - [Milestone plan-ID collision → safe-resume false positive](project_milestone_planid_collision_safe_resume.md) — new milestone resets phase numbers; archived commits grep-match; verify freshness by artifact not git-log.
 - [cve-test-host active-context wiring + gotchas](project_test_host_active_context_wiring.md) — org substrate on; signUpEmail gated off (seed via invite/addMember); DB :5432 migration 0014.
 - [cve-test-host UI tokens + Playwright e2e harness](project_test_host_ui_and_e2e_harness.md) — CLAUDE.md token table is wrong (use bg-accent-primary/bg-canvas/std spacing); RenderEngine host-block pattern; magic-link-via-DB Playwright sign-in.
+- [Prove the proof can fail](feedback_prove_the_proof_can_fail.md) — 7 false proofs in one phase; mutate the impl and watch the specific assertion red.
+- [cve-auth suite: 2 file-FAILs with 0 assertion failures = order flake](project_cve_auth_suite_order_flake.md) — re-run + check phase touched packages/auth before calling it a regression.
+- [Derived close-automation asserts semantics from counts](project_gsd_close_automation_false_semantics.md) — 3 instances in one round: percent corruption, AUTHZ-01 flip, phase-Complete stamp.
+- [release:test flakes under turbo, not a regression](project_release_test_turbo_flake.md) — failing package moves between runs; each passes standalone. Verify per-package before blaming a change.

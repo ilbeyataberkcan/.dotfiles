@@ -34,5 +34,18 @@
   "hooks": {
     "context_warnings": true
   },
-  "resolve_model_ids": "omit"
+  "resolve_model_ids": "omit",
+  "model_overrides": {
+    "gsd-research-synthesizer": "opus",
+    "gsd-codebase-mapper": "opus",
+    "gsd-verifier": "opus",
+    "gsd-plan-checker": "opus",
+    "gsd-integration-checker": "opus",
+    "gsd-nyquist-auditor": "opus",
+    "gsd-pattern-mapper": "opus",
+    "gsd-ui-checker": "opus",
+    "gsd-ui-auditor": "opus",
+    "gsd-doc-verifier": "opus",
+    "gsd-doc-classifier": "opus"
+  }
 }
