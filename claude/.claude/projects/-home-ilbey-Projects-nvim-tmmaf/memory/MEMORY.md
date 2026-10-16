@@ -1,6 +1,11 @@
 # Memory Index
 
 ## Active / current state
+- [Hall screens redesign round 3 — IMPLEMENTED 2026-09-05, UNCOMMITTED, awaiting operator UAT](project_hall_screens_redesign_r3.md) — mat + podium recomposed on `--u = 100vw/1920|/390`; brief in `docs/design/tmmaf-hall-screens/IMPLEMENTATION-BRIEF.md`; standings moved to idle body; declared-vs-approved weight ruling open
+- [W9 hall displays — round 2 SHIPPED to staging 2026-09-05 `5af17fb8`](project_hall_displays_w9.md) — decisions D1–D55 in `~/.claude/plans/i-don-t-want-you-imperative-stream.md`; **run tests one filter per batch, whole-suite OOMs**; wordmark chip forbidden, reverse emblem `public/tmmaf-logo-dark.png`; clone `tmmaf_display` still exists
+- [Registration funnel + guardian identity — Parts A-D IMPLEMENTED 2026-08-23, uncommitted](project_registration_guardian_waveA_D_shipped.md) — the funnel regression was ONE commit (`f2cfda3b`) and the gate was **unsatisfiable** because registration never granted the ATHLETE capability; **cve-auth Parts E/F NOT started**, blocked on the step-up `treatment` default ruling; risk A-5 accepted on in-person weigh-in verification
+- [A worktree makes docker compose build an EMPTY postgres volume](project_worktree_docker_compose_volume_trap.md) — looks exactly like a wiped DB; the real volume is untouched; write `COMPOSE_PROJECT_NAME=tmmaf` to `.env` before the first `db:up`
+- [Twilio 21609 SHIPPED; dynamic-links 0.2.0 IS published but CI is 403-blocked](project_twilio_21609_and_dynamic_links_handoff.md) — a bad `StatusCallback` origin fails the **message**, not just its tracking; **every build since `e93129ef` fails** because the package never granted the `tmmaf` repo read access, so `:staging` is stuck on the 2026-08-18 image; **`overrides` beats `dependencies`** so tmmaf is still on 0.1.0; short domain still unknown
 - [Turkish SMS is UCS-2 → one segment is 70 chars, not 160](project_sms_one_segment_dynamic_links.md) — PLANNED 2026-08-14; every body costs 2–4 segments today and `document-update-request` costs **7**; fix is a new `cve-dynamic-links` package (brief written) and it is **BLOCKED on registering a short domain ≤11 chars**
 - [Deployed Postgres sorts by BYTES, local sorts linguistically](project_deploy_postgres_c_collation.md) — `postgres:17-alpine` + musl = C collation while *reporting* `en_US.utf8`; capitals ahead of lowercase on staging/live, unreproducible in dev; `trCollate()` applied to 2 surfaces, **~32 ORDER BYs still exposed**
 - [Phase 44 — operator test-session fixes, waves 1+2 SHIPPED 2026-08-13](project_phase44_operator_test_session_fixes.md) — **4 of 10 reported premises were wrong**; migration 0069 authored, 0070 pending a ruling; AC-37.1 solved with a hard host gate, no package release; wave 3 blocked on the medical-clearance default
@@ -44,9 +49,10 @@
 - [tmmaf prelaunch live db read-only](tmmaf-prelaunch-live-db-readonly.md) — switch live DB GUI to ilbey_ro
 - [RBAC admin:access durability gap](project_rbac_admin_access_durability_gap.md) — pending operator tests + merge
 - [cve-auth revokeSessions patch](project_cve_auth_revokesessions_patch.md) — local bun patch; upstream then drop
-- [cve-auth version drift](project_cve_auth_version_drift.md) — local 10.1.2 vs published 10.1.3; don't republish from local
 
 ## Working rules (feedback)
+- [Wave cadence: ultracode Workflow → pause → compact](feedback_wave_cadence_pause_and_compact.md) — run each wave as a **Workflow**, `/gsd-pause-work` at every boundary, recommend the clean point, hand over a compaction prompt
+- [Audit prior art BEFORE planning a wave](project_tsu_check_prior_art_per_wave.md) — W7 shrank by most of a wave; the DQ card needed **no schema**; refute every ALREADY_BUILT claim
 - [Never ASCII-fold Turkish diacritics to save space](feedback_turkish_diacritics_never_folded.md) — shorten the sentence or attack the constraint; the user paid for a shortener + a domain rather than lose `ı ş ğ`
 - [A cve-package brief is consumer-agnostic](feedback_cve_package_briefs_are_consumer_agnostic.md) — general needs first, the motivating host's constraint becomes a configurable knob and an appendix
 - [Audit every user-facing sentence against its trigger state](feedback_audit_every_user_facing_sentence.md) — 4 rounds each shipped a FALSE Turkish message; highest risk is copy asserting an age, verdict, remedy, or what another surface shows
@@ -71,8 +77,9 @@
 - [Visual analyzers are weak](feedback_visual_analyzers_weak.md) — operator confirms
 - [Keep comments short](feedback_concise_comments.md) — one line; rationale in commits
 - [Minimal change to native inputs](feedback_minimal_change_native_inputs.md)
-- [Bitwarden gates SSH pushes](feedback_bitwarden_ssh_agent.md) — hand the push to the user
+- [Git over HTTPS, never SSH](feedback_git_https_not_ssh.md) — push and open PRs with the gh token over HTTPS; fix any SSH default instead of handing the push back
 - [TMMAF client deck framing](feedback_tmmaf_deck_audience.md) — brand/blockers/asks, not internals
+- [Tokens before custom CSS](feedback_tokens_before_custom_css.md) — agents use DS tokens/utilities first; a custom class is the last resort, checked in review
 - [Host custom CSS is allowed](feedback_host_custom_css_allowed.md) — when Tailwind can't express it
 - [No hairline outlines](feedback_no_hairline_outlines.md) — separation = elevation only
 - [Evolve the design skill as we progress](feedback_evolve_skill_as_we_progress.md)
@@ -122,7 +129,7 @@
 - [Auth split-brain → neutral edge guard](project_auth_marker_proxy_split_brain.md) — fixed cve-auth 10.1.6
 - [In-modal file preview](project_file_preview_viewer.md) — self-hosted pdfjs worker (never CDN — PII)
 - [cve-core peer dep + bun isolated linker](project_bun_dual_cve_core_store.md) — one store copy invariant
-- [bun publish leaks bare `workspace:*`](project_bun_publish_leaks_workspace_star.md) — changesets rewrites only `^`/`~`; `--snapshot` DELETES every changeset file
+- [Publish with `release:wave`, NEVER `release:publish`](project_bun_publish_leaks_workspace_star.md) — `changeset publish` ships `workspace:` specs verbatim and cve-auth carries one; release-wave rewrites them, waves by dep-graph, gates on GHP propagation, and is idempotent; `--snapshot` DELETES every changeset file
 - [GHP token sourcing](project_ghp_token_sourcing.md) — project .npmrc shadows ~/.npmrc → 401
 - [cve vitest zod inline + concurrency](project_cve_vitest_zod_concurrency.md) — inline ['zod'] + --concurrency=1
 - [cve next/* vitest red baseline](project_cve_next_vitest_resolution.md) — inline cve UI pkgs + next/* stub host-side
@@ -133,10 +140,12 @@
 - [Worktrees fork from origin/main, NOT HEAD — the `EnterWorktree` TOOL too](project_workflow_worktree_forks_origin_main.md) — recover with `merge`, **never `reset --hard`**; manifest-scoped cleanup only
 
 ## Ops (tmmaf)
+- [Local env: PG16 volume vs compose 17 + GHP token via gh](project_local_env_pg16_and_ghp_token.md) — `db:up` dies on version mismatch, use the ~/.local/share/tmmaf override; `NODE_AUTH_TOKEN=$(gh auth token)` for cve installs
 - [tmmaf Drizzle migration ops](project_tmmaf_drizzle_migration_ops.md) — agents author, operator runs db:migrate; hand-authored SQL needs a _journal.json entry. **Query the DB, never a phase doc**: `docker exec tmmaf_pg psql "$DATABASE_URL(5433→5432)" -tAc "select count(*) from drizzle.__drizzle_migrations"`
 - [tmmaf test baseline needs docker](tmmaf-test-baseline-needs-docker.md) — else ~25 env failures
-- [tmmaf deploy hostnames](tmmaf-deploy-hostnames.md) — live=fighterscore.com, staging=staging.fighterscore.com; WEBAUTHN_RP_ID exact-host
+- [tmmaf deploy hostnames](tmmaf-deploy-hostnames.md) — live=fighterscore.com, staging=staging.fighterscore.com; WEBAUTHN_RP_ID exact-host; a deploy dying with registry `denied` before `==> Deploying` is the VPS GHCR PAT expiring, not the images
 - [Local payments need stripe listen](project_dev_stripe_webhook_forwarder.md) — no forwarder = intents stuck pending
 - [Playwright dev-testing recipe](tmmaf-playwright-dev-testing.md) — Firefox playwright-core@1.60.0; Mailpit :8026; ?device=mobile
 - [Password-auth milestone](project_password_auth_milestone.md) — landed 2026-06-10; 2 open MEDIUMs
 - [Identifier-first milestone](project_identifier_first_milestone.md) — landed 2026-06-11; prod reCAPTCHA keys TODO
+- [drizzle migrate SKIPS anything below the ledger watermark](project_drizzle_migrate_watermark_silent_skip.md) — and still prints success; two phantom rows had made `0074` un-appliable since it was written; **the next migration needs `when` > 1787301501111 or it is silently skipped**

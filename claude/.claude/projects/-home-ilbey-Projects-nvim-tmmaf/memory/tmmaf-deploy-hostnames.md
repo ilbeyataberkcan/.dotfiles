@@ -28,3 +28,12 @@ it's safe by default — just don't widen the cookie domain. Certs are per-hostn
 (HTTP-01, no wildcard). Caddy sets `X-Robots-Tag: noindex` on staging. No catch-all
 Caddy block. Branch model: work on `staging`, PR → protected `main` = promote to live.
 See `deploy/RUNBOOK.md`.
+
+**GHCR deploy-token expiry (seen 2026-08-19):** `tmmaf-deploy staging` dying with
+`Error response from daemon: error from registry: denied` *before* the `==> Deploying`
+line is the VPS's read-only GHCR PAT, not the images — that first failure is the
+`docker pull :<channel>` inside `_tmmaf_resolve_tag`. Prove it is server-side by fetching
+the manifest with your own token (`gh auth token` → `ghcr.io/token?scope=repository:synapsys-integrated/tmmaf:pull`
+→ `GET /v2/synapsys-integrated/tmmaf/manifests/staging`); a 200 means re-login on the VPS:
+`read -rs GHCR_PAT && print -r -- "$GHCR_PAT" | docker login ghcr.io -u <user> --password-stdin`
+(`read -rs` keeps it out of history). Fine-grained PATs expire by design — see [[tmmaf-todo-docker-cred-helper]].

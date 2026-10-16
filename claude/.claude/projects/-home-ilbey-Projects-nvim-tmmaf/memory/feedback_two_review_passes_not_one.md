@@ -26,6 +26,17 @@ Turkish copy, elevation-only separation, the loose-enforcement ruling) so the re
 burn findings on house style. Report via ReportFindings, fix in file-disjoint lanes, re-gate, then
 tag — so the tag marks a twice-reviewed wave.
 
+**Confirmed a third time, tmmaf TSU W2+W3 (2026-08-20), and this time the gap was a SECURITY
+defect.** The in-workflow adversarial pass returned 39 findings, all fixed, gate green. The
+independent `/code-review high` then found 9 more including a HIGH the first pass had cleared:
+`undoReassignmentAction` took its destination verbatim from the payload while inheriting the
+off-band weight grant, so an operator could "undo" an athlete to any class on the ladder, skipping
+the opt-in, the preview and the reason gate. **The pattern behind it is worth its own reflex — a
+privileged path that only gets its FORWARD direction reviewed.** The forward move was gated
+carefully, so nobody looked at the inverse. Any action with an undo gets the undo reviewed as its
+own attack surface: resolve the target from server rows, never the payload, and gate on the DECIDED
+value, not the REQUESTED one. Three of the other 9 were Turkish sentences false in a reachable state.
+
 Corollary worth remembering on its own: **a passing test can be asserting a fiction.** Check what
 production actually passes the component, not just that the test is green.
 

@@ -48,5 +48,18 @@ NOT depend on it, and require the operator sequence verbatim in the SUMMARY. Tel
 "do NOT write code against the unpublished API, leave that task unimplemented and return partial" is
 what kept a 20-file plan from committing a second class of typecheck error.
 
+**Partition lanes by FILE OWNERSHIP, not by requirement — and let the orchestrator own the shared
+seams BEFORE the fan-out.** Proven on tmmaf TSU W2+W3 (2026-08-20): 9 lanes, 16 agents, ONE shared
+worktree (no `isolation`), zero merge conflicts. Both waves had hotspots — `WeighInInstrument.tsx`,
+`DrawReviewOverview.tsx` — that a per-requirement fan-out would have made three lanes fight over, so
+each hotspot went to exactly one lane and the rest reported `crossLaneNeeds` instead of editing.
+The two permission keys every lane needed were added by the orchestrator first, with anchored
+`replace` + `count == 1`, so no two lanes owned that file. Chain a consumer lane behind its producer
+with `.then()` inside `parallel()` rather than barriering the whole fan-out. Pre-assign migration
+numbers per lane. **Forbid every lane from running the suite** — the integrate agent runs it alone,
+which is what kept the not-concurrency-safe suite from producing phantom failures across two runs.
+Then: integrate → adversarial review → fix → an INDEPENDENT `/code-review` in the main loop.
+Verify every gate number with your own run before writing it into a handoff.
+
 Related: [[feedback_ultracode_gsd_plan_execute]], [[feedback_model_effort_ponytail_matrix]],
 [[project_phase253_athlete_consent_parental_authority]]
