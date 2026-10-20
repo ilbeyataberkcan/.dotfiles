@@ -8,3 +8,11 @@ claude/.claude/projects/**/*.jsonl
 claude/.claude/projects/**/subagents/
 claude/.claude/projects/**/tool-results/
 claude/.claude/projects/**/memory.local-*/
+
+# Only projects/<project>/memory/ is managed (see bin/scripts/claude/stow-prep.sh).
+# Session UUID dirs hold workflow scripts and classifier dumps with prompts and output.
+claude/.claude/projects/*/*/
+!claude/.claude/projects/*/memory/
+
+# Hyprland/T3 capture backups
+hypr/.config/hypr/*.t3-capture-backup-*

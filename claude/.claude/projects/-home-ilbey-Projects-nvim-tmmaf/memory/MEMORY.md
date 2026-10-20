@@ -150,3 +150,19 @@
 - [Password-auth milestone](project_password_auth_milestone.md) — landed 2026-06-10; 2 open MEDIUMs
 - [Identifier-first milestone](project_identifier_first_milestone.md) — landed 2026-06-11; prod reCAPTCHA keys TODO
 - [drizzle migrate SKIPS anything below the ledger watermark](project_drizzle_migrate_watermark_silent_skip.md) — and still prints success; two phantom rows had made `0074` un-appliable since it was written; **the next migration needs `when` > 1787301501111 or it is silently skipped**
+
+## Ops & misc (merged)
+- [arch kernel upgrade breaks docker veth](arch-kernel-upgrade-breaks-docker-veth.md) — docker veth "operation not supported" = kernel upgraded without reboot, running kernel's modules deleted; fix is reboot
+- [cve-matchmaking source gap](cve-matchmaking-source-gap.md) — local pkg is 0.2.0, tmmaf runs published 1.0.0 with modules absent from local src; edit local src = no effect, verify by executing installed dist
+- [t3 preview device binding](t3-preview-device-binding.md) — preview tools follow the operator's selected device; if it isn't tulpar_arch the browser can't reach localhost even though curl can
+- [tmmaf admin OTP e-mail bug](tmmaf-admin-otp-email-bug.md) — open 02.09.2026: ONE admin could not send OTP e-mail (others fine → per-account, not transport); deferred until Sporcu Ekle wizard ships
+- [tmmaf consent after approval](tmmaf-consent-after-approval.md) — approved registrations can owe consent again; consent gates key on outcomeAdmitsConsent, never isTerminal (04.09.2026); sentinel-DOB → PARENT authority is the other "no card" cause
+- [tmmaf flow guards come from packages](tmmaf-flow-guards-come-from-packages.md) — repo-only grep never proves a conditionRegistry entry is unused; cve-* dist emits the guard payloads, seeds put them in the DB, and a schema mismatch fails CLOSED
+- [tmmaf fresh db migrate order](tmmaf-fresh-db-migrate-order.md) — fresh volume needs migrate-bootstrap (4 package-owned schemas no migration creates), and seed order seed:admin → seed:payment-fixture → seed
+- [tmmaf national_id backfill guards](tmmaf-national-id-backfill-guards.md) — backfill was ruled on the false premise that athletes always have a TCKN; column is nullable, 73% null locally, so the conflict-probe guard is load-bearing
+- [tmmaf npmrc token override](tmmaf-npmrc-token-override.md) — committed .npmrc's ${NODE_AUTH_TOKEN} blanks ~/.npmrc's token when unset → 401 on all cve-* packages; partial install leaves dangling symlinks
+- [user model routing preference](user-model-routing-preference.md) — Fable 5.1 for task agents, Opus 5 only for simple exploration chores; main agent plans and verifies itself
+- [feedback_design_tokens_no_hardcoded](feedback_design_tokens_no_hardcoded.md) — Build UI with design-system tokens + standard Tailwind utilities only — no hardcoded inline styles/hex/raw var()/arbitrary values unless a genuine advanced need
+- [project_flow_scope_registration_vs_eventcreation](project_flow_scope_registration_vs_eventcreation.md) — Registration flow has a design & must be fixed; event-creation flow is being rebuilt by the operator — don't polish its UI
+- [project_katalog_admin_redesign_deferred](project_katalog_admin_redesign_deferred.md) — DEFERRED — admin "Katalog" page needs reusable catalog-table CRUD + attach-existing-weight-groups on class create + a better name; tied to event-creation renovation
+- [project_weight_model_declared_vs_approved](project_weight_model_declared_vs_approved.md) — Weight model — profile editable declared weight + read-only last-approved (weigh-in only); registration persists per-event declared weigh-in weight; softer confirm checkbox
