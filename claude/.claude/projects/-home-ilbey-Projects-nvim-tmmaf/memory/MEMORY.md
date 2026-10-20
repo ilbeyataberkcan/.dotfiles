@@ -1,6 +1,7 @@
 # Memory Index
 
 ## Active / current state
+- [VPS decommission prep — second tenant wired into our DBs](project_vps_decommission_and_dashboard_tenant.md) — obalci's fighterscore-dashboard reads live+staging DB and rides our Caddy; app torn down 2026-11-09, live DB kept stopped; systemd units still need sudo removal
 - [Hall screens redesign round 3 — IMPLEMENTED 2026-09-05, UNCOMMITTED, awaiting operator UAT](project_hall_screens_redesign_r3.md) — mat + podium recomposed on `--u = 100vw/1920|/390`; brief in `docs/design/tmmaf-hall-screens/IMPLEMENTATION-BRIEF.md`; standings moved to idle body; declared-vs-approved weight ruling open
 - [W9 hall displays — round 2 SHIPPED to staging 2026-09-05 `5af17fb8`](project_hall_displays_w9.md) — decisions D1–D55 in `~/.claude/plans/i-don-t-want-you-imperative-stream.md`; **run tests one filter per batch, whole-suite OOMs**; wordmark chip forbidden, reverse emblem `public/tmmaf-logo-dark.png`; clone `tmmaf_display` still exists
 - [Registration funnel + guardian identity — Parts A-D IMPLEMENTED 2026-08-23, uncommitted](project_registration_guardian_waveA_D_shipped.md) — the funnel regression was ONE commit (`f2cfda3b`) and the gate was **unsatisfiable** because registration never granted the ATHLETE capability; **cve-auth Parts E/F NOT started**, blocked on the step-up `treatment` default ruling; risk A-5 accepted on in-person weigh-in verification
@@ -142,7 +143,7 @@
 ## Ops (tmmaf)
 - [Local env: PG16 volume vs compose 17 + GHP token via gh](project_local_env_pg16_and_ghp_token.md) — `db:up` dies on version mismatch, use the ~/.local/share/tmmaf override; `NODE_AUTH_TOKEN=$(gh auth token)` for cve installs
 - [tmmaf Drizzle migration ops](project_tmmaf_drizzle_migration_ops.md) — agents author, operator runs db:migrate; hand-authored SQL needs a _journal.json entry. **Query the DB, never a phase doc**: `docker exec tmmaf_pg psql "$DATABASE_URL(5433→5432)" -tAc "select count(*) from drizzle.__drizzle_migrations"`
-- [tmmaf test baseline needs docker](tmmaf-test-baseline-needs-docker.md) — else ~25 env failures
+- [tmmaf test baseline needs docker](tmmaf-test-baseline-needs-docker.md) — baseline re-measured 30.08.2026: 3 failed FILES / 1 failed test clean-tree, plus ~4 files that fail only under full-suite parallelism; stash-and-rerun before blaming your change
 - [tmmaf deploy hostnames](tmmaf-deploy-hostnames.md) — live=fighterscore.com, staging=staging.fighterscore.com; WEBAUTHN_RP_ID exact-host; a deploy dying with registry `denied` before `==> Deploying` is the VPS GHCR PAT expiring, not the images
 - [Local payments need stripe listen](project_dev_stripe_webhook_forwarder.md) — no forwarder = intents stuck pending
 - [Playwright dev-testing recipe](tmmaf-playwright-dev-testing.md) — Firefox playwright-core@1.60.0; Mailpit :8026; ?device=mobile

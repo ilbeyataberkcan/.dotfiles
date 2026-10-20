@@ -23,3 +23,6 @@ hl.bind(mod .. " + SHIFT + L", hl.dsp.exec_cmd("hyprlock -q --grace 3 --immediat
 hl.bind(mod .. " + Print",         hl.dsp.exec_cmd("hyprshot -m window --clipboard-only")) -- window
 hl.bind("Print",                   hl.dsp.exec_cmd("hyprshot -m output --clipboard-only")) -- monitor
 hl.bind(mod .. " + SHIFT + P",     hl.dsp.exec_cmd("hyprshot -m region --clipboard-only")) -- region
+
+-- T3 Code window capture (global shortcut)
+hl.bind("CTRL + SHIFT + 2", hl.dsp.global("com.t3tools.T3Code:capture-window"))

@@ -1,4 +1,7 @@
 {
+  "env": {
+    "DISABLE_AUTOUPDATER": "1"
+  },
   "permissions": {
     "allow": [
       "Read(/home/ilbey/Projects/nvim/**)"
@@ -136,6 +139,12 @@
       "source": {
         "source": "git",
         "url": "https://github.com/twilio/ai.git"
+      }
+    },
+    "impeccable": {
+      "source": {
+        "source": "github",
+        "repo": "pbakaus/impeccable"
       }
     }
   },

@@ -1,112 +1,106 @@
+- [cve-admin slot system architecture](project_cve_admin_slot_system.md) — 5 core slots + 5 header sub-slots (declared not wired); direct shell props bypass slots for host chrome.
+- [cve-admin resolver tests: clear ALS state in-body, not beforeEach](project_cve_admin_resolver_als_test_isolation.md) — enterWith(null) doesn't reach it() callbacks; use in-body clearPermissionResolver().
+- [Future website layering model — 4 z-axis layers](project_website_layering_architecture.md) — content → studio panels → dialogs → notifications. Not yet implemented.
+- [Three shell types — public / application / takeover](project_three_shell_types.md) — each route inherits exactly one; "Shell" is a reserved term.
+- [Host policy at construction time is THE cve-* configurability pattern](project_host_policy_at_construction_pattern.md) — no runtime flags, no env reads inside packages.
+- [cve-core flows is a sub-path export, NOT a separate package](project_cve_core_flows_subpath.md) — packages/core/src/flows/ → @synapsys-integrated/cve-core/flows.
+- [user-management actions surfaces must wire permissionResolver or run ungated](project_actions_surface_must_wire_permission_resolver.md) — modal/flow dispatchers bypass the route gate; permission precedes step-up.
+- [apps/studio-smoke is not a reference example](feedback_studio_smoke_not_reference.md) — Playwright auth-bypass scaffold, not canonical architecture.
+- [Prefer git worktrees over child-repo clones for parallel work](feedback_worktrees_over_clones.md)
+- [Step-grouped schedule view, per-phase dep-driven start semantics](feedback_dep_driven_scheduling.md) — a phase starts when ITS deps merge.
+- [Workspaces only when parallel work is actually happening](feedback_workspaces_only_when_parallel.md) — no worktree for a solo phase.
+- [SSH keys live in Bitwarden Desktop's agent](user_ssh_bitwarden.md) — `SSH_AUTH_SOCK=$HOME/.bitwarden-ssh-agent.sock`; no keys in `~/.ssh/`. Agent down when Bitwarden closed/locked.
+- [Never use gh CLI or token HTTPS — git over SSH](feedback_no_gh_cli_use_ssh.md) — `Bash(gh:*)` config-blocked at harness level (verbal OK can't override); user runs gh via `!` prefix when needed.
+- ["extension" is a reserved CVE term](feedback_extension_terminology.md) — cross-package pattern only; say "update"/"expansion" for in-file edits.
+- [Defend design choices honestly or drop them](feedback_honest_recommendations.md) — real reasons on pushback, or concede.
+- [Don't unilaterally pin zod in one CVE package](feedback_zod_pin_compatibility.md) — parallel zod trees break prototype checks; coordinate via release wave.
+- [Check priors before proposing; terse conclusions, no search narration](feedback_check_priors_terse_output.md)
+- [Host archetypes in neutrality audits are illustrative, not contract](feedback_archetypes_are_illustrative_not_contract.md)
+- [Library-phase deferred checks become required human tests at first integration](feedback_library_phase_integration_human_test.md) — don't let the user skip them.
+- [Auto-verifiable UAT: pass on confidence; queue revisit when uncertain](feedback_uat_confidence_delegation.md) — consolidated revisit list at end-of-session.
+- [Phase 13 payment has 4 manual verifications deferred to host integration](project_phase13_deferred_host_verifications.md) — re-surface 13-VALIDATION.md when a host first wires PaymentService.
+- ['use server' shims ALWAYS Zod-validate before DB mutation](project_runtime_always_validate.md) — validation unconditional; permission gating is a separate opt-in axis.
+- [Flag cross-phase boundary edits BEFORE recommending](feedback_boundary_check_before_recommending.md) — name the boundary cost; offer a boundary-respecting option.
+- [Research use case before proposing to demolish infrastructure](feedback_research_use_case_before_demolition.md)
+- [Never work around — fix at the root](feedback_never_work_around_root_cause.md) — upstream invariant + boundary validation.
+- [Comments describe intent, not history](feedback_comment_hygiene.md)
+- [Phase 18 deferrals: multilingual WorkflowState indicator in Studio; host owns Studio UI/UX](project_phase18_deferred_workflow_indicator.md) — also [[project_phase18_ships_package_functionality_only]], [[project_studio_variant_authoring_is_generic]].
+- [Studio variant authoring is generic; multilingual wraps it](project_studio_variant_authoring_is_generic.md)
+- [Phase 18 ships package functionality only](project_phase18_ships_package_functionality_only.md) — host wires Studio UI.
+- [Don't skip explicit approval gates citing the terse-output directive](feedback_workflow_gates_vs_terse_directive.md)
+- [synapsysintegrated is DEPRECATED 2026-05-21 — archive only](project_synapsysintegrated_deprecated.md) — apps/cve-test-host is the only consumer following new versions.
+- [DirectionProvider mounts inside the host page, not route groups](feedback_direction_per_variant_not_route_group.md)
+- [Direction binding deferred to cve-multilingual-workflow integration](project_phase20_direction_deferred_to_p25.md) — static 'ltr' at foundation.
+- [No helper modules for placeholder static values — inline the literal](feedback_no_helper_for_static_placeholder.md)
+- [Variants select by URL path segment (/tr-TR/home), not query param](feedback_variant_url_path_segment_not_query.md) — direction via node-level `direction` field.
+- [Dev infrastructure is scoped to the consuming app](feedback_dev_infra_scoped_to_app.md) — lives in apps/<app>/, not repo root.
+- [Theme-seed step requires a design-system-import questionnaire](feedback_design_system_import_questionnaire.md) — never silently pick a default.
+- [Grep workspace-wide for bare utility classes before retiring `--color-*` vars](feedback_grep_utility_classes_workspace_wide.md) — silent breaks; package tests don't catch them.
+- [Test-host blocks are cve-core placeholders, NOT design-system validation surface](project_phase20_test_host_blocks_are_cve_core_placeholders.md)
+- [cve-design-system ThemeSeed / ColorTokens / utility shape](project_cve_design_system_0_5_0_shape.md) — named-accent map + status ramp-with-surface. NOTE: `ColorTokens.text`/`--color-text-*` renamed to `fg`/`--color-fg-*` 2026-07-19 (PR #24).
+- [Tailwind token suffixes: semantic over directional](feedback_status_token_naming_semantic_over_directional.md) — `-surface` not `-fg` for status backdrops.
+- [4-commit hybrid for breaking package changes](feedback_breaking_package_change_4commit_pattern.md) — shape → bridges → migrate → remove; skip for small blast radius.
+- [synapsys-cve canonical publish: `bun changeset version` → commit → `bun run release:wave`](project_cve_release_publish_path.md) — `release:publish` ships workspace:* literals (broken). GHP baseline 2026-08-25: 16 pkgs, components 11.3.0, auth 14.1.0, no pending changesets. Token in ~/.npmrc expires and `gh auth login` does NOT refresh it.
+- [release-wave stale-journal footgun FIXED 2026-07-19](project_release_wave_state_file_footgun.md) — post-run rmSync + version-fingerprint self-discard; don't re-recommend manual deletion.
+- [No red ANSI on success-summary lines](feedback_red_color_in_success_output.md) — `NO_COLOR=1` on verification gates.
+- [Two-line app-init belongs inline at the application root](feedback_inline_init_at_app_root.md) — no side-effect wrapper modules.
+- [Client Context Providers only where real client consumers exist](feedback_client_context_only_for_client_consumers.md) — speculative wrap crashes Next 16 under RSC.
+- [Future cve-core node: themed-subtree (theme-island)](project_cve_core_render_engine_themed_subtree_node.md) — ThemeScope via tree-level node; sponsored sections.
+- [Research industry pattern before inventing](feedback_research_industry_pattern_before_inventing.md) — next-themes, not custom theme code.
+- [Dev tools excluded from client packages via tsconfig.build exclude](feedback_dev_tools_excluded_from_client_packages.md) — in source, not dist; workspace-local invocation only.
+- [Don't cite loose analogies as design precedent](feedback_dont_overcite_loose_analogies.md) — name the load-bearing properties first.
+- [When proposing a paired API, name BOTH members](feedback_paired_api_name_both_members.md)
+- [`_Unsafe` PascalCase suffix for escape-hatch APIs](feedback_unsafe_suffix_for_escape_hatch.md) — the convention break IS the signal.
+- [cve-mail safe-default webhook shape (Phase 22)](project_phase22_design_lock.md) — ingestProviderWebhook + `_Unsafe` escape hatch + standalone verify helpers.
+- [cve-payment safe-default webhook reference](project_cve_payment_safe_default_reference.md) — signature verify mandated internally, no bypass.
+- [Decompose complex phases into atomic per-commit steps](feedback_finer_steps_complex_phases.md) — ≤50 LOC + single verify gate per step.
+- [Host apps use bundler imports (no .js); packages use .js extensions](feedback_host_app_imports_no_js_extension.md)
+- [Test-host user-facing pages MUST render via RenderEngine + ComponentNode trees](feedback_user_facing_pages_must_use_render_engine.md) — interactive logic in registered host-blocks.
+- [Auth onboarding happens POST identity-verification](feedback_onboarding_post_verify_preserves_sr02.md) — preserves silent-enumeration guard; onboarding on /welcome.
+- [cve-auth client facade landscape](project_cve_auth_no_client_facade.md) — server facade mature; client binds via cve-auth/client driver pattern.
+- [cve-auth locked architecture — 3 drivers, no more](project_cve_auth_redesign_locked_arch.md) — AuthDriver + RbacDriver + AuditDriver; "varies-by-impl → driver, uniform → core".
+- [BA internalAdapter is the lookup surface; admin plugin REJECTED](project_cve_auth_internal_adapter.md) — cve-auth RBAC stays sovereign.
+- [AuthDriver contract designed from cve-auth's needs FIRST](feedback_auth_driver_first_design.md) — BA bridges to it, never shapes it.
+- [cve-auth public types are its OWN — no provider re-exports](feedback_no_provider_type_reexports.md)
+- [Client facade follows the same driver pattern as the server](feedback_client_facade_driver_agnostic.md) — cve-auth/client agnostic; /client/better-auth is the impl.
+- [Host must call cve-auth only (server + client + catch-all)](project_phase23_architectural_correction.md) — never BA directly.
+- [UI-SPEC must not bleed into cve-design-system configuration](feedback_ui_spec_no_design_system_bleed.md) — scope to NEW UI element creation only.
+- [Step-up compose pattern: setStepUpPolicy([host, ...packages])](project_phase7_step_up_compose_pattern.md) — hosts always compose; never manual-merge.
+- [Step-up is a friction guard, NOT a privilege distributor](feedback_step_up_friction_guard_not_privilege.md) — permission check always precedes step-up.
+- [Pause between phase workflows — no auto-advance](feedback_pause_between_phase_workflows.md) — also applies wave-to-wave; only honor --chain/--auto when explicit.
+- [CVE per-package DB driver pattern](project_cve_per_package_db_driver_pattern.md) — each package owns its DbDriver contract + opt-in /drizzle subpath; NO centralized DB in cve-core.
+- [Step-up verification rows are immutable audit evidence](feedback_step_up_records_immutable.md) — no delete/purge paths, ever.
+- [Extend AuthDriver + delegate to BA when BA implements the feature](feedback_extend_authdriver_delegate_to_ba.md) — no new cve-auth tables for BA-owned features.
+- [Server-authoritative auth; client gathers requests](feedback_server_authoritative_client_gathers_requests.md) — no client retry queues; component re-submits after step-up.
+- [ApprovalDialog + StepUpDialog sibling primitives in cve-auth/react](project_phase07_2_approval_stepup_primitives.md)
+- [Step-up is hierarchical-leveled and policy-configured](project_step_up_hierarchical_policy.md) — higher level subsumes lower; taxonomy per host.
+- [CVE admin RBAC has 5 access tiers](project_admin_access_tiers.md) — Admin → Module → Sub-Route → Action → Step-Up; tier 2 is the current gap.
+- [UI gates live server-side, not 'use client' toggles](feedback_ui_gates_server_side_only.md) — unauthorized markup must not reach the client.
+- [No runtime privilege inflation — role grants are hardcoded literals](feedback_no_runtime_privilege_inflation.md) — build-time assertion OK; runtime reflection is not.
+- [Match scope to the actual request](feedback_match_scope_to_request.md) — operational verbs + named artifacts = do exactly that.
+- [Test-host superadmin bulk perms already SQL-applied](project_superadmin_bulk_perms_applied.md) — don't re-recommend; re-apply if reseeded.
+- [Composable-primitives litmus test](feedback_composable_primitives_litmus_test.md) — expressible as composition? → convenience, else primitive.
+- [Branch vs guard — forward-path counting rule](feedback_branch_vs_guard_forward_path_rule.md) — ≥2 forward edges → branch; retry IS a forward edge.
+- [cve-core/flows engine design — 4 primitives + /predicates substrate](project_phase07_3_flows_engine_design.md)
+- [SMTP self-hosted relay path for data-residency federation](project_smtp_self_hosted_relay_for_federation.md) — driver at parity; relay wiring + DKIM + DSN listener TODO.
+- [cve-core build type-checks tests; typecheck excludes them](project_cve_core_build_typechecks_tests.md) — run build after shared-type changes; typecheck green ≠ build green.
+- [Verify the code, not just test pass/fail](feedback_verify_code_not_just_tests.md) — green suite once masked a missing FOR UPDATE lock.
+- [GSD decision-coverage gate matcher](reference_decision_coverage_gate_matcher.md) — cite D-NN in must_haves/tasks, not objective prose.
+- [Public guest-actor flows foundation](project_public_guest_actor_flows.md) — resolveFlowActorOrGuestId + httpOnly guest cookie; guarded flows stay auth-required.
+- [Flow definitions are version-pinned — bump version + reseed on tree change](project_flow_definition_reseed_on_change.md) — stale guards never run; introspect the persisted tree.
+- [Phase 07.6 flow live-UAT queue](project_phase07_6_flow_uat_remaining.md) — 7 fixes shipped 2026-06-02; verify remaining C/D/E items against current code before citing.
+- [Live e2e harness for cve-test-host from the sandbox](project_test_host_live_e2e_harness.md) — own next dev against Docker Postgres + scripted Playwright at ~/cve-e2e.
+- [/flows route runs in GUEST context](project_flows_route_guest_context.md) — sessions resolve to guest there; auth path is the admin modal.
+- ['use server' strips custom Error props at the client boundary](project_use_server_strips_error_props.md) — RETURN user-safe banner text as data, never throw it.
+- [execute-phase on synapsys-cve: worktrees OFF + .env bridge](project_execute_phase_worktrees_off_and_env_bridge.md) — `cp .env.local .env` for DB tests; sequential on main tree.
+- [FlowOrchestratorNode seeds inProgressInput from the mounted step's fields only](project_flow_orchestrator_seed_invariant.md)
+- [Registration payment host-blocks are scaffolding to distill, not primitives](project_registration_flow_blocks_reusability_debt.md) — payment todo §B tracks the distillation.
 - [Codebase questions go through graphify, not grep](feedback_use_graphify_not_grep.md) — graphify-out/ exists in both repos; grep only for literal-string checks in a known file.
 - [Org/RBAC/multi-tenancy into cve-auth — milestone design](project_org_rbac_milestone_design.md) — membership→AuthDriver(BA via $context.adapter), org-authz→sovereign RbacDriver; substrate exists, org-scope at actor BUILD not resolver; 6 user decisions pending.
 - [cve-auth 3-major publish chain HELD (12→13→14)](project_cve_auth_v14_publish_chain_held.md) — strict-order release:wave gates; v1.4 P04 teams code-complete+verified, only publish pending; secure-phase 4 not yet run.
 - [cve-auth test fixtures hand-roll DDL](project_cve_auth_test_fixtures_handroll_ddl.md) — 3 fixtures (setup-ba-fixture + 2 setup-pglite) carry independent CREATE TABLE; tables-factory.ts schema changes don't reach tests unless mirrored into all three.
 - [Phase-close tracking gaps](project_phase_complete_progress_table_gaps.md) — reconcile can't update the 4-col Progress table; checkpoint plans don't self-register; phase.complete skips REQUIREMENTS traceability — 3 manual fixes each close.
 - [Avoid large AskUserQuestion blocks](feedback_avoid_large_askuserquestion_blocks.md) — vim ESC wipes long typed answers; ask nuanced things in prose.
-- [cve-admin slot system](project_cve_admin_slot_system.md) — 5 core + 5 header sub-slots; direct shell props bypass slots for host chrome.
-- [cve-admin resolver tests: clear ALS in-body](project_cve_admin_resolver_als_test_isolation.md) — enterWith(null) doesn't reach Vitest it(); need in-body clearPermissionResolver().
-- [Future website layering — 4 z-axis layers](project_website_layering_architecture.md) — content → cve-studio panels → dialogs → notifications. Not yet built.
-- [Three shell types — public/application/takeover](project_three_shell_types.md) — route-navigation layer; "Shell" is reserved, don't reuse for flow-tree.
-- [Host policy at construction is THE configurability pattern](project_host_policy_at_construction_pattern.md) — no runtime flags/env reads in packages; axes on a HostPolicy at init.
-- [cve-core flows is a sub-path export](project_cve_core_flows_subpath.md) — packages/core/src/flows/, @synapsys-integrated/cve-core/flows. Locked 2026-05-30.
-- [usermgmt actions surfaces must wire permissionResolver](project_actions_surface_must_wire_permission_resolver.md) — modal/flow dispatchers bypass route gate; permission precedes step-up.
-- [apps/studio-smoke is not a reference](feedback_studio_smoke_not_reference.md) — Playwright auth-bypass scaffold, not canonical architecture.
-- [Prefer git worktrees over child-repo clones](feedback_worktrees_over_clones.md) — same-repo parallel sessions use worktrees.
-- [Step-grouped view, per-phase dep-driven start](feedback_dep_driven_scheduling.md) — a phase starts when ITS deps merge, not its step's prereqs.
-- [Workspaces only when parallel work is happening](feedback_workspaces_only_when_parallel.md) — no worktree for a solo phase.
-- [SSH keys live in Bitwarden Desktop agent](user_ssh_bitwarden.md) — set SSH_AUTH_SOCK=$HOME/.bitwarden-ssh-agent.sock; no keys in ~/.ssh/.
-- [Never use gh CLI or token HTTPS — use git over SSH](feedback_no_gh_cli_use_ssh.md) — Bash(gh:*) blocked; SSH routes via Bitwarden agent. No HTTPS fallback.
-- ["extension" is a reserved CVE term](feedback_extension_terminology.md) — reserve for cross-package pattern; use "update"/"expansion" for in-file edits.
-- [Defend design choices honestly or drop them](feedback_honest_recommendations.md) — on pushback, give real reasons or admit the framing was wrong.
-- [Phase 10 locked: Variant System + Path C-Strict + SEO cache](project_phase10_design_lock.md) — plan at ~/.claude/plans/10-luminous-summit.md supersedes 10-CONTEXT.md.
-- [Don't unilaterally pin zod in one CVE package](feedback_zod_pin_compatibility.md) — parallel zod trees break prototype checks; coordinate workspace-wide.
-- [Check priors before proposing; terse output](feedback_check_priors_terse_output.md) — verify against decisions log/handoff/siblings; don't narrate the search.
-- [Host archetypes in neutrality audits are illustrative](feedback_archetypes_are_illustrative_not_contract.md) — don't strict-enforce ≥3 archetypes per package.
-- [Library-phase deferred checks → human tests at first integration](feedback_library_phase_integration_human_test.md) — fail-closed/warn-once/onDeny need real-app verify.
-- [Auto-verifiable UAT: pass on confidence, queue revisit when unsure](feedback_uat_confidence_delegation.md) — mark needs_revisit + reason; surface list end-of-session.
-- [Phase 13 cve-payment has 4 deferred host verifications](project_phase13_deferred_host_verifications.md) — re-surface 13-VALIDATION.md Manual-Only when a host wires PaymentService.
-- [`'use server'` shims ALWAYS Zod-validate before DB mutation](project_runtime_always_validate.md) — validation unconditional; permission gating is a separate opt-in axis.
-- [Flag cross-phase boundary edits BEFORE recommending](feedback_boundary_check_before_recommending.md) — name boundary cost; offer a boundary-respecting option.
-- [Research use case before demolishing infrastructure](feedback_research_use_case_before_demolition.md) — find what targeted code serves before locking a replacement.
-- [Never work around — fix at the root](feedback_never_work_around_root_cause.md) — downstream patches leave upstream broken for other consumers.
-- [Comments describe intent, not history](feedback_comment_hygiene.md) — no change-narration/task-IDs; rewrite to current state or delete.
-- [Phase 18 defers multilingual WorkflowState indicator](project_phase18_deferred_workflow_indicator.md) — translator-coordination flag, not canonical page state.
-- [Studio variant authoring is generic](project_studio_variant_authoring_is_generic.md) — P18 generic variant depth; multilingual ships its own Studio expansion.
-- [Phase 18 ships package functionality only; host owns Studio UI](project_phase18_ships_package_functionality_only.md) — --skip-ui; host wires UI with design-system.
-- [Don't skip workflow approval gates via "work without stopping"](feedback_workflow_gates_vs_terse_directive.md) — terse directive is for trivia, not decision-lock gates.
-- [synapsysintegrated pages schema is v1.0-shape](project_synapsysintegrated_schema_lag.md) — NEGATIVE ref for page shape, POSITIVE for modular layout. (superseded by deprecation)
-- [synapsysintegrated DEPRECATED 2026-05-21 — never migrate](project_synapsysintegrated_deprecated.md) — apps/cve-test-host is the only consumer following new versions.
-- [Pause between every wave in v1.2 PROC-01 phases](feedback_pause_between_waves_proc01.md) — user pilots wave advance; AUTO_MODE only within-plan.
-- [DirectionProvider mounts in the host page, not route groups](feedback_direction_per_variant_not_route_group.md) — single page wraps RenderEngine; route-group bifurcation duplicates the app.
-- [Phase 20 defers direction binding to Phase 25](project_phase20_direction_deferred_to_p25.md) — dummy variant key + static 'ltr'; getLocaleDirection waits for workflow pkg.
-- [Don't write helper modules for placeholder statics](feedback_no_helper_for_static_placeholder.md) — inline the literal; promote when a second consumer arrives.
-- [Variants selected by URL path segment, not query param](feedback_variant_url_path_segment_not_query.md) — /tr-TR/home; direction from node-level `direction` field.
-- [Dev infra is scoped to the consuming app](feedback_dev_infra_scoped_to_app.md) — docker-compose/db/fixtures live in apps/<app>/, not repo root.
-- [Theme-seed step needs a design-system-import questionnaire](feedback_design_system_import_questionnaire.md) — never silently default; extract only the design-system surface.
-- [cve-core missing `./drizzle` subpath export](project_cve_core_drizzle_subpath_gap.md) — close before Plan 20-04 or every host repeats Drizzle boilerplate.
-- [Grep utility classes workspace-wide before retiring `--color-*`](feedback_grep_utility_classes_workspace_wide.md) — bg-accent/text-success are silent breaks.
-- [Phase 20 resume gating + replan TODOs](project_phase20_resume_context.md) — paused at Plan 20-01 + placeholder seed; needs publish + Claude Design import.
-- [Phase 20 test-host blocks are cve-core placeholders](project_phase20_test_host_blocks_are_cve_core_placeholders.md) — generic utilities, not a design-system validation surface.
-- [cve-design-system 0.5.0 ThemeSeed/ColorTokens shape](project_cve_design_system_0_5_0_shape.md) — named-accent map + status ramp-with-surface cheatsheet.
-- [Tailwind token suffixes: semantic over directional](feedback_status_token_naming_semantic_over_directional.md) — `-surface` not `-fg`; `bg-status-success-fg` collides.
-- [4-commit hybrid for breaking package changes](feedback_breaking_package_change_4commit_pattern.md) — shape → bridges → migrate → remove; atomic rollback per step.
-- [Canonical publish: changeset version → commit → release:wave](project_cve_release_publish_path.md) — release:publish ships workspace:* (broken); GHP baseline all 10 @ 10.0.0.
-- [Delete .release-wave-state.json after a successful release:wave](project_release_wave_state_file_footgun.md) — left behind, next release skips every wave silently.
-- [Red ANSI on success lines misleads](feedback_red_color_in_success_output.md) — use NO_COLOR=1/--no-color on passing verification gates.
-- [Two-line app-init inline at app root](feedback_inline_init_at_app_root.md) — driver instantiation + initDatabase in app/layout.tsx module scope, not a wrapper.
-- [Client Context Providers only where real client consumers need them](feedback_client_context_only_for_client_consumers.md) — speculative RSC wrap crashes Next 16.
-- [Future cve-core node: themed-subtree (theme-island)](project_cve_core_render_engine_themed_subtree_node.md) — ThemeScope around a subtree; use case = sponsored sections.
-- [Research industry pattern before inventing](feedback_research_industry_pattern_before_inventing.md) — Explore agent first; next-themes, not custom theme code.
-- [Dev tools excluded from client packages via tsconfig.build.json](feedback_dev_tools_excluded_from_client_packages.md) — codegen/CLIs in source not dist; workspace-local only.
-- [Don't cite loose analogies as design precedent](feedback_dont_overcite_loose_analogies.md) — name the load-bearing properties and check before citing.
-- [When proposing a paired API, name BOTH members](feedback_paired_api_name_both_members.md) — don't leave one half implicit.
-- [Use `_Unsafe` PascalCase suffix for escape-hatch APIs](feedback_unsafe_suffix_for_escape_hatch.md) — convention break IS the code-review signal.
-- [Phase 22 cve-mail Cold-Start design lock](project_phase22_design_lock.md) — safe-default ingestProviderWebhook + _Unsafe escape hatch + standalone verify.
-- [cve-payment@0.1.0 is the safe-default webhook reference](project_cve_payment_safe_default_reference.md) — ingestProviderEvent mandates verifyWebhookSignature; no bypass.
-- [Decompose complex phases into atomic per-commit steps](feedback_finer_steps_complex_phases.md) — 8-12 waves × 3-8 steps; ≤50 LOC + single verify gate.
-- [Host apps use bundler imports (no .js); packages use .js](feedback_host_app_imports_no_js_extension.md) — .js rule is for publishable packages only.
-- [Test-host user-facing pages MUST render via RenderEngine](feedback_user_facing_pages_must_use_render_engine.md) — logic in registered host-block client components, never raw page.tsx.
-- [Onboarding happens POST identity-verification](feedback_onboarding_post_verify_preserves_sr02.md) — SR-02 enumeration preserved; onboarding fires on /welcome after magic-link.
-- [cve-auth has no client-side ceremony facade](project_cve_auth_no_client_facade.md) — server facade mature; client binds to BA's React client in prod.
-- [Phase 23 PAUSED — cve-auth driver-delegation redesign](project_cve_auth_redesign_paused_p23.md) — BetterAuthDriver duplicated BA table writes; redesign before resume.
-- [cve-auth locked arch — 3 drivers, no more](project_cve_auth_redesign_locked_arch.md) — AuthDriver + RbacDriver + AuditDriver; varies-by-impl→driver, uniform→core.
-- [BA internalAdapter is the lookup surface; admin plugin REJECTED](project_cve_auth_internal_adapter.md) — auth.$context.internalAdapter; cve-auth RBAC stays sovereign.
-- [AuthDriver contract designed from cve-auth needs FIRST](feedback_auth_driver_first_design.md) — BA bridges to it; the schemas are ours.
-- [cve-auth public types must be its OWN — no provider re-exports](feedback_no_provider_type_reexports.md) — declare interfaces explicitly, no BA type re-exports.
-- [Client facade follows the same driver pattern as server](feedback_client_facade_driver_agnostic.md) — cve-auth/client agnostic; /client/better-auth is the impl.
-- [Phase 23 correction: host calls cve-auth only](project_phase23_architectural_correction.md) — server+client+catch-all; cve-auth@1.1.0 closes the gap.
-- [UI-SPEC must not bleed into cve-design-system config](feedback_ui_spec_no_design_system_bleed.md) — scope to NEW UI element creation; token tables belong to design-system.
-- [Step-up compose pattern: cve-auth@1.4.0 helper](project_phase7_step_up_compose_pattern.md) — hosts compose via setStepUpPolicy([host, ...packages]); never manual-merge.
-- [Step-up is a friction guard, NOT a privilege distributor](feedback_step_up_friction_guard_not_privilege.md) — permission check ALWAYS runs first; step-up grants zero new privilege.
-- [Pause between phase workflows — no auto-advance](feedback_pause_between_phase_workflows.md) — stop after commit + show next-step hint; honor --chain/--auto only if present.
-- [CVE per-package DB driver pattern (cve-core ref)](project_cve_per_package_db_driver_pattern.md) — each package owns DbDriver + opt-in /drizzle; no centralized DB in cve-core.
-- [Step-up verification rows are immutable audit evidence](feedback_step_up_records_immutable.md) — never clear/delete/purge; (userId,sessionId) is forensic.
-- [Extend AuthDriver + delegate to BA when BA implements it](feedback_extend_authdriver_delegate_to_ba.md) — BetterAuthDriver wraps betterAuth.api.* 1:1; no new cve-auth tables.
-- [Server-authoritative auth, client gathers requests](feedback_server_authoritative_client_gathers_requests.md) — client never runs auth logic or auto-replays; component re-submits.
-- [Phase 07.2 ships ApprovalDialog + StepUpDialog](project_phase07_2_approval_stepup_primitives.md) — per-request approval + TTL-cached passkey-first step-up with OTP fallback.
-- [Step-up is hierarchical-leveled and policy-configured](project_step_up_hierarchical_policy.md) — higher level subsumes lower; taxonomy per-host; type is an extensible union.
-- [CVE admin RBAC has 5 access tiers](project_admin_access_tiers.md) — Admin → Module → Sub-Route → Action → Step-Up. Tier 2 route gate is the gap.
-- [UI gates live server-side, not 'use client' toggles](feedback_ui_gates_server_side_only.md) — unauthorized markup/handlers must not reach client; Server Component branches.
-- [No runtime privilege inflation — role grants are literals](feedback_no_runtime_privilege_inflation.md) — never query a runtime registry to expand perms; deliberate code change only.
-- [Match scope to the request, not the defensible long-term design](feedback_match_scope_to_request.md) — "update this row" = SQL UPDATE, not a module + reconciler.
-- [Test-host superadmin bulk perms already SQL-applied](project_superadmin_bulk_perms_applied.md) — usermgmt:bulk:delete/roleAssign granted; re-apply only if reseeded.
-- [Composable-primitives litmus test](feedback_composable_primitives_litmus_test.md) — expressible as composition of existing primitives? YES→convenience, NO→primitive.
-- [Branch vs guard — forward-path counting](feedback_branch_vs_guard_forward_path_rule.md) — ≥2 forward edges→branch; 1+non-forward-failure→guard. onFail='block'|'abort'.
-- [cve-core/flows engine: 4 primitives + /predicates substrate](project_phase07_3_flows_engine_design.md) — Orchestrator/Step/Branch/Terminal + 6 conveniences; shared predicates.
-- [SMTP self-hosted relay for data-residency federation](project_smtp_self_hosted_relay_for_federation.md) — cve-mail SMTP driver at parity; relay+DKIM+DSN bounce listener TODO.
-- [cve-core build type-checks tests; typecheck excludes them](project_cve_core_build_typechecks_tests.md) — typecheck green ≠ build green; run build after shared-type changes.
-- [Verify the code, not just test pass/fail](feedback_verify_code_not_just_tests.md) — read the impl; a passing txSpy suite masked a missing FOR UPDATE lock.
-- [GSD decision-coverage gate matcher](reference_decision_coverage_gate_matcher.md) — scans ONLY designated sections (must_haves/truths/objective); XML <tasks>/<threat_model> NOT read; cite D-NN in frontmatter must_haves.truths.
-- [Public guest-actor flows (email-validate then continue)](project_public_guest_actor_flows.md) — resolveFlowActorOrGuestId + httpOnly guest cookie; public uses or-guest resolver.
-- [Flow definitions version-pinned/immutable — bump + reseed on change](project_flow_definition_reseed_on_change.md) — editing tree in source doesn't update DB; guards go stale.
-- [Phase 07.6 flow live-UAT fix queue — A/B done, C/D/E left](project_phase07_6_flow_uat_remaining.md) — release PAUSED; takeover-guard/404, delete gating, inline validation left.
-- [Live e2e harness for cve-test-host from sandbox](project_test_host_live_e2e_harness.md) — can't reach :3000 but can reach Docker PG :5432; own next dev + Playwright Firefox.
-- [/flows route runs in GUEST context — no session auth](project_flows_route_guest_context.md) — /flows/create-user 404s post-C; auth path is the admin modal.
-- ['use server' strips custom Error props at client boundary](project_use_server_strips_error_props.md) — user-safe text RETURNED as renderInstruction data, never thrown.
-- [execute-phase: worktrees OFF + .env bridge for host tests](project_execute_phase_worktrees_off_and_env_bridge.md) — fresh worktree lacks node_modules/.env; cp .env.local .env.
-- [FlowOrchestratorNode seeds inProgressInput from mounted step only](project_flow_orchestrator_seed_invariant.md) — never whole accumulated_state; slice via walk-helpers.
-- [Registration payment-flow host-blocks are scaffolding](project_registration_flow_blocks_reusability_debt.md) — PayBlock et al. to distill into cve-payment/flows later, not canonical.
 - [Milestone plan-ID collision → safe-resume false positive](project_milestone_planid_collision_safe_resume.md) — new milestone resets phase numbers; archived commits grep-match; verify freshness by artifact not git-log.
 - [cve-test-host active-context wiring + gotchas](project_test_host_active_context_wiring.md) — org substrate on; signUpEmail gated off (seed via invite/addMember); DB :5432 migration 0014.
 - [cve-test-host UI tokens + Playwright e2e harness](project_test_host_ui_and_e2e_harness.md) — CLAUDE.md token table is wrong (use bg-accent-primary/bg-canvas/std spacing); RenderEngine host-block pattern; magic-link-via-DB Playwright sign-in.
