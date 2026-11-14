@@ -120,6 +120,7 @@ install_packages() {
         stow
         neovim
         tree-sitter-cli
+        inotify-tools
         tmux
         zsh
         zsh-completions

@@ -75,6 +75,13 @@ vim.lsp.config("tsc", {
 vim.lsp.enable("tsc")
 
 vim.lsp.config("basedpyright", {
+    -- Neovim disables LSP file watching on Linux; without it, modules created after
+    -- the server starts stay "could not be resolved". Uses inotifywait (inotify-tools).
+    capabilities = {
+        workspace = {
+            didChangeWatchedFiles = { dynamicRegistration = true },
+        },
+    },
     settings = {
         basedpyright = {
             disableOrganizeImports = true, -- ruff owns imports
