@@ -106,6 +106,8 @@ alias zshconfig="nvim ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias vim="nvim"
 
+alias reload="source ~/.zshrc"
+
 alias run-resona-dev="SDL_VIDEODRIVER=x11 /Mergen/UnrealEngine/Engine/Binaries/Linux/UnrealEditor \"/home/ilbey/Projects/unreal/Project-Resona/ProjectResona.uproject\""
 
 alias esp-init-env="export PATH='$PATH:$HOME/esp/xtensa-esp323-elf/bin'"
@@ -115,6 +117,8 @@ export PATH="$HOME/.cargo/bin:$PATH"
 # opencode
 export PATH=/home/ilbey/.opencode/bin:$PATH
 
+export PATH="$HOME/worldbanc/private/bin:$PATH"
+export PATH=$PATH:$HOME/go/bin
 
 # Generated for envman. Do not edit.
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
