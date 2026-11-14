@@ -66,7 +66,6 @@ vim.keymap.set('n', "<leader>K", function()
     vim.diagnostic.config({
         virtual_text = new_config,
     })
-    vim.notify("Inline diagnostics " .. (new_config and "on" or "off"), vim.log.levels.INFO, { annote = "Diagnostics" })
 
 end, {desc = "Toggle diagnostics virtual_lines"} )
 
