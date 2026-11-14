@@ -16,6 +16,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('n', "<leader>vrr", function() vim.lsp.buf.references() end, opts)
         vim.keymap.set('n', "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
         vim.keymap.set('n', "<leader>vi", function() vim.lsp.buf.implementation() end, opts)
+        -- Restart only this buffer's servers (e.g. after creating a module the server missed)
+        vim.keymap.set('n', "<leader>vrs", function()
+            local names = vim.tbl_map(function(client) return client.name end, vim.lsp.get_clients({ bufnr = 0 }))
+            vim.cmd("lsp restart " .. table.concat(names, " "))
+        end, opts)
         vim.keymap.set('n', "<leader>sh", function() vim.lsp.buf.signature_help() end, opts)
     end
 
