@@ -20,6 +20,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('n', "<leader>vrs", function()
             local names = vim.tbl_map(function(client) return client.name end, vim.lsp.get_clients({ bufnr = 0 }))
             vim.cmd("lsp restart " .. table.concat(names, " "))
+            vim.notify("Restarting " .. table.concat(names, ", "), vim.log.levels.INFO, { annote = "LSP" })
         end, opts)
         vim.keymap.set('n', "<leader>sh", function() vim.lsp.buf.signature_help() end, opts)
     end

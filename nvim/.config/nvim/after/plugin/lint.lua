@@ -27,4 +27,12 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "BufWritePost", "InsertLeave" }, {
     end,
 })
 
-vim.keymap.set("n", "<leader>vl", function() lint.try_lint() end, { desc = "Run linters" })
+vim.keymap.set("n", "<leader>vl", function()
+    local names = vim.tbl_filter(is_available, lint.linters_by_ft[vim.bo.filetype] or {})
+    if #names == 0 then
+        vim.notify("No linter for " .. vim.bo.filetype .. " (LSP diagnostics still apply)", vim.log.levels.INFO, { annote = "Lint" })
+        return
+    end
+    lint.try_lint(names)
+    vim.notify("Running " .. table.concat(names, ", "), vim.log.levels.INFO, { annote = "Lint" })
+end, { desc = "Run linters" })
