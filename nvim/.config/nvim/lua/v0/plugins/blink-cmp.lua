@@ -1,11 +1,9 @@
 return {
     'saghen/blink.cmp',
-    version = 'v1.*',
-    lazy = true,
+    version = '1.*',
     dependencies = {
         'rafamadriz/friendly-snippets',
         'folke/lazydev.nvim',
-        'taku25/blink-cmp-unreal'
     },
 
     opts = {
@@ -24,7 +22,6 @@ return {
                 "path",
                 "buffer",
                 "lazydev",
-                "unreal"
             },
             providers = {
                 lazydev = {
@@ -32,11 +29,6 @@ return {
                     module = "lazydev.integrations.blink",
                     score_offset = 100
                 },
-                unreal = {
-                    module = 'blink-cmp-unreal',
-                    name = 'unreal',
-                    score_offset = 10
-                }
             }
         },
     },

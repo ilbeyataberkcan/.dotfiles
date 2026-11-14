@@ -1,71 +1,56 @@
-local function prepend_path(path)
-    if not path or path == "" then
-        return
-    end
-
-    if not vim.uv.fs_stat(path) then
-        return
-    end
-
-    local current_path = vim.env.PATH or ""
-    local wrapped_path = ":" .. current_path .. ":"
-    local target = ":" .. path .. ":"
-    if not wrapped_path:find(target, 1, true) then
-        vim.env.PATH = path .. ":" .. current_path
-    end
-end
-
-local function ensure_tree_sitter_cli()
-    if vim.fn.executable("tree-sitter") == 1 then
-        return
-    end
-
-    prepend_path(vim.fs.joinpath(vim.fn.expand("~"), ".cargo", "bin"))
-end
-
-local function configure_unreal_parsers()
-    local parsers = require("nvim-treesitter.parsers")
-
-    parsers.cpp = {
-        install_info = {
-            url = "https://github.com/taku25/tree-sitter-unreal-cpp",
-            revision = "7bbb85f1fcc6e109c90cea2167e88a5a472910d3",
-        },
-    }
-
-    parsers.ushader = {
-        install_info = {
-            url = "https://github.com/taku25/tree-sitter-unreal-shader",
-            revision = "26f0617475bb5d5accb4d55bd4cc5facbca81bbd",
-        },
-        tier = 1,
-    }
-end
-
-ensure_tree_sitter_cli()
-configure_unreal_parsers()
-
-vim.api.nvim_create_autocmd("User", {
-    pattern = "TSUpdate",
-    callback = configure_unreal_parsers,
-})
+local treesitter = require("nvim-treesitter")
 
 local languages = {
+    -- C / C++
     "c",
     "cpp",
+    "make",
+    "cmake",
+    -- Go
+    "go",
+    "gomod",
+    "gosum",
+    "gowork",
+    -- Rust
+    "rust",
+    -- Python
+    "python",
+    -- Web
+    "html",
+    "css",
+    "javascript",
+    "typescript",
+    "tsx",
+    "jsdoc",
+    "json",
+    -- Markdown
+    "markdown",
+    "markdown_inline",
+    -- Neovim / tooling
     "lua",
+    "luadoc",
     "vim",
     "vimdoc",
     "query",
-    "markdown",
-    "markdown_inline",
-    "c_sharp",
-    "javascript",
-    "typescript",
-    "html",
     "bash",
-    "json",
-    "ushader",
+    "regex",
+    "diff",
+    "gitcommit",
+    "toml",
+    "yaml",
 }
 
-require("nvim-treesitter").install(languages)
+-- Parsers are compiled locally and need tree-sitter-cli from the system package manager.
+if vim.fn.executable("tree-sitter") == 1 then
+    treesitter.install(languages)
+else
+    vim.notify("tree-sitter CLI not found; install it with: pacman -S tree-sitter-cli", vim.log.levels.WARN)
+end
+
+-- Highlighting is opt-in on the main branch; filetypes without a parser keep regex syntax.
+vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("v0_treesitter", { clear = true }),
+    callback = function(args)
+        pcall(vim.treesitter.start, args.buf)
+    end,
+})

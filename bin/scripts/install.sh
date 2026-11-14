@@ -119,6 +119,7 @@ install_packages() {
     local packages=(
         stow
         neovim
+        tree-sitter-cli
         tmux
         zsh
         zsh-completions
